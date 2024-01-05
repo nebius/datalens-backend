@@ -225,15 +225,6 @@ class DataSourceType(DynamicEnum):
         return value
 
 
-@unique
-class ConnectionState(IntEnum):
-    new = 0
-    parsing_error = 1
-    unvalidated = 2
-    saved = 3
-    error = 4
-
-
 class DataSourceRole(Enum):
     origin = "origin"
     sample = "sample"
@@ -337,6 +328,13 @@ class RawSQLLevel(Enum):
     off = "off"  # no raw sql allowed
     subselect = "subselect"  # wrapped raw SQL with `edit` permissions
     dashsql = "dashsql"  # unwrapped raw SQL with `execute` permissions
+
+
+@unique
+class DashSQLQueryType(Enum):
+    classic_query = "classic_query"
+    label_values = "label_values"
+    metrics = "metrics"
 
 
 @unique

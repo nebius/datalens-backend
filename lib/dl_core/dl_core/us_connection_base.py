@@ -22,11 +22,11 @@ from sqlalchemy.engine.default import DefaultDialect
 from dl_api_commons.reporting.models import NotificationReportingRecord
 from dl_configs.connectors_settings import ConnectorSettingsBase
 from dl_constants.enums import (
-    ConnectionState,
     ConnectionType,
     DataSourceRole,
     DataSourceType,
     RawSQLLevel,
+    DashSQLQueryType,
 )
 from dl_core import connection_models
 from dl_core.base_models import (
@@ -110,6 +110,7 @@ class ConnectionBase(USEntry, metaclass=abc.ABCMeta):
     source_type: ClassVar[Optional[DataSourceType]] = None
     allowed_source_types: ClassVar[Optional[frozenset[DataSourceType]]] = None
     allow_dashsql: ClassVar[bool] = False
+    dashsql_query_types: ClassVar[frozenset[DashSQLQueryType]] = frozenset()
     allow_cache: ClassVar[bool] = False
     is_always_internal_source: ClassVar[bool] = False
     is_always_user_source: ClassVar[bool] = False
@@ -196,49 +197,20 @@ class ConnectionBase(USEntry, metaclass=abc.ABCMeta):
         return get_type_transformer(self.conn_type)
 
     @property
-    def state(self):  # type: ignore  # TODO: fix
-        return getattr(ConnectionState, self.meta.get("state", ""), None)
-
-    @state.setter
-    def state(self, value):  # type: ignore  # TODO: fix
-        if isinstance(value, ConnectionState):
-            self.meta["state"] = value.name
-        else:
-            raise Exception("Unknown state value {}".format(value))
-
-    @property
-    def sample_state(self):  # type: ignore  # TODO: fix
-        return getattr(ConnectionState, self.meta.get("sample_state", ""), None)
-
-    @sample_state.setter
-    def sample_state(self, value):  # type: ignore  # TODO: fix
-        if isinstance(value, ConnectionState):
-            self.meta["sample_state"] = value.name
-        else:
-            raise Exception("Unknown sample_state value {}".format(value))
-
-    @property
-    def is_allow_dataset_creation(self):  # type: ignore  # TODO: fix
-        if self.type_ not in ("csv", "xls"):
-            return True
-        if self.state and self.state.value >= ConnectionState.saved.value:
-            return True
-        return False
-
-    @property
     def is_dashsql_allowed(self) -> bool:
         """Placeholder, should normally be overridden by `SubselectMixin`"""
         return False
+
+    @property
+    def is_dataset_allowed(self) -> bool:
+        return True
 
     def as_dict(self, short=False):  # type: ignore  # TODO: fix
         resp = super().as_dict(short=short)
         if short:
             resp.update(
                 {
-                    "state": self.state.name if self.state is not None else None,
-                    "is_allow_dataset_creation": self.is_allow_dataset_creation,
                     "type": self.conn_type.value,
-                    "content_length": self.meta.get("content_length", None),
                 }
             )
         else:
@@ -370,6 +342,8 @@ class ConnectionBase(USEntry, metaclass=abc.ABCMeta):
 
 
 class ExecutorBasedMixin(ConnectionBase, metaclass=abc.ABCMeta):
+    dashsql_query_types: ClassVar[frozenset[DashSQLQueryType]] = frozenset({DashSQLQueryType.classic_query})
+
     @abc.abstractmethod
     def get_conn_dto(self) -> connection_models.ConnDTO:
         pass

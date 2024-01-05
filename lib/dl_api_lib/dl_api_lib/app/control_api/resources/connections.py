@@ -8,6 +8,7 @@ from flask_restx import abort
 from marshmallow import ValidationError as MValidationError
 
 from dl_api_commons.flask.middlewares.logging_context import put_to_request_context
+from dl_api_connector.api_schema.connection_base import ConnectionOptionsSchema
 from dl_api_connector.api_schema.extras import (
     CreateMode,
     EditMode,
@@ -145,6 +146,18 @@ class ConnectionsList(BIResource):
 
 @ns.route("/<connection_id>")
 class ConnectionItem(BIResource):
+    @classmethod
+    def _make_options_data(
+        cls,
+        conn: ConnectionBase,
+        # service_registry: ApiServiceRegistry,
+    ) -> dict:
+        return dict(
+            allow_dashsql_usage=conn.is_dashsql_allowed,
+            allow_dataset_usage=conn.is_dataset_allowed,
+            dashsql_query_types=conn.dashsql_query_types,
+        )
+
     @put_to_request_context(endpoint_code="ConnectionGet")
     @schematic_request(
         ns=ns,
@@ -157,6 +170,9 @@ class ConnectionItem(BIResource):
         need_permission_on_entry(conn, USPermissionKind.read)
 
         result = GenericConnectionSchema(context=self.get_schema_ctx(EditMode.edit)).dump(conn)
+        result.update(dict(
+            options=ConnectionOptionsSchema().dump(self._make_options_data(conn)),
+        ))
         return result
 
     @put_to_request_context(endpoint_code="ConnectionDelete")
