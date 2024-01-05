@@ -8,24 +8,24 @@ services:
     image: ytsaurus/local:stable
     command: [
       "--fqdn", "localhost",
-      "--proxy-config", "{address_resolver={enable_ipv4=%true;enable_ipv6=%false;};coordinator={public_fqdn=\"localhost:53600\"}}",
+      "--proxy-config", "{address_resolver={enable_ipv4=%true;enable_ipv6=%false;};coordinator={public_fqdn=\"localhost:53601\"}}",
       "--rpc-proxy-count", "0",
-      "--rpc-proxy-port", "53601",
+      "--rpc-proxy-port", "53602",
       "--node-count", "1"
     ]
     ports:
-      - "53600:80"
-      - "53601:53601"
+      - "53601:80"
+      - "53602:53602"
 
   db-yt-ui:  # TODO: Remove
     image: ytsaurus/ui:stable
     environment:
-      PROXY: "localhost:53600"
+      PROXY: "localhost:53601"
       PROXY_INTERNAL: "db-yt-backend:80"
       APP_ENV: "local"
       APP_INSTALLATION: ""
     ports:
-      - "53610:80"
+      - "53603:80"
 
   # INFRA
   pg-us:
@@ -50,4 +50,4 @@ services:
       AUTH_POLICY: "required"
       MASTER_TOKEN: *c-us-master-token
     ports:
-     - "53600:80"
+     - "53611:80"
