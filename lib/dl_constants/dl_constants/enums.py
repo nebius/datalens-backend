@@ -6,7 +6,6 @@ from __future__ import annotations
 
 from enum import (
     Enum,
-    IntEnum,
     auto,
     unique,
 )
@@ -331,10 +330,9 @@ class RawSQLLevel(Enum):
 
 
 @unique
-class DashSQLQueryType(Enum):
+class DashSQLQueryType(DynamicEnum):
     classic_query = "classic_query"
-    label_values = "label_values"
-    metrics = "metrics"
+    # Connector-specific query types should be defined as "<connector_name>_<query_type>"
 
 
 @unique

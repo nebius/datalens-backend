@@ -110,7 +110,6 @@ class ConnectionBase(USEntry, metaclass=abc.ABCMeta):
     source_type: ClassVar[Optional[DataSourceType]] = None
     allowed_source_types: ClassVar[Optional[frozenset[DataSourceType]]] = None
     allow_dashsql: ClassVar[bool] = False
-    dashsql_query_types: ClassVar[frozenset[DashSQLQueryType]] = frozenset()
     allow_cache: ClassVar[bool] = False
     is_always_internal_source: ClassVar[bool] = False
     is_always_user_source: ClassVar[bool] = False
@@ -340,10 +339,11 @@ class ConnectionBase(USEntry, metaclass=abc.ABCMeta):
         )
         return local_key_rep
 
+    def get_supported_dashsql_query_types(self) -> frozenset[DashSQLQueryType]:
+        return frozenset()
+
 
 class ExecutorBasedMixin(ConnectionBase, metaclass=abc.ABCMeta):
-    dashsql_query_types: ClassVar[frozenset[DashSQLQueryType]] = frozenset({DashSQLQueryType.classic_query})
-
     @abc.abstractmethod
     def get_conn_dto(self) -> connection_models.ConnDTO:
         pass
@@ -395,6 +395,9 @@ class ExecutorBasedMixin(ConnectionBase, metaclass=abc.ABCMeta):
     ) -> list[TableIdent]:
         conn_executor = conn_executor_factory(self)
         return conn_executor.get_tables(SchemaIdent(db_name=db_name, schema_name=schema_name))
+
+    def get_supported_dashsql_query_types(self) -> frozenset[DashSQLQueryType]:
+        return frozenset({DashSQLQueryType.classic_query})
 
 
 class SubselectMixin:
