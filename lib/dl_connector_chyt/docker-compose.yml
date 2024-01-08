@@ -27,6 +27,14 @@ services:
     ports:
       - "53603:80"
 
+  db-yt-strawberry:
+    image: ytsaurus/strawberry:0.0.6
+    environment:
+      PROXY: "localhost:53601"
+      PROXY_INTERNAL: "db-yt-backend:80"
+    ports:
+      - "53604:80"
+
   # INFRA
   pg-us:
     build:
