@@ -194,9 +194,7 @@ class ConnectionItem(BIResource):
         need_permission_on_entry(conn, USPermissionKind.read)
 
         result = GenericConnectionSchema(context=self.get_schema_ctx(EditMode.edit)).dump(conn)
-        result.update(dict(
-            options=ConnectionOptionsSchema().dump(self._make_options_data(conn)),
-        ))
+        result.update(options=ConnectionOptionsSchema().dump(self._make_options_data(conn)))
         return result
 
     @put_to_request_context(endpoint_code="ConnectionDelete")

@@ -66,11 +66,11 @@ class ConnectionMetaMixin(ConnectionSchema):
 
 
 class DashSQLQueryTypeInfo(Schema):
-    dashsql_query_type: DynamicEnumField(DashSQLQueryType, dump_only=True)
-    dashsql_query_type_label: ma_fields.String(dump_only=True)
+    dashsql_query_type = DynamicEnumField(DashSQLQueryType, dump_only=True)
+    dashsql_query_type_label = ma_fields.String(dump_only=True)
 
 
 class ConnectionOptionsSchema(Schema):
     allow_dashsql_usage = ma_fields.Boolean(dump_only=True)
     allow_dataset_usage = ma_fields.Boolean(dump_only=True)
-    dashsql_query_types = ma_fields.List(ma_fields.Nested(DashSQLQueryTypeInfo()), dump_only=True)
+    dashsql_query_types = ma_fields.Nested(DashSQLQueryTypeInfo(), dump_only=True, many=True)

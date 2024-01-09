@@ -329,9 +329,8 @@ class RawSQLLevel(Enum):
     dashsql = "dashsql"  # unwrapped raw SQL with `execute` permissions
 
 
-@unique
 class DashSQLQueryType(DynamicEnum):
-    classic_query = "classic_query"
+    classic_query = AutoEnumValue()
     # Connector-specific query types should be defined as "<connector_name>_<query_type>"
 
 
