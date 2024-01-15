@@ -19,6 +19,8 @@ import attr
 from dl_core.connection_executors.adapters.adapter_actions.async_base import (
     AsyncDBVersionAdapterAction,
     AsyncDBVersionAdapterActionNotImplemented,
+    AsyncExecuteTypedQueryAdapterAction,
+    AsyncExecuteTypedQueryAdapterActionNotImplemented,
     AsyncSchemaNamesAdapterAction,
     AsyncSchemaNamesAdapterActionNotImplemented,
     AsyncTableExistsActionNotImplemented,
@@ -103,6 +105,7 @@ class AsyncDBAdapter(metaclass=abc.ABCMeta):
     _async_test_action: AsyncTestAdapterAction = attr.ib(init=False)
     _async_table_info_action: AsyncTableInfoAdapterAction = attr.ib(init=False)
     _async_table_exists_action: AsyncTableExistsAdapterAction = attr.ib(init=False)
+    _async_execute_typed_query_action: AsyncExecuteTypedQueryAdapterAction = attr.ib(init=False)
 
     # Action defaults
 
@@ -136,6 +139,11 @@ class AsyncDBAdapter(metaclass=abc.ABCMeta):
     def __make_async_table_exists_action(self) -> AsyncTableExistsAdapterAction:
         return self._make_async_table_exists_action()
 
+    @_async_execute_typed_query_action.default
+    @final
+    def __make_async_execute_typed_query_action(self) -> AsyncExecuteTypedQueryAdapterAction:
+        return self._make_async_execute_typed_query_action()
+
     # Action factory methods
 
     def _make_async_db_version_action(self) -> AsyncDBVersionAdapterAction:
@@ -161,6 +169,10 @@ class AsyncDBAdapter(metaclass=abc.ABCMeta):
     def _make_async_table_exists_action(self) -> AsyncTableExistsAdapterAction:
         # Redefine this method to enable `is_table_exists`
         return AsyncTableExistsActionNotImplemented()
+
+    def _make_async_execute_typed_query_action(self) -> AsyncExecuteTypedQueryAdapterAction:
+        # Redefine this method to enable `execute_typed_query`
+        return AsyncExecuteTypedQueryAdapterActionNotImplemented()
 
     async def test(self) -> None:
         return await self._async_test_action.run_test_action()

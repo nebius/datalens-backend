@@ -18,6 +18,8 @@ from typing_extensions import final
 from dl_core.connection_executors.adapters.adapter_actions.sync_base import (
     SyncDBVersionAdapterAction,
     SyncDBVersionAdapterActionNotImplemented,
+    SyncExecuteTypedQueryAdapterAction,
+    SyncExecuteTypedQueryActionNotImplemented,
     SyncSchemaNamesAdapterAction,
     SyncSchemaNamesAdapterActionNotImplemented,
     SyncTableExistsActionNotImplemented,
@@ -81,6 +83,7 @@ class SyncDirectDBAdapter(CommonBaseDirectAdapter[_TARGET_DTO_TV], metaclass=abc
     _sync_test_action: SyncTestAdapterAction = attr.ib(init=False)
     _sync_table_info_action: SyncTableInfoAdapterAction = attr.ib(init=False)
     _sync_table_exists_action: SyncTableExistsAdapterAction = attr.ib(init=False)
+    _sync_execute_typed_query_action: SyncExecuteTypedQueryAdapterAction = attr.ib(init=False)
 
     # Action defaults
 
@@ -114,6 +117,11 @@ class SyncDirectDBAdapter(CommonBaseDirectAdapter[_TARGET_DTO_TV], metaclass=abc
     def __make_sync_table_exists_action(self) -> SyncTableExistsAdapterAction:
         return self._make_sync_table_exists_action()
 
+    @_sync_execute_typed_query_action.default
+    @final
+    def __make_sync_execute_typed_query_action(self) -> SyncExecuteTypedQueryAdapterAction:
+        return self._make_sync_execute_typed_query_action()
+
     # Action factory methods
 
     def _make_sync_db_version_action(self) -> SyncDBVersionAdapterAction:
@@ -139,6 +147,10 @@ class SyncDirectDBAdapter(CommonBaseDirectAdapter[_TARGET_DTO_TV], metaclass=abc
     def _make_sync_table_exists_action(self) -> SyncTableExistsAdapterAction:
         # Redefine this method to enable `is_table_exists`
         return SyncTableExistsActionNotImplemented()
+
+    def _make_sync_execute_typed_query_action(self) -> SyncExecuteTypedQueryAdapterAction:
+        # Redefine this method to enable `execute_typed_query`
+        return SyncExecuteTypedQueryActionNotImplemented()
 
     @abc.abstractmethod
     def execute_by_steps(self, db_adapter_query: DBAdapterQuery) -> Generator[ExecutionStep, None, None]:

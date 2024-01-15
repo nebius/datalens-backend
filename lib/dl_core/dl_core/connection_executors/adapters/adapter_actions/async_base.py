@@ -64,6 +64,13 @@ class AsyncTableExistsAdapterAction(AsyncAdapterAction):
         raise NotImplementedError
 
 
+@attr.s(frozen=True)
+class AsyncExecuteTypedQueryAdapterAction(AsyncAdapterAction):
+    @abc.abstractmethod
+    async def run_execute_typed_query_action(self) -> None:
+        raise NotImplementedError
+
+
 # Dummy "NotImplemented" implementations
 
 
@@ -100,4 +107,10 @@ class AsyncTableInfoAdapterActionNotImplemented(AsyncTableInfoAdapterAction):
 @attr.s(frozen=True)
 class AsyncTableExistsActionNotImplemented(AsyncTableExistsAdapterAction):
     async def run_table_exists_action(self, table_ident: TableIdent) -> bool:
+        raise NotImplementedError
+
+
+@attr.s(frozen=True)
+class AsyncExecuteTypedQueryAdapterActionNotImplemented(AsyncExecuteTypedQueryAdapterAction):
+    async def run_execute_typed_query_action(self) -> None:
         raise NotImplementedError

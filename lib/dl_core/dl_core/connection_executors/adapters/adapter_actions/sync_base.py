@@ -64,6 +64,13 @@ class SyncTableExistsAdapterAction(SyncAdapterAction):
         raise NotImplementedError
 
 
+@attr.s(frozen=True)
+class SyncExecuteTypedQueryAdapterAction(SyncAdapterAction):
+    @abc.abstractmethod
+    def run_execute_typed_query_action(self) -> None:
+        raise NotImplementedError
+
+
 # Dummy "NotImplemented" implementations
 
 
@@ -100,4 +107,10 @@ class SyncTableInfoAdapterActionNotImplemented(SyncTableInfoAdapterAction):
 @attr.s(frozen=True)
 class SyncTableExistsActionNotImplemented(SyncTableExistsAdapterAction):
     def run_table_exists_action(self, table_ident: TableIdent) -> bool:
+        raise NotImplementedError
+
+
+@attr.s(frozen=True)
+class SyncExecuteTypedQueryActionNotImplemented(SyncExecuteTypedQueryAdapterAction):
+    def run_execute_typed_query_action(self) -> None:
         raise NotImplementedError
