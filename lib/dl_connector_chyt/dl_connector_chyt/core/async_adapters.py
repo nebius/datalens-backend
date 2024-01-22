@@ -3,7 +3,7 @@ from __future__ import annotations
 import logging
 
 import attr
-from clickhouse_sqlalchemy.drivers.http.transport import _get_type  # noqa
+from clickhouse_sqlalchemy.drivers.http.transport import _get_type  # noqa  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "clickhouse_sqlalchemy.drivers.http.transport": module is installed, but missing library stubs or py.typed marker  [import]
 
 from dl_core.utils import get_current_w3c_tracing_headers
 

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from clickhouse_sqlalchemy import types as ch_types
+from clickhouse_sqlalchemy import types as ch_types  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "clickhouse_sqlalchemy": module is installed, but missing library stubs or py.typed marker  [import]
 import sqlalchemy as sa
 
 from dl_constants.enums import UserDataType

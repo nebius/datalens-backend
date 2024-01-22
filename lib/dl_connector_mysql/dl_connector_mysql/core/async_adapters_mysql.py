@@ -13,7 +13,7 @@ from typing import (
     TypeVar,
 )
 
-import aiomysql.sa
+import aiomysql.sa  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "aiomysql.sa": module is installed, but missing library stubs or py.typed marker  [import]
 import attr
 from pymysql.err import (
     OperationalError,
@@ -51,7 +51,7 @@ from dl_core.connection_models import (
     TableIdent,
 )
 from dl_core.connectors.base.error_handling import ETBasedExceptionMaker
-from dl_sqlalchemy_mysql.base import DLMYSQLDialect
+from dl_sqlalchemy_mysql.base import DLMYSQLDialect  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "dl_sqlalchemy_mysql.base": module is installed, but missing library stubs or py.typed marker  [import]
 
 from dl_connector_mysql.core.adapters_base_mysql import BaseMySQLAdapter
 from dl_connector_mysql.core.error_transformer import async_mysql_db_error_transformer

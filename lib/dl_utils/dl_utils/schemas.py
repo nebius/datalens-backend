@@ -20,7 +20,7 @@ from marshmallow.decorators import (
 )
 from marshmallow.error_store import ErrorStore
 from marshmallow.exceptions import ValidationError
-from marshmallow_oneofschema import OneOfSchema
+from marshmallow_oneofschema import OneOfSchema  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "marshmallow_oneofschema": module is installed, but missing library stubs or py.typed marker  [import]
 
 
 class OneOfSchemaWithDumpLoadHooks(OneOfSchema):  # TODO: Move to bi_model_tools

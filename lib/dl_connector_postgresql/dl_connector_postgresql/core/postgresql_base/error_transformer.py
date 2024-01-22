@@ -1,4 +1,4 @@
-import asyncpg.exceptions as asyncpg_exc
+import asyncpg.exceptions as asyncpg_exc  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "asyncpg.exceptions": module is installed, but missing library stubs or py.typed marker  [import]
 import psycopg2.errors
 
 from dl_core.connectors.base.error_transformer import (

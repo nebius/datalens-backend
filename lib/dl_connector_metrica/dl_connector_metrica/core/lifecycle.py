@@ -4,7 +4,7 @@ import logging
 
 from dl_core import exc
 from dl_core.connectors.base.lifecycle import ConnectionLifecycleManager
-from dl_sqlalchemy_metrica_api.exceptions import MetrikaApiAccessDeniedException
+from dl_sqlalchemy_metrica_api.exceptions import MetrikaApiAccessDeniedException  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "dl_sqlalchemy_metrica_api.exceptions": module is installed, but missing library stubs or py.typed marker  [import]
 
 from dl_connector_metrica.core.us_connection import MetrikaBaseMixin
 

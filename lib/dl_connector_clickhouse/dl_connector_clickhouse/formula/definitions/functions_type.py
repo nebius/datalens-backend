@@ -1,6 +1,6 @@
 from typing import Sequence
 
-import clickhouse_sqlalchemy.types as ch_types
+import clickhouse_sqlalchemy.types as ch_types  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "clickhouse_sqlalchemy.types": module is installed, but missing library stubs or py.typed marker  [import]
 import sqlalchemy as sa
 from sqlalchemy.types import TypeEngine
 

@@ -55,7 +55,7 @@ class ArqWorker:
         self._arq_worker = _ArqWorker(
             # let's trick strange typing in arq
             # everybody does it o_O
-            **{
+            **{  # type: ignore  # 2024-01-22 # TODO: Argument 1 to "Worker" has incompatible type "**dict[str, object]"; expected "Sequence[Function | WorkerCoroutine]"  [arg-type]
                 "functions": [arq_base_task],
                 "on_startup": self.start_executor,
                 "on_shutdown": self.stop_executor,

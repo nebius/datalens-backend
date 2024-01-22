@@ -4,7 +4,7 @@ import asyncio
 import json
 
 from aiohttp import web
-from statcommons.unistat.uwsgi import process_uwsgi_data_for_unistat
+from statcommons.unistat.uwsgi import process_uwsgi_data_for_unistat  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "statcommons.unistat.uwsgi": module is installed, but missing library stubs or py.typed marker  [import]
 
 from dl_api_commons.aiohttp.aiohttp_wrappers import RequiredResourceCommon
 

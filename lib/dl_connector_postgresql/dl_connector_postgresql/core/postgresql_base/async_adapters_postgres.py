@@ -19,8 +19,8 @@ from typing import (
 )
 from urllib.parse import quote_plus
 
-import asyncpg
-import asyncpg.exceptions
+import asyncpg  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "asyncpg": module is installed, but missing library stubs or py.typed marker  [import]
+import asyncpg.exceptions  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "asyncpg.exceptions": module is installed, but missing library stubs or py.typed marker  [import]
 import attr
 from dateutil import parser as dateutil_parser
 import sqlalchemy as sa
@@ -58,8 +58,8 @@ from dl_core.connection_models import (
 )
 from dl_core.connection_models.common_models import TableIdent
 from dl_core.connectors.base.error_handling import ETBasedExceptionMaker
-from dl_sqlalchemy_postgres import AsyncBIPGDialect
-from dl_sqlalchemy_postgres.asyncpg import DBAPIMock
+from dl_sqlalchemy_postgres import AsyncBIPGDialect  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "dl_sqlalchemy_postgres": module is installed, but missing library stubs or py.typed marker  [import]
+from dl_sqlalchemy_postgres.asyncpg import DBAPIMock  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "dl_sqlalchemy_postgres.asyncpg": module is installed, but missing library stubs or py.typed marker  [import]
 
 from dl_connector_postgresql.core.postgresql_base.adapters_base_postgres import (
     OID_KNOWLEDGE,
@@ -146,7 +146,7 @@ class AsyncPostgresAdapter(
             self.__dialect = AsyncBIPGDialect()
         return self.__dialect
 
-    def get_conn_line(self, db_name: Optional[str] = None, params: dict[str, Any] = None) -> str:
+    def get_conn_line(self, db_name: Optional[str] = None, params: dict[str, Any] = None) -> str:  # type: ignore  # 2024-01-22 # TODO: Incompatible default for argument "params" (default has type "None", argument has type "dict[str, Any]")  [assignment]
         params = params or {}
         params["sslrootcert"] = self.get_ssl_cert_path(self._target_dto.ssl_ca)
         return AsyncPGConnLineConstructor(
@@ -282,7 +282,7 @@ class AsyncPostgresAdapter(
             debug_query = query.debug_compiled_query or make_debug_query(compiled_query, params)
 
         with self.handle_execution_error(debug_query), self.execution_context():
-            async with self._get_connection(query.db_name) as conn:
+            async with self._get_connection(query.db_name) as conn:  # type: ignore  # 2024-01-22 # TODO: Argument 1 to "_get_connection" of "AsyncPostgresAdapter" has incompatible type "str | None"; expected "str"  [arg-type]
                 # prepare works only inside a transaction
                 async with conn.transaction():
                     prepared_query = await conn.prepare(compiled_query)

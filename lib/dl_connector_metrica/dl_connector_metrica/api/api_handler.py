@@ -12,7 +12,7 @@ from dl_app_tools.profiling_base import generic_profiler
 from dl_core.exc import ConnectionConfigurationError
 from dl_core.us_connection_base import ConnectionBase
 from dl_model_tools.schema.base import BaseSchema
-from dl_sqlalchemy_metrica_api.exceptions import MetrikaApiAccessDeniedException
+from dl_sqlalchemy_metrica_api.exceptions import MetrikaApiAccessDeniedException  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "dl_sqlalchemy_metrica_api.exceptions": module is installed, but missing library stubs or py.typed marker  [import]
 
 from dl_connector_metrica.core.constants import (
     CONNECTION_TYPE_APPMETRICA_API,
@@ -36,7 +36,7 @@ class MetricaConnectionAvailableCounters(BIResource):
     def get(self, connection_id: str) -> dict:
         conn = self.get_us_manager().get_by_id(connection_id, expected_type=ConnectionBase)
         need_permission_on_entry(conn, USPermissionKind.edit)
-        if conn.conn_type not in (CONNECTION_TYPE_METRICA_API, CONNECTION_TYPE_APPMETRICA_API):
+        if conn.conn_type not in (CONNECTION_TYPE_METRICA_API, CONNECTION_TYPE_APPMETRICA_API):  # type: ignore  # 2024-01-22 # TODO: "USEntry" has no attribute "conn_type"  [attr-defined]
             raise exc.UnsupportedForEntityType("Unsupported connection type")
         assert isinstance(conn, MetrikaBaseMixin)
         try:

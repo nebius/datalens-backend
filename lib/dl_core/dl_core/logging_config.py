@@ -12,8 +12,8 @@ from typing import (
 
 import jaeger_client
 from opentracing.scope_managers.contextvars import ContextVarsScopeManager
-import statcommons.log_config
-import statcommons.logs
+import statcommons.log_config  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "statcommons.log_config": module is installed, but missing library stubs or py.typed marker  [import]
+import statcommons.logs  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "statcommons.logs": module is installed, but missing library stubs or py.typed marker  [import]
 
 from dl_api_commons.logging_config import add_log_context
 import dl_app_tools.log.context as log_context

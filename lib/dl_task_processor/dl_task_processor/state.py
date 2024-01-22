@@ -25,7 +25,7 @@ class DummyStateImpl(BaseTaskStateImpl):
     def set_state(self, task: TaskInstance, state: str) -> None:
         pass
 
-    def get_state(self, task: TaskInstance) -> list:
+    def get_state(self, task: TaskInstance) -> list:  # type: ignore  # 2024-01-22 # TODO: Missing return statement  [empty-body]
         pass
 
 
@@ -82,5 +82,5 @@ async def wait_task(task: TaskInstance, state: TaskState, timeout: float = 10, i
         if {"success", "failed"} & set(state.get_state(task)):
             return current_state
         await asyncio.sleep(interval)
-        spent_time += interval
+        spent_time += interval  # type: ignore  # 2024-01-22 # TODO: Incompatible types in assignment (expression has type "float", variable has type "int")  [assignment]
     raise RuntimeError("Task was not complete in time")

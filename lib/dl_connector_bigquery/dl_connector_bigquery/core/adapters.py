@@ -7,11 +7,11 @@ from typing import (
     Tuple,
 )
 
-from google.auth.credentials import Credentials as BQCredentials
+from google.auth.credentials import Credentials as BQCredentials  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "google.auth.credentials": module is installed, but missing library stubs or py.typed marker  [import]
 from google.cloud.bigquery import Client as BQClient
-import google.oauth2.service_account as g_service_account
+import google.oauth2.service_account as g_service_account  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "google.oauth2.service_account": module is installed, but missing library stubs or py.typed marker  [import]
 import sqlalchemy as sa
-import sqlalchemy_bigquery._types as bq_types
+import sqlalchemy_bigquery._types as bq_types  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "sqlalchemy_bigquery._types": module is installed, but missing library stubs or py.typed marker  [import]
 
 from dl_core.connection_executors.adapters.adapters_base_sa_classic import (
     BaseClassicAdapter,
@@ -85,7 +85,7 @@ class BigQueryDefaultAdapter(BaseClassicAdapter[BigQueryConnTargetDTO]):
         bq_datasets = list(client.list_datasets())
         project_id = self._target_dto.project_id
         db_engine = self.get_db_engine(db_name=project_id)
-        quoter = db_engine.dialect.identifier_preparer.quote
+        quoter = db_engine.dialect.identifier_preparer.quote  # type: ignore  # 2024-01-22 # TODO: "Dialect" has no attribute "identifier_preparer"  [attr-defined]
 
         subqueries = [
             sa.select(

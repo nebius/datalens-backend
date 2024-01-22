@@ -35,7 +35,7 @@ from dl_core.db import (
     SchemaInfo,
 )
 from dl_core.db.native_type import ClickHouseNativeType
-from dl_sqlalchemy_chyt import (
+from dl_sqlalchemy_chyt import (  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "dl_sqlalchemy_chyt": module is installed, but missing library stubs or py.typed marker  [import]
     CHYTTablesConcat,
     CHYTTablesRange,
     CHYTTableSubselect,
@@ -127,7 +127,7 @@ class BaseCHYTSpecialDataSource(CHYTDataSourceBaseMixin, BaseSQLDataSource, abc.
         raise NotImplementedError
 
     def get_table_definition(self) -> TableDefinition:
-        return SATextTableDefinition(self.get_sql_source())
+        return SATextTableDefinition(self.get_sql_source())  # type: ignore  # 2024-01-22 # TODO: Argument 1 to "SATextTableDefinition" has incompatible type "ClauseElement"; expected "TextClause"  [arg-type]
 
 
 class BaseCHYTTableFuncDataSource(BaseCHYTSpecialDataSource, abc.ABC):
@@ -258,7 +258,7 @@ class BaseCHYTTableSubselectDataSource(BaseCHYTSpecialDataSource, CommonClickHou
         )
 
     def get_sql_source(self, alias: Optional[str] = None) -> ClauseElement:
-        if not self.connection.is_subselect_allowed:
+        if not self.connection.is_subselect_allowed:  # type: ignore  # 2024-01-22 # TODO: "ConnectionBase" has no attribute "is_subselect_allowed"  [attr-defined]
             raise exc.SubselectNotAllowed()
 
         subsql = self.subsql

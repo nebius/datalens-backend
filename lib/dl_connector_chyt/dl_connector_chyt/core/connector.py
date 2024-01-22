@@ -1,4 +1,4 @@
-from clickhouse_sqlalchemy.orm.query import Query as CHQuery
+from clickhouse_sqlalchemy.orm.query import Query as CHQuery  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "clickhouse_sqlalchemy.orm.query": module is installed, but missing library stubs or py.typed marker  [import]
 
 from dl_core.connectors.base.connector import (
     CoreBackendDefinition,

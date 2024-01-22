@@ -122,7 +122,7 @@ class BaseFileS3DataSource(ClickHouseDataSourceBase):
             s3_filename = self.connection.get_full_s3_filename(origin_src.s3_filename_suffix)
         else:
             # TODO: Remove this fallback after old connections migration to s3_filename_suffix
-            s3_filename = origin_src.s3_filename
+            s3_filename = origin_src.s3_filename  # type: ignore  # 2024-01-22 # TODO: Incompatible types in assignment (expression has type "str | None", variable has type "str")  [assignment]
 
         self._handle_component_errors()
 

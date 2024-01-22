@@ -8,7 +8,7 @@ from dl_core.db.conversion_base import (
     make_native_type,
 )
 from dl_core.db.native_type import GenericNativeType
-from dl_sqlalchemy_chyt import types as chyt_types
+from dl_sqlalchemy_chyt import types as chyt_types  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "dl_sqlalchemy_chyt": module is installed, but missing library stubs or py.typed marker  [import]
 
 from dl_connector_chyt.core.constants import CONNECTION_TYPE_CHYT
 from dl_connector_clickhouse.core.clickhouse_base.type_transformer import ClickHouseTypeTransformer

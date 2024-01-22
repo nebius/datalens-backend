@@ -11,8 +11,8 @@ from typing import (
 import attr
 import flask
 from flask import Flask
-from flask_marshmallow import Marshmallow
-from statcommons.unistat.flask import (
+from flask_marshmallow import Marshmallow  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "flask_marshmallow": module is installed, but missing library stubs or py.typed marker  [import]
+from statcommons.unistat.flask import (  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "statcommons.unistat.flask": module is installed, but missing library stubs or py.typed marker  [import]
     register_metrics,
     register_unistat_hax,
 )

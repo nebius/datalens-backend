@@ -5,7 +5,7 @@ from typing import (
 
 from marshmallow import EXCLUDE
 from marshmallow import fields as ma_fields
-from marshmallow_oneofschema import OneOfSchema
+from marshmallow_oneofschema import OneOfSchema  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "marshmallow_oneofschema": module is installed, but missing library stubs or py.typed marker  [import]
 
 from dl_api_client.dsmaker.api.schemas.base import (
     BaseSchema,
@@ -359,7 +359,7 @@ class AfterBlockPlacementSchema(BlockPlacementSchema):
     dimension_values = ma_fields.Nested(DimensionValueSpecSchema, many=True, allow_none=True)
 
 
-class BlockPlacementSchema(OneOfSchema):
+class BlockPlacementSchema(OneOfSchema):  # type: ignore  # 2024-01-22 # TODO: Name "BlockPlacementSchema" already defined on line 350  [no-redef]
     class Meta:
         unknown = EXCLUDE
 

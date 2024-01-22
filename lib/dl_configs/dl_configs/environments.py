@@ -7,7 +7,7 @@ All the classes (instead of dicts) for static checking.
 from __future__ import annotations
 
 
-def is_setting_applicable(cfg: object, key: str):
+def is_setting_applicable(cfg: object, key: str):  # type: ignore  # 2024-01-22 # TODO: Function is missing a return type annotation  [no-untyped-def]
     # TODO: remove it
     # it's a crutch-function
     # we will remove this after migrating values to dedicated keys

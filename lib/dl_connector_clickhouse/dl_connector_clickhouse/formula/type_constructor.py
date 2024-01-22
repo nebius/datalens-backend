@@ -1,4 +1,4 @@
-import clickhouse_sqlalchemy.types as ch_types
+import clickhouse_sqlalchemy.types as ch_types  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "clickhouse_sqlalchemy.types": module is installed, but missing library stubs or py.typed marker  [import]
 from sqlalchemy.types import TypeEngine
 
 from dl_formula.connectors.base.type_constructor import DefaultSATypeConstructor

@@ -5,7 +5,7 @@ from typing import (
     Union,
 )
 
-import clickhouse_sqlalchemy.types as ch_types
+import clickhouse_sqlalchemy.types as ch_types  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "clickhouse_sqlalchemy.types": module is installed, but missing library stubs or py.typed marker  [import]
 import sqlalchemy as sa
 from sqlalchemy.sql.elements import ClauseElement
 
@@ -47,7 +47,7 @@ def _datetrunc3_ch_impl_19_3_3(
     date_expr = date_ctx.expression
     unit = base.norm_datetrunc_unit(unit_ctx.expression)
     # for plugging the datetrunc2 here:
-    num = num_ctx if isinstance(num_ctx, int) else un_literal(num_ctx.expression)
+    num = num_ctx if isinstance(num_ctx, int) else un_literal(num_ctx.expression)  # type: ignore  # 2024-01-22 # TODO: Argument 1 to "un_literal" has incompatible type "ClauseElement | None"; expected "BaseLiteral | BindParameter[Any] | TypeDefiningCast | Function | Null | array | None"  [arg-type]
     tz_args, output_tz_args = make_ch_tz_args(date_ctx)
     if unit in {"year", "quarter", "month", "week"}:
         return sa.func.toDateTime(

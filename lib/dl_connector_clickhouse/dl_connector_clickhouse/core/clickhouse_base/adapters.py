@@ -24,10 +24,10 @@ from aiohttp.client import (
     ClientTimeout,
 )
 import attr
-from clickhouse_sqlalchemy import exceptions as ch_exc
+from clickhouse_sqlalchemy import exceptions as ch_exc  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "clickhouse_sqlalchemy": module is installed, but missing library stubs or py.typed marker  [import]
 from clickhouse_sqlalchemy import types as ch_types
-from clickhouse_sqlalchemy.drivers.http.transport import _get_type  # noqa
-from clickhouse_sqlalchemy.parsers.jsoncompact import JSONCompactChunksParser
+from clickhouse_sqlalchemy.drivers.http.transport import _get_type  # noqa  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "clickhouse_sqlalchemy.drivers.http.transport": module is installed, but missing library stubs or py.typed marker  [import]
+from clickhouse_sqlalchemy.parsers.jsoncompact import JSONCompactChunksParser  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "clickhouse_sqlalchemy.parsers.jsoncompact": module is installed, but missing library stubs or py.typed marker  [import]
 import requests
 import sqlalchemy as sa
 from sqlalchemy.sql.type_api import TypeEngine

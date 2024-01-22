@@ -1,5 +1,5 @@
 from dl_formula.connectors.base.connector import FormulaConnector
-from dl_sqlalchemy_bitrix.base import BitrixDialect as SABitrixDialect
+from dl_sqlalchemy_bitrix.base import BitrixDialect as SABitrixDialect  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "dl_sqlalchemy_bitrix.base": module is installed, but missing library stubs or py.typed marker  [import]
 
 from dl_connector_bitrix_gds.formula.constants import BitrixDialect as BitrixDialectNS
 from dl_connector_bitrix_gds.formula.definitions.all import DEFINITIONS

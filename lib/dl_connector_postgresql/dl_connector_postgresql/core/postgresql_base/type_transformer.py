@@ -8,7 +8,7 @@ from dl_core.db.conversion_base import (
     UTCTimezoneDatetimeTypeCaster,
     make_native_type,
 )
-from dl_sqlalchemy_postgres.base import CITEXT
+from dl_sqlalchemy_postgres.base import CITEXT  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "dl_sqlalchemy_postgres.base": module is installed, but missing library stubs or py.typed marker  [import]
 
 from dl_connector_postgresql.core.postgresql.constants import CONNECTION_TYPE_POSTGRES
 

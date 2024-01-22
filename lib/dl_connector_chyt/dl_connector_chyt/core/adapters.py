@@ -8,7 +8,7 @@ from typing import (
     Type,
 )
 
-from aiochclient.http_clients import aiohttp
+from aiochclient.http_clients import aiohttp  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "aiochclient.http_clients": module is installed, but missing library stubs or py.typed marker  [import]
 import attr
 
 from dl_constants.enums import IndexKind

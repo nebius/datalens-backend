@@ -1,4 +1,4 @@
-from snowflake import sqlalchemy as ssa
+from snowflake import sqlalchemy as ssa  # type: ignore  # 2024-01-22 # TODO: Module "snowflake" has no attribute "sqlalchemy"  [attr-defined]
 
 from dl_constants.enums import UserDataType
 from dl_core.db.conversion_base import (

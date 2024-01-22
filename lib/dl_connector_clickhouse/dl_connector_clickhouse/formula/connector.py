@@ -1,4 +1,4 @@
-from clickhouse_sqlalchemy.drivers.base import ClickHouseDialect as SAClickHouseDialect
+from clickhouse_sqlalchemy.drivers.base import ClickHouseDialect as SAClickHouseDialect  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "clickhouse_sqlalchemy.drivers.base": module is installed, but missing library stubs or py.typed marker  [import]
 
 from dl_formula.connectors.base.connector import FormulaConnector
 

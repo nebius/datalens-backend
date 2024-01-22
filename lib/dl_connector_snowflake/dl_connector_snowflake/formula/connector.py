@@ -1,4 +1,4 @@
-from snowflake.sqlalchemy.snowdialect import SnowflakeDialect as SASnowflakeDialect
+from snowflake.sqlalchemy.snowdialect import SnowflakeDialect as SASnowflakeDialect  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "snowflake.sqlalchemy.snowdialect": module is installed, but missing library stubs or py.typed marker  [import]
 
 from dl_formula.connectors.base.connector import FormulaConnector
 

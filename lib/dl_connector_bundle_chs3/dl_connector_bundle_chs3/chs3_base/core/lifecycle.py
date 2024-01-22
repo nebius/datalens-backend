@@ -40,7 +40,7 @@ class FileConnTaskScheduler:
                 s3_filename = conn.get_full_s3_filename(source.s3_filename_suffix)
             else:
                 # TODO: Remove this fallback after old connections migration to s3_filename_suffix
-                s3_filename = source.s3_filename
+                s3_filename = source.s3_filename  # type: ignore  # 2024-01-22 # TODO: Incompatible types in assignment (expression has type "str | None", variable has type "str")  [assignment]
 
             if s3_filename is None:
                 LOGGER.warning(f"Cannot schedule file deletion for source_id {source.id} - s3_filename not set")

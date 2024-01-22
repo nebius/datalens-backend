@@ -59,7 +59,7 @@ class TaskInstance:
 class BaseTaskMeta(metaclass=abc.ABCMeta):
     name: ClassVar[TaskName]
 
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args, **kwargs) -> None:  # type: ignore  # 2024-01-22 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
         # lets trick typing
         pass
 
@@ -67,12 +67,12 @@ class BaseTaskMeta(metaclass=abc.ABCMeta):
         if with_name:
             return dict(
                 {"name": self.name},
-                **attr.asdict(self),
+                **attr.asdict(self),  # type: ignore  # 2024-01-22 # TODO: Argument 1 to "asdict" has incompatible type "BaseTaskMeta"; expected "AttrsInstance"  [arg-type]
             )
-        return attr.asdict(self)
+        return attr.asdict(self)  # type: ignore  # 2024-01-22 # TODO: Argument 1 to "asdict" has incompatible type "BaseTaskMeta"; expected "AttrsInstance"  [arg-type]
 
     def make_id(self) -> str:
-        params = sorted(attr.asdict(self).items())
+        params = sorted(attr.asdict(self).items())  # type: ignore  # 2024-01-22 # TODO: Argument 1 to "asdict" has incompatible type "BaseTaskMeta"; expected "AttrsInstance"  [arg-type]
         serialized_params = "||".join(f"{k}|{v}" for k, v in params)
         return f"{self.name}||{serialized_params}"
 
@@ -82,7 +82,7 @@ class BaseTaskMeta(metaclass=abc.ABCMeta):
     # now we can use it only in cli
     @classmethod
     def get_schema(cls) -> Iterable[dict]:
-        attr_schema = attr.fields(cls)
+        attr_schema = attr.fields(cls)  # type: ignore  # 2024-01-22 # TODO: Argument 1 to "fields" has incompatible type "type[BaseTaskMeta]"; expected "type[AttrsInstance]"  [arg-type]
         return [
             {
                 "name": field.name,
@@ -119,7 +119,7 @@ class Retry(TaskResult):
 
 @attr.s
 class BaseExecutorTask(Generic[_BASE_TASK_META_TV, _BASE_TASK_CONTEXT_TV], metaclass=abc.ABCMeta):
-    cls_meta: ClassVar[Type[_BASE_TASK_META_TV]]
+    cls_meta: ClassVar[Type[_BASE_TASK_META_TV]]  # type: ignore  # 2024-01-22 # TODO: ClassVar cannot contain type variables  [misc]
     meta: _BASE_TASK_META_TV = attr.ib()
     _ctx: _BASE_TASK_CONTEXT_TV = attr.ib()
     _instance_id: InstanceID = attr.ib()
@@ -161,7 +161,7 @@ class TaskRegistry:
         assert sorted(
             [t.name() for t in tasks],
         ) == sorted(list(set([t.name() for t in tasks]))), "Some tasks has the same name"
-        return cls(tasks={task.name(): task for task in tasks})
+        return cls(tasks={task.name(): task for task in tasks})  # type: ignore  # 2024-01-22 # TODO: Value expression in dictionary comprehension has incompatible type "type[BaseExecutorTask[Any, Any]]"; expected type "BaseExecutorTask[Any, Any]"  [misc]
 
     def get_task(self, name: TaskName) -> BaseExecutorTask:
         return self._tasks[name]

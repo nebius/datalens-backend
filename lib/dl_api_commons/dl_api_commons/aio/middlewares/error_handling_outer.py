@@ -101,7 +101,7 @@ class AIOHTTPErrorHandler(metaclass=abc.ABCMeta):
             import traceback
 
             traceback.print_exc()
-            import ipdb
+            import ipdb  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "ipdb": module is installed, but missing library stubs or py.typed marker  [import]
 
             ipdb.pm()
 

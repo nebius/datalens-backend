@@ -1,4 +1,4 @@
-import sqlalchemy_bigquery._types as bq_types
+import sqlalchemy_bigquery._types as bq_types  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "sqlalchemy_bigquery._types": module is installed, but missing library stubs or py.typed marker  [import]
 
 from dl_core.db.sa_types_base import (
     make_native_type,

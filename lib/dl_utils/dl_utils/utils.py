@@ -26,7 +26,7 @@ import attr
 
 def get_pdb() -> Any:
     try:
-        import ipdb
+        import ipdb  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "ipdb": module is installed, but missing library stubs or py.typed marker  [import]
 
         return ipdb
     except Exception:

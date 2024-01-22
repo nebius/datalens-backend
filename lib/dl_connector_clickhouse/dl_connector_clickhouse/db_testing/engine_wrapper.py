@@ -4,8 +4,8 @@ from typing import (
 )
 
 import attr
-from clickhouse_sqlalchemy import Table as CHTable
-from clickhouse_sqlalchemy.engines import Log
+from clickhouse_sqlalchemy import Table as CHTable  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "clickhouse_sqlalchemy": module is installed, but missing library stubs or py.typed marker  [import]
+from clickhouse_sqlalchemy.engines import Log  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "clickhouse_sqlalchemy.engines": module is installed, but missing library stubs or py.typed marker  [import]
 import shortuuid
 import sqlalchemy as sa
 

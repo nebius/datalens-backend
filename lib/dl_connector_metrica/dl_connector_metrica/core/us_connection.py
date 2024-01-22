@@ -27,10 +27,10 @@ from dl_core.us_connection_base import (
     ExecutorBasedMixin,
 )
 from dl_core.utils import secrepr
-import dl_sqlalchemy_metrica_api
+import dl_sqlalchemy_metrica_api  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "dl_sqlalchemy_metrica_api": module is installed, but missing library stubs or py.typed marker  [import]
 from dl_sqlalchemy_metrica_api import api_client as metrika_api_client
-from dl_sqlalchemy_metrica_api.api_info.appmetrica import AppMetricaFieldsNamespaces
-from dl_sqlalchemy_metrica_api.api_info.metrika import MetrikaApiCounterSource
+from dl_sqlalchemy_metrica_api.api_info.appmetrica import AppMetricaFieldsNamespaces  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "dl_sqlalchemy_metrica_api.api_info.appmetrica": module is installed, but missing library stubs or py.typed marker  [import]
+from dl_sqlalchemy_metrica_api.api_info.metrika import MetrikaApiCounterSource  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "dl_sqlalchemy_metrica_api.api_info.metrika": module is installed, but missing library stubs or py.typed marker  [import]
 from dl_utils.utils import DataKey
 
 from dl_connector_metrica.core.constants import (

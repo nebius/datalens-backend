@@ -7,7 +7,7 @@ from typing import (
 )
 
 import attr
-from snowflake import sqlalchemy as ssa
+from snowflake import sqlalchemy as ssa  # type: ignore  # 2024-01-22 # TODO: Module "snowflake" has no attribute "sqlalchemy"  [attr-defined]
 from snowflake.connector import connect as sf_connect
 import sqlalchemy as sa
 from sqlalchemy.engine import Engine
@@ -109,7 +109,7 @@ class SnowFlakeDefaultAdapter(BaseClassicAdapter, BaseSAAdapter[SnowFlakeConnTar
             # # Going by the comparison with the 'create view' -> SA logic.
             # if scale == -127:
             #     scale = 0
-            sa_type = sa_cls(precision, scale)
+            sa_type = sa_cls(precision, scale)  # type: ignore  # 2024-01-22 # TODO: Too many arguments for "TypeEngine"  [call-arg]
         else:
             sa_type = sa_cls
 

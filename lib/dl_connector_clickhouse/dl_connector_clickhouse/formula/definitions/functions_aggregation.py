@@ -1,4 +1,4 @@
-import clickhouse_sqlalchemy.ext.clauses as chsq_clauses
+import clickhouse_sqlalchemy.ext.clauses as chsq_clauses  # type: ignore  # 2024-01-22 # TODO: Skipping analyzing "clickhouse_sqlalchemy.ext.clauses": module is installed, but missing library stubs or py.typed marker  [import]
 import sqlalchemy as sa
 from sqlalchemy.sql import ClauseElement
 

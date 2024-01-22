@@ -10,7 +10,7 @@ from typing import (
 
 from aiohttp import web
 from aiohttp.multipart import BodyPartReader
-from openpyxl import load_workbook
+from openpyxl import load_workbook  # type: ignore  # 2024-01-22 # TODO: Library stubs not installed for "openpyxl"  [import]
 
 
 LOGGER = logging.getLogger(__name__)

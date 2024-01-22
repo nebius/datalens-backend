@@ -26,7 +26,7 @@ _TYPE_BY_CLS = {
 }
 
 
-def get_data_type(node: Union[nodes.BaseLiteral, nodes.Null]):
+def get_data_type(node: Union[nodes.BaseLiteral, nodes.Null]):  # type: ignore  # 2024-01-22 # TODO: Function is missing a return type annotation  [no-untyped-def]
     if not isinstance(node, (nodes.BaseLiteral, nodes.Null)):
         raise TypeError(type(node))
 
