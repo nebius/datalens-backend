@@ -43,8 +43,8 @@ def main(root: Path, targets_file: Path = None) -> None:  # type: ignore
     mypy_cache_dir.mkdir(exist_ok=True)
     for path in paths:
         pkg_dir = root / path
-        # run_args = ["mypy", f"--cache-dir={mypy_cache_dir}"]
-        run_args = ["mypy", f"--no-incremental"]
+        run_args = ["mypy", f"--cache-dir={mypy_cache_dir}"]
+        # run_args = ["mypy", f"--no-incremental"]
         targets = get_mypy_targets(pkg_dir)
         print(f"Cmd: {run_args}; cwd={pkg_dir}")
         if len(targets) > 0:
