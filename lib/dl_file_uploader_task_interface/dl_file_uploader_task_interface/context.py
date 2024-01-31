@@ -49,6 +49,7 @@ class FileUploaderTaskContext(BaseContext):
 
     def get_service_registry(self, rci: Optional[RequestContextInfo] = None) -> ServicesRegistry:
         rci = rci or RequestContextInfo.create_empty()
+        assert self.settings.CONNECTORS is not None
         return create_sr_factory_from_env_vars(
             self.settings.CONNECTORS,
             ca_data=self.ca_data,

@@ -49,6 +49,7 @@ def create_sr_factory_from_env_vars(
             rqe_sock_read_timeout=int(os.environ.get("RQE_SOCK_READ_TIMEOUT", 30 * 60)),
         )
 
+    assert file_uploader_connectors_settings.FILE is not None
     connectors_settings = {
         CONNECTION_TYPE_FILE: file_uploader_connectors_settings.FILE,
         CONNECTION_TYPE_GSHEETS_V2: file_uploader_connectors_settings.FILE,
