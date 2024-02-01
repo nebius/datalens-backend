@@ -125,7 +125,7 @@ class DatasetDataBaseView(BaseView):
         assert isinstance(service_registry, ApiServiceRegistry)
         return service_registry
 
-    @asynccontextmanager  # type: ignore  # TODO: fix
+    @asynccontextmanager
     async def default_query_execution_cm_stack(
         self,
         exec_info: QueryExecutionInfo,
@@ -160,7 +160,7 @@ class DatasetDataBaseView(BaseView):
                 except Exception:  # noqa
                     LOGGER.exception("Can not save connection info to logging context")
 
-            stack.enter_context(GenericProfiler(f"{self.profiler_prefix}-{profiling_code}"))  # type: ignore  # TODO: fix
+            stack.enter_context(GenericProfiler(f"{self.profiler_prefix}-{profiling_code}"))
             stack.enter_context(utils.query_execution_context(dataset_id=self.dataset.uuid, version="draft", body=body))
             yield stack
 

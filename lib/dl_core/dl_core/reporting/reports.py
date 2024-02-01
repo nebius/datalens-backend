@@ -43,7 +43,7 @@ class DbQueryExecutionReport:
     query_type: ReportingQueryType
     is_public: bool
 
-    def convert_for_logging_extras(self, value) -> Union[str, int, bool, None]:  # type: ignore  # TODO: fix
+    def convert_for_logging_extras(self, value) -> Union[str, int, bool, None]:
         if value is None:
             return None
         elif isinstance(value, (str, int, bool)):
@@ -55,8 +55,8 @@ class DbQueryExecutionReport:
 
     def to_logging_extras(self) -> Dict[str, Union[str, int, bool]]:
         return dict(
-            {  # type: ignore  # TODO: fix
-                k: self.convert_for_logging_extras(v) for k, v in attr.asdict(self)  # type: ignore  # TODO: fix
+            {
+                k: self.convert_for_logging_extras(v) for k, v in attr.asdict(self)
             },
             event_code=self.event_code,
         )

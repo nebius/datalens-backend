@@ -17,7 +17,7 @@ class MSSQLConnExecutor(DefaultSqlAlchemyConnExecutor[MSSQLDefaultAdapter]):
 
     _conn_dto: MSSQLConnDTO = attr.ib()
 
-    async def _make_target_conn_dto_pool(self) -> List[MSSQLConnTargetDTO]:  # type: ignore  # TODO: fix
+    async def _make_target_conn_dto_pool(self) -> List[MSSQLConnTargetDTO]:
         dto_pool = []
         for host in self._conn_hosts_pool:
             dto_pool.append(

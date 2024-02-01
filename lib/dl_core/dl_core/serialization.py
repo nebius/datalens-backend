@@ -42,7 +42,7 @@ _TS_TV = TypeVar("_TS_TV")
 
 
 class TypeSerializer(Generic[_TS_TV]):
-    typeobj: ClassVar[Type[_TS_TV]]  # type: ignore  # TODO: fix
+    typeobj: ClassVar[Type[_TS_TV]]
     typename: ClassVar[str]
 
     @staticmethod
@@ -77,7 +77,7 @@ class DatetimeSerializer(TypeSerializer[datetime.datetime]):
     @staticmethod
     def to_jsonable(obj: datetime.datetime) -> TJSONLike:
         tzinfo = (
-            obj.tzinfo.utcoffset(obj).total_seconds() if obj.tzinfo is not None else None  # type: ignore  # TODO: fix
+            obj.tzinfo.utcoffset(obj).total_seconds() if obj.tzinfo is not None else None
         )
         return (
             [obj.year, obj.month, obj.day, obj.hour, obj.minute, obj.second, obj.microsecond],
@@ -89,13 +89,13 @@ class DatetimeSerializer(TypeSerializer[datetime.datetime]):
         assert isinstance(value, (list, tuple))
         assert len(value) == 2
         parts, offset_sec = value
-        assert len(parts) == 7  # type: ignore  # TODO: fix
+        assert len(parts) == 7
         tzinfo = (
-            datetime.timezone(datetime.timedelta(seconds=offset_sec))  # type: ignore  # TODO: fix
+            datetime.timezone(datetime.timedelta(seconds=offset_sec))
             if offset_sec is not None
             else None
         )
-        return datetime.datetime(*parts, tzinfo=tzinfo)  # type: ignore  # TODO: fix
+        return datetime.datetime(*parts, tzinfo=tzinfo)
 
 
 class TimeSerializer(TypeSerializer[datetime.time]):
@@ -106,7 +106,7 @@ class TimeSerializer(TypeSerializer[datetime.time]):
     def to_jsonable(obj: datetime.time) -> TJSONLike:
         # Not expecting this to be valid for non-constant time tzinfos.
         tzinfo = (
-            obj.tzinfo.utcoffset(datetime.datetime(1970, 1, 1)).total_seconds()  # type: ignore  # TODO: fix
+            obj.tzinfo.utcoffset(datetime.datetime(1970, 1, 1)).total_seconds()
             if obj.tzinfo is not None
             else None
         )
@@ -117,10 +117,10 @@ class TimeSerializer(TypeSerializer[datetime.time]):
         assert isinstance(value, (list, tuple))
         assert len(value) == 2, value
         parts, offset_sec = value
-        assert len(parts) == 4, parts  # type: ignore  # TODO: fix
+        assert len(parts) == 4, parts
         assert isinstance(offset_sec, (int, float)), offset_sec
         tzinfo = datetime.timezone(datetime.timedelta(seconds=offset_sec)) if offset_sec is not None else None
-        return datetime.time(*parts, tzinfo=tzinfo)  # type: ignore  # TODO: fix
+        return datetime.time(*parts, tzinfo=tzinfo)
 
 
 class TimedeltaSerializer(TypeSerializer[datetime.timedelta]):
@@ -179,7 +179,7 @@ assert len(set(cls.typename for cls in COMMON_SERIALIZERS)) == len(COMMON_SERIAL
 class RedisDatalensDataJSONEncoder(json.JSONEncoder):
     JSONABLERS_MAP = {cls.typeobj: cls for cls in COMMON_SERIALIZERS}  # type: ignore  # 2024-01-24 # TODO: "type[object]" has no attribute "typeobj"  [attr-defined]
 
-    def default(self, obj):  # type: ignore  # TODO: fix
+    def default(self, obj):
         typeobj = type(obj)
         preprocessor = self.JSONABLERS_MAP.get(typeobj)
         if preprocessor is not None:
@@ -193,16 +193,16 @@ class RedisDatalensDataJSONDecoder(json.JSONDecoder):
     # Transition
     COMPAT_CONVERTERS_MAP = {
         "date": lambda o: datetime.date(*[int(p) for p in o["value"].split("-")]),
-        "datetime": lambda o: datetime.datetime(  # type: ignore  # TODO: fix
+        "datetime": lambda o: datetime.datetime(
             *o["parts"],
             tzinfo=None if o["offset_sec"] is None else datetime.timezone(datetime.timedelta(seconds=o["offset_sec"])),
         ),
     }
 
-    def __init__(self, *args, **kwargs):  # type: ignore  # TODO: fix
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, object_hook=self.object_hook, **kwargs)
 
-    def object_hook(self, obj):  # type: ignore  # TODO: fix
+    def object_hook(self, obj):
         # WARNING: this might collide with some unexpected objects that have a `__dl_type__` key.
         # A correct roundtrip way would be to wrap all objects with a `__dl_type__` key into another layer.
         dl_type = obj.get("__dl_type__")

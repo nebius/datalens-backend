@@ -131,7 +131,7 @@ class CacheProcessingHelper:
             return CacheSituation.cache_error, result
 
         if sync_result_iter is not None:
-            result_data_inmem = list(sync_result_iter)  # type: ignore  # TODO: fix
+            result_data_inmem = list(sync_result_iter)
             result_iter = AsyncChunked.from_chunked_iterable([result_data_inmem])
             try:
                 await cem.finalize(result=None)

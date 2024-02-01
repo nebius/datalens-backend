@@ -158,7 +158,7 @@ class DashSQLSelector:
         if isinstance(conn, ExecutorBasedMixin):
             dialect = conn.get_dialect()
         else:
-            dialect = None  # type: ignore  # TODO: fix
+            dialect = None
         debug_text = compile_query_for_debug(self.sql_query, dialect=dialect)
         return sa_query, debug_text
 
@@ -359,4 +359,4 @@ class DashSQLCachedSelector(DashSQLSelector):
             )
 
         assert result_stream is not None
-        return result_stream.items  # type: ignore  # TODO: fix
+        return result_stream.items

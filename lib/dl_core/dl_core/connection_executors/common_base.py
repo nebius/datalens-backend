@@ -189,7 +189,7 @@ class ConnExecutorBase(metaclass=abc.ABCMeta):
                         exc.details[key] = value
             raise
 
-    def mutate_for_dashsql(self, db_params: Optional[Dict[str, str]] = None):  # type: ignore  # TODO: fix
+    def mutate_for_dashsql(self, db_params: Optional[Dict[str, str]] = None):
         """
         A place to do CE-specific alterations for DashSQL support.
         """

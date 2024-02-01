@@ -287,7 +287,7 @@ class UStorageClientBase:
         # Initial cookies for HTTP session
         self._cookies = self._auth_ctx_to_cookies(auth_ctx)
         # Headers that might be changed during lifecycle e.g. Folder ID
-        self._extra_headers = {}  # type: ignore  # TODO: fix
+        self._extra_headers = {}
 
         if context_request_id is not None:
             self._default_headers["X-Request-Id"] = context_request_id
@@ -330,7 +330,7 @@ class UStorageClientBase:
         return "/".join(map(lambda s: s.strip("/"), (self.host, self.prefix, relative_url)))
 
     @staticmethod
-    def _log_request_start(request_data: RequestData):  # type: ignore  # TODO: fix
+    def _log_request_start(request_data: RequestData):
         LOGGER.info(
             "Asking UnitedStorage: method: %s, url: %s, params:(%s)",
             request_data.method,
@@ -339,7 +339,7 @@ class UStorageClientBase:
         )
 
     @classmethod
-    def _get_us_json_from_response(cls, response: ResponseAdapter):  # type: ignore  # TODO: fix
+    def _get_us_json_from_response(cls, response: ResponseAdapter):
         LOGGER.info(
             "Got %s from UnitedStorage (%s %s), content length: %s, request-id: %s, elapsed: %s",
             response.status_code,
@@ -380,12 +380,12 @@ class UStorageClientBase:
             LOGGER.info("Got http status %s with invalid json %s from US", response.status_code, response.content)
             raise exc.USInvalidResponse from ex
 
-    def _raise_for_disabled_interactions(self):  # type: ignore  # TODO: fix
+    def _raise_for_disabled_interactions(self):
         if self._disabled:
             raise exc.USInteractionDisabled("Interaction with US is forbidden")
 
     @contextmanager
-    def interaction_disabled(self):  # type: ignore  # TODO: fix
+    def interaction_disabled(self):
         try:
             self._disabled = True
             yield
@@ -396,7 +396,7 @@ class UStorageClientBase:
 
     # Requests definitions
     @classmethod
-    def _req_data_create_entry(  # type: ignore  # TODO: fix
+    def _req_data_create_entry(
         cls,
         key: EntryLocation,
         scope: str,
@@ -435,7 +435,7 @@ class UStorageClientBase:
         )
 
     @classmethod
-    def _req_data_get_entry(cls, entry_id, params=None, include_permissions=True, include_links=True):  # type: ignore  # TODO: fix
+    def _req_data_get_entry(cls, entry_id, params=None, include_permissions=True, include_links=True):
         params = params or {}
         if include_permissions:
             params["includePermissionsInfo"] = 1
@@ -450,7 +450,7 @@ class UStorageClientBase:
         )
 
     @classmethod
-    def _req_data_move_entry(cls, entry_id: str, destination: str):  # type: ignore  # TODO: fix
+    def _req_data_move_entry(cls, entry_id: str, destination: str):
         return cls.RequestData(
             method="post",
             relative_url="/entries/{}/move".format(entry_id),
@@ -459,7 +459,7 @@ class UStorageClientBase:
         )
 
     @classmethod
-    def _req_data_update_entry(  # type: ignore  # TODO: fix
+    def _req_data_update_entry(
         cls,
         entry_id: str,
         data=None,
@@ -494,14 +494,14 @@ class UStorageClientBase:
         )
 
     @classmethod
-    def _req_data_delete_entry(cls, entry_id, lock=None):  # type: ignore  # TODO: fix
+    def _req_data_delete_entry(cls, entry_id, lock=None):
         params = None
         if lock is not None:
             params = {"lockToken": lock}
         return cls.RequestData(method="delete", relative_url="/entries/{}".format(entry_id), params=params, json=None)
 
     @classmethod
-    def _req_data_iter_entries(  # type: ignore  # TODO: fix
+    def _req_data_iter_entries(
         cls,
         scope: str,
         entry_type: Optional[str] = None,
@@ -548,7 +548,7 @@ class UStorageClientBase:
         :param duration: in seconds. Default = 300 (5min)
         :return: lock token
         """
-        params = {}  # type: ignore  # TODO: fix
+        params = {}
         if duration is not None:
             params.update(duration=duration * 1000)  # US accepts duration in milliseconds
         if force is not None:
@@ -557,7 +557,7 @@ class UStorageClientBase:
         return cls.RequestData(method="post", relative_url="/locks/{}".format(entry_id), params=None, json=params)
 
     @classmethod
-    def _req_data_release_lock(cls, entry_id, lock):  # type: ignore  # TODO: fix
+    def _req_data_release_lock(cls, entry_id, lock):
         return cls.RequestData(
             method="delete", relative_url="/locks/{}".format(entry_id), params={"lockToken": lock}, json=None
         )
@@ -596,12 +596,12 @@ class UStorageClient(UStorageClientBase):
 
         @property
         def json(self) -> dict:
-            return self._request_data.json  # type: ignore  # TODO: fix
+            return self._request_data.json
 
     class ResponseAdapter(UStorageClientBase.ResponseAdapter):
         def __init__(self, response: requests.Response, request_data: "UStorageClient.RequestData"):
             self.resp = response
-            self._req_adapter = UStorageClient.RequestAdapter(response.request, request_data)  # type: ignore  # TODO: fix
+            self._req_adapter = UStorageClient.RequestAdapter(response.request, request_data)
 
         @property
         def status_code(self) -> int:
@@ -612,7 +612,7 @@ class UStorageClient(UStorageClientBase):
 
         @property
         def elapsed_seconds(self) -> int:
-            return self.resp.elapsed.total_seconds()  # type: ignore  # TODO: fix
+            return self.resp.elapsed.total_seconds()
 
         @property
         def content(self) -> bytes:
@@ -678,7 +678,7 @@ class UStorageClient(UStorageClientBase):
                 **self._extra_headers,
                 **tracing_headers,
             },
-            **request_kwargs,  # type: ignore  # TODO: fix
+            **request_kwargs,
         )
 
         response_adapter = self.ResponseAdapter(response, request_data)
@@ -722,10 +722,10 @@ class UStorageClient(UStorageClientBase):
             )
         )
 
-    def move_entry(self, entry_id, destination):  # type: ignore  # TODO: fix
+    def move_entry(self, entry_id, destination):
         return self._request(self._req_data_move_entry(entry_id, destination=destination))
 
-    def update_entry(  # type: ignore  # TODO: fix
+    def update_entry(
         self,
         entry_id: str,
         data: Optional[dict[str, Any]] = None,
@@ -794,10 +794,10 @@ class UStorageClient(UStorageClientBase):
             else:
                 break
 
-    def delete_entry(self, entry_id, lock=None):  # type: ignore  # TODO: fix
+    def delete_entry(self, entry_id, lock=None):
         self._request(self._req_data_delete_entry(entry_id, lock=lock))
 
-    def acquire_lock(self, entry_id, duration=None, wait_timeout=None, force=None):  # type: ignore  # TODO: fix
+    def acquire_lock(self, entry_id, duration=None, wait_timeout=None, force=None):
         """
         :param entry_id:
         :param force:
@@ -819,7 +819,7 @@ class UStorageClient(UStorageClientBase):
                 else:
                     raise
 
-    def release_lock(self, entry_id, lock):  # type: ignore  # TODO: fix
+    def release_lock(self, entry_id, lock):
         try:
             self._request(self._req_data_release_lock(entry_id, lock=lock))
         except exc.USReqException:

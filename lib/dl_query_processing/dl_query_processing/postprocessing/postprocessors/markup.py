@@ -226,7 +226,7 @@ class MarkupProcessingBase(Generic[_NODE_TV]):
 
     def parse(self, data: Optional[str]) -> _NODE_TV:
         if data is None:
-            return None  # type: ignore  # TODO: fix
+            return None
         if not data.startswith(self.lpar) or not data.endswith(self.rpar):
             raise self.ParseError("Malformed data", data)
         node, pos = self._parse_i(data, 0)
@@ -246,7 +246,7 @@ class MarkupProcessingBase(Generic[_NODE_TV]):
         node_br: dict(name="br"),
     }
 
-    def _argcount_mismatch(self, node, **kwargs):  # type: ignore  # TODO: fix
+    def _argcount_mismatch(self, node, **kwargs):
         # Would be nice to do `self.DumpError("Argcount mismatch", node)` here,
         # but NULL-related behavior makes it unfeasible.
         # Thus, return an empty node (equivalent to an empty string).

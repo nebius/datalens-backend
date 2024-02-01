@@ -237,7 +237,7 @@ class AsyncPostgresAdapter(
                 dict(
                     name=str(a.name),
                     postgresql_oid=a.type.oid,
-                    postgresql_typname=OID_KNOWLEDGE.get(a.type.oid),  # type: ignore  # TODO: fix
+                    postgresql_typname=OID_KNOWLEDGE.get(a.type.oid),
                 )
                 for a in query_attrs
             ],
@@ -298,7 +298,7 @@ class AsyncPostgresAdapter(
                             chunk = tuple(make_record(record, prepared_query.get_attributes()) for record in result)
                             yield ExecutionStepDataChunk(chunk=chunk)
 
-    @generic_profiler_async("db-full")  # type: ignore  # TODO: fix
+    @generic_profiler_async("db-full")
     async def execute(self, query: DBAdapterQuery) -> AsyncRawExecutionResult:
         LOGGER.info("Run by async postgres adapter")
 

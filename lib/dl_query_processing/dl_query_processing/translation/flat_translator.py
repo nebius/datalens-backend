@@ -67,7 +67,7 @@ class FlatQueryTranslator:
             dialect=self._dialect,
             required_scopes=self._function_scopes,
             field_types=self._columns.get_column_formula_types(),
-            field_names=self._columns.get_multipart_column_names(  # type: ignore  # TODO: fix
+            field_names=self._columns.get_multipart_column_names(
                 avatar_alias_mapper=self._avatar_alias_mapper
             ),
         )
@@ -93,11 +93,11 @@ class FlatQueryTranslator:
         except formula_exc.TranslationError as err:
             raise dl_query_processing.exc.FormulaHandlingError(*err.errors) from err
 
-        user_type = FORMULA_TO_BI_TYPES.get(translation_ctx.data_type, FORMULA_TO_BI_TYPES[DEFAULT_DATA_TYPE])  # type: ignore  # TODO: fix
+        user_type = FORMULA_TO_BI_TYPES.get(translation_ctx.data_type, FORMULA_TO_BI_TYPES[DEFAULT_DATA_TYPE])
 
         # Use ExpressionCtxExt because the formula might be used in SELECT
         return ExpressionCtxExt(
-            expression=translation_ctx.expression,  # type: ignore  # TODO: fix
+            expression=translation_ctx.expression,
             formula_data_type=translation_ctx.data_type,
             formula_data_type_params=translation_ctx.data_type_params,
             user_type=user_type,
@@ -177,7 +177,7 @@ class FlatQueryTranslator:
         column_list: list[SchemaColumn] = []
         for translated_formula in translated_select:
             column = SchemaColumn(
-                name=translated_formula.alias,  # type: ignore  # TODO: fix
+                name=translated_formula.alias,
                 title=translated_formula.alias,
                 source_id=query_id,
                 native_type=None,
@@ -197,7 +197,7 @@ class FlatQueryTranslator:
         where: list[CompiledFormulaInfo] = []
         having: list[CompiledFormulaInfo] = []
         for formula in compiled_flat_query.filters:
-            if is_aggregate_expression(node=formula.formula_obj, env=self._inspect_env):  # type: ignore  # TODO: fix
+            if is_aggregate_expression(node=formula.formula_obj, env=self._inspect_env):
                 having.append(formula)
             else:
                 where.append(formula)

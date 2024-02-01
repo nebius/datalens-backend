@@ -34,7 +34,7 @@ CH_TYPES_DATE = frozenset((ch_types.Date, ch_types.Date32))
 class ClickHouseTypeTransformer(TypeTransformer):
     conn_type = CONNECTION_TYPE_CLICKHOUSE
     native_to_user_map = {
-        **{make_native_type(CONNECTION_TYPE_CLICKHOUSE, typecls): UserDataType.integer for typecls in CH_TYPES_INT},  # type: ignore  # TODO: fix
+        **{make_native_type(CONNECTION_TYPE_CLICKHOUSE, typecls): UserDataType.integer for typecls in CH_TYPES_INT},
         **{
             make_native_type(CONNECTION_TYPE_CLICKHOUSE, typecls): UserDataType.string
             for typecls in (ch_types.String,)  # TODO: FixedString

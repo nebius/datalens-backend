@@ -138,7 +138,7 @@ class BIAioHTTPClient:
 
     @asynccontextmanager
     async def request(self, method: str, *args: Any, **kwargs: Any) -> AsyncGenerator[aiohttp.ClientResponse, None]:
-        response = await self.retrier.retry_request(self._request, method, *args, **kwargs)  # type: ignore  # TODO: fix
+        response = await self.retrier.retry_request(self._request, method, *args, **kwargs)
         if self.raise_for_status:
             response.raise_for_status()
         yield response

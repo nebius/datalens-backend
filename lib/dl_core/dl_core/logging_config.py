@@ -30,7 +30,7 @@ ENV_CONTEXT = statcommons.log_config.ENV_CONTEXT
 
 
 class FastlogsFilter(logging.Filter):
-    def filter(self, record):  # type: ignore  # TODO: fix
+    def filter(self, record):
         event_code = getattr(record, "event_code", None)
         if event_code:
             if isinstance(event_code, str) and event_code.startswith("_"):
@@ -77,7 +77,7 @@ def _make_logging_config(
         logging_config = {
             **base,
             "loggers": {
-                **base.get("loggers", {}),  # type: ignore  # TODO: fix
+                **base.get("loggers", {}),
                 "dl_core": {
                     "handlers": ["stream"],
                     "level": "INFO",
@@ -85,7 +85,7 @@ def _make_logging_config(
                 },
             },
             "root": {
-                **base.get("root", {}),  # type: ignore  # TODO: fix
+                **base.get("root", {}),
                 "level": "INFO",
             },
         }
@@ -93,25 +93,25 @@ def _make_logging_config(
     else:
         base = statcommons.log_config.BASE_LOGGING_CONFIG
         # Handlers for root and for every non-propagated logger
-        common_handlers = base["root"]["handlers"]  # type: ignore  # TODO: fix
+        common_handlers = base["root"]["handlers"]
         # ^ ['debug_log', 'fast_log', 'event_log']
 
         default_handlers = ["stream"] + common_handlers  # everything to stdout
         logging_config = {
             **base,
             "filters": {
-                **base.get("filters", {}),  # type: ignore  # TODO: fix
+                **base.get("filters", {}),
                 "fastlogs": {"()": "dl_core.logging_config.FastlogsFilter"},
             },
             "formatters": {
-                **base.get("formatters", {}),  # type: ignore  # TODO: fix
+                **base.get("formatters", {}),
                 "json": {"()": "dl_core.logging_config.StdoutFormatter"},
             },
             "handlers": {
-                **(base.get("handlers") or {}),  # type: ignore  # TODO: fix
+                **(base.get("handlers") or {}),
             },
             "loggers": {
-                **(base.get("loggers") or {}),  # type: ignore  # TODO: fix
+                **(base.get("loggers") or {}),
                 # Set minimal level to some unhelpful libraries' logging:
                 "jaeger_tracing": {"level": "WARNING", "propagate": False, "handlers": default_handlers},
                 "asyncio": {"level": "INFO", "propagate": False, "handlers": default_handlers},
@@ -120,7 +120,7 @@ def _make_logging_config(
                 "ydb": {"level": "WARNING", "propagate": False, "handlers": default_handlers},
             },
             "root": {
-                **(base.get("root") or {}),  # type: ignore  # TODO: fix
+                **(base.get("root") or {}),
                 "handlers": default_handlers,
                 "level": "DEBUG",
             },
@@ -136,12 +136,12 @@ def _make_logging_config(
 
 
 # TODO FIX: Remove after all tests will be refactored to use unscoped log context
-def add_log_context_scoped(record):  # type: ignore  # TODO: fix
+def add_log_context_scoped(record):
     context = log_context.get_log_context()
     record.log_context = context
 
 
-def update_tags(record):  # type: ignore  # TODO: fix
+def update_tags(record):
     current = getattr(record, "tags", None)
     if current is None:
         current = {}
@@ -152,7 +152,7 @@ def update_tags(record):  # type: ignore  # TODO: fix
     current["request_id"] = getattr(record, "request_id", "unkn")
 
 
-def logcfg_process_enable_handler(logger_name, handler_name="stream_info"):  # type: ignore  # TODO: fix
+def logcfg_process_enable_handler(logger_name, handler_name="stream_info"):
     """
     Make a `logcfg_process` mapper
     that enables a specified handler for the specified logger
@@ -161,7 +161,7 @@ def logcfg_process_enable_handler(logger_name, handler_name="stream_info"):  # t
     Useful for enabling INFO or DEBUG logs.
     """
 
-    def logcfg_process(cfg, common_handlers, **kwargs):  # type: ignore  # TODO: fix
+    def logcfg_process(cfg, common_handlers, **kwargs):
         if handler_name in cfg["handlers"]:
             cfg["loggers"][logger_name] = dict(
                 handlers=[handler_name] + common_handlers,
@@ -189,7 +189,7 @@ def logcfg_process_stream_human_readable(cfg, common_handlers, **kwargs):  # typ
     return cfg
 
 
-def setup_jaeger_client(service_name: str):  # type: ignore  # TODO: fix
+def setup_jaeger_client(service_name: str):
     config = jaeger_client.Config(
         config={  # usually read from some yaml config
             "sampler": {
@@ -205,7 +205,7 @@ def setup_jaeger_client(service_name: str):  # type: ignore  # TODO: fix
     config.initialize_tracer()
 
 
-def configure_logging(  # type: ignore  # TODO: fix
+def configure_logging(
     app_name,
     for_development: Optional[bool] = None,
     app_prefix: Optional[str] = None,
@@ -241,7 +241,7 @@ def configure_logging(  # type: ignore  # TODO: fix
         setup_jaeger_client(effective_service_name)
 
 
-def hook_configure_logging(app, *args, **kwargs):  # type: ignore  # TODO: fix
+def hook_configure_logging(app, *args, **kwargs):
     """
     Try to configure logging in uwsgi `postfork` if possible,
     but ensure it is configured in `before_first_request` (flask app).
@@ -253,9 +253,9 @@ def hook_configure_logging(app, *args, **kwargs):  # type: ignore  # TODO: fix
     else:
 
         @uwsgidecorators.postfork
-        def _init_logging_in_uwsgi_postfork():  # type: ignore  # TODO: fix
+        def _init_logging_in_uwsgi_postfork():
             configure_logging(*args, **kwargs)
 
     @app.before_first_request
-    def _init_logging_in_before_first_request():  # type: ignore  # TODO: fix
+    def _init_logging_in_before_first_request():
         configure_logging(*args, **kwargs)

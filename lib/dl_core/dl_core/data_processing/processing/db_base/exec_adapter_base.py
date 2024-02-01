@@ -134,7 +134,7 @@ class ProcessorDbExecAdapterBase(abc.ABC):
         user_types: Sequence[UserDataType],
     ) -> QueryAndResultInfo:
         query_res_info = QueryAndResultInfo(
-            query=query,  # type: ignore  # TODO: fix
+            query=query,
             user_types=list(user_types),
             # This is basically legacy and will be removed.
             # col_names are not really used anywhere, just passed around a lot.

@@ -32,7 +32,7 @@ PROFILE_REQ_PATH_RE = os.environ.get("PROFILE_REQ_PATH_RE")
 # PROFILE_REQ_PATH_RE="/api/v1/datasets/njJYHhj8oikj/versions/draft/result"
 
 
-def _profile_request_check(*args, **kwargs) -> bool:  # type: ignore  # TODO: fix
+def _profile_request_check(*args, **kwargs) -> bool:
     """
     Check whether request handler should be profiled with current settings:
     - ``PROFILE_PATH_RE``: limit profiling only to requests with path matching the given regex
@@ -47,14 +47,14 @@ def _profile_request_check(*args, **kwargs) -> bool:  # type: ignore  # TODO: fi
 COMMON_INFO_HEADERS = ("Referer", "X-Chart-Id")  # TODO: bi-common
 
 
-class BIResourceMeta(type(Resource)):  # type: ignore  # TODO: fix
+class BIResourceMeta(type(Resource)):
     """
     Metaclass for applying decorators to all BI handler classes and their methods
     (e.g. profiling, logging, etc.)
     """
 
     @staticmethod
-    def _get_future_class_attr(bases, attrs, attr_name):  # type: ignore  # TODO: fix
+    def _get_future_class_attr(bases, attrs, attr_name):
         """Get attribute of future class described by ``bases`` and ``attrs``"""
         if attr_name in attrs:
             # attribute is redefined in new class
@@ -66,7 +66,7 @@ class BIResourceMeta(type(Resource)):  # type: ignore  # TODO: fix
                 if hasattr(base, attr_name):
                     return getattr(base, attr_name)
 
-    def __new__(mcs, name, bases, attrs):  # type: ignore  # TODO: fix
+    def __new__(mcs, name, bases, attrs):
         profile_methods = mcs._get_future_class_attr(bases, attrs, "profile_methods")
         if PROFILE_REQ_METHODS:
             profile_methods = set(profile_methods) & PROFILE_REQ_METHODS

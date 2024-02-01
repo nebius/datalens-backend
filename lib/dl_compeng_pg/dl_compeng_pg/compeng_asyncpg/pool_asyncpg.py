@@ -49,4 +49,4 @@ class AsyncpgPoolWrapper(BasePgPoolWrapper):
     async def disconnect(self) -> None:
         pool = self._pool
         self._pool = None
-        await asyncio.wait_for(pool.close(), timeout=2.5)  # type: ignore  # TODO: fix
+        await asyncio.wait_for(pool.close(), timeout=2.5)

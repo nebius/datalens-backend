@@ -106,7 +106,7 @@ class TestPostgreSQLDataResult(PostgreSQLDataApiTestBase, DefaultConnectorDataRe
         )
         # TODO: clean up created tables after test finish
         db.create_table(table)
-        db_table = DbTable(db=db, table=table)  # type: ignore  # TODO: fix
+        db_table = DbTable(db=db, table=table)
         db_table.insert(
             [
                 {"citext_value": "var1"},

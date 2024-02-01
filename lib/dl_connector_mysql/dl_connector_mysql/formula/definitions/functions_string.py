@@ -54,7 +54,7 @@ DEFINITIONS_STRING = [
         variants=[
             V(
                 D.MYSQL,
-                lambda x, y, z: n.if_(sa.func.LOCATE(y, sa.func.SUBSTRING(x, z)) > 0)  # type: ignore  # TODO: fix
+                lambda x, y, z: n.if_(sa.func.LOCATE(y, sa.func.SUBSTRING(x, z)) > 0)
                 .then(sa.func.LOCATE(y, sa.func.SUBSTRING(x, z)) + z - 1)
                 .else_(0),
             ),

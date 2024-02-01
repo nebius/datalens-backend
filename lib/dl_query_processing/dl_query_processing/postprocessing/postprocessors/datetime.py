@@ -28,10 +28,10 @@ def postprocess_genericdatetime(value: datetime.datetime) -> Optional[str]:
     return value.replace(tzinfo=None).isoformat()
 
 
-def make_postprocess_datetimetz(tzname: str):  # type: ignore  # TODO: fix
+def make_postprocess_datetimetz(tzname: str):
     tzobj = pytz.timezone(tzname)
 
-    def _postprocess_datetimetz(value: datetime.datetime, tzobj=tzobj) -> Optional[str]:  # type: ignore  # TODO: fix
+    def _postprocess_datetimetz(value: datetime.datetime, tzobj=tzobj) -> Optional[str]:
         if value is None:
             return value
 

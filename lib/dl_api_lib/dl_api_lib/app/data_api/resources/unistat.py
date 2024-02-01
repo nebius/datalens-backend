@@ -15,7 +15,7 @@ from .base import (
 
 
 # TODO FIX: Move to bi-common
-async def read_usocket(path):  # type: ignore  # TODO: fix
+async def read_usocket(path):
     """
     Simple "connect to a unix socket at `path` and read the stream".
     """
@@ -27,7 +27,7 @@ async def read_usocket(path):  # type: ignore  # TODO: fix
         await writer.wait_closed()
 
 
-async def uwsgi_unistat(path):  # type: ignore  # TODO: fix
+async def uwsgi_unistat(path):
     data = await read_usocket(path)
     data = json.loads(data)
     return process_uwsgi_data_for_unistat(data)

@@ -148,11 +148,11 @@ class DefaultConnExecutorFactory(BaseClosableExecutorFactory):
             connect_options=connect_options,
             rqe_data=rqe_data,
             exec_mode=exec_mode,
-            conn_hosts_pool=conn_hosts_pool,  # type: ignore  # TODO: fix
+            conn_hosts_pool=conn_hosts_pool,
         )
 
     def _cook_conn_executor(self, recipe: ConnExecutorRecipe, with_tpe: bool) -> AsyncConnExecutorBase:
-        def _conn_host_fail_callback_func(host: str):  # type: ignore  # TODO: fix
+        def _conn_host_fail_callback_func(host: str):
             LOGGER.info("DB host %s unavailable", host)
 
         executor_cls = recipe.ce_cls
@@ -230,7 +230,7 @@ class DefaultConnExecutorFactory(BaseClosableExecutorFactory):
     def conn_security_manager(self) -> ConnectionSecurityManager:
         return self.conn_sec_mgr
 
-    def clone(self, **kwargs):  # type: ignore  # TODO: fix
+    def clone(self, **kwargs):
         return attr.evolve(self, **kwargs)
 
 

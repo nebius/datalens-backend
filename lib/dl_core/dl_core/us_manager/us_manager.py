@@ -84,7 +84,7 @@ class CryptoKeyInfo:
 
 class USManagerBase:
     _MAP_TYPE_TO_SCHEMA: ClassVar[ChainMapGeneric[Type[BaseAttrsDataModel], Type[marshmallow.Schema]]] = ChainMap(
-        MAP_TYPE_TO_SCHEMA_MAP_TYPE_TO_SCHEMA,  # type: ignore  # TODO: fix
+        MAP_TYPE_TO_SCHEMA_MAP_TYPE_TO_SCHEMA,
         {
             Dataset.DataModel: DatasetStorageSchema,
         },
@@ -171,12 +171,12 @@ class USManagerBase:
     @classmethod
     def get_load_storage_schema(cls, data_cls: Type[BaseAttrsDataModel]) -> marshmallow.Schema:
         schema_cls = cls._MAP_TYPE_TO_SCHEMA.get(data_cls)
-        return schema_cls()  # type: ignore  # TODO: fix
+        return schema_cls()
 
     @classmethod
     def get_dump_storage_schema(cls, data_cls: Type[BaseAttrsDataModel]) -> marshmallow.Schema:
         schema_cls = cls._MAP_TYPE_TO_SCHEMA.get(data_cls)
-        return schema_cls()  # type: ignore  # TODO: fix
+        return schema_cls()
 
     @classmethod
     def get_us_entry_serializer(cls, entry_cls: Type[USEntry]) -> USEntrySerializer:
@@ -300,7 +300,7 @@ class USManagerBase:
         if expected_type == USMigrationEntry:
             entry_cls = USMigrationEntry
         else:
-            entry_cls = self._get_entry_class(  # type: ignore  # TODO: fix
+            entry_cls = self._get_entry_class(
                 us_type=us_resp["type"],
                 us_scope=us_resp["scope"],
                 entry_key=entry_loc,
@@ -379,7 +379,7 @@ class USManagerBase:
         if isinstance(entry, ConnectionBase):
             us_type = entry.conn_type.name
         else:
-            us_type = entry.type_  # type: ignore  # TODO: fix
+            us_type = entry.type_
 
         if us_type is not None and not isinstance(us_type, str):
             raise ValueError(f"Unexpected US type ({us_type}) for entry {entry}")
@@ -473,11 +473,11 @@ class USManagerBase:
 
         self.get_lifecycle_manager(entry=copied_entry).post_copy_hook()
 
-        return copied_entry  # type: ignore  # TODO: fix
+        return copied_entry
 
     @staticmethod
     @contextmanager
-    def _enrich_us_exception(  # type: ignore  # TODO: fix
+    def _enrich_us_exception(
         entry_id: Optional[str] = None,
         entry_scope: Optional[str] = None,
     ):

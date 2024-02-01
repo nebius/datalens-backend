@@ -364,7 +364,7 @@ class TranslationVariantWrapped(TranslationVariant):
 
     @classmethod
     def make(cls: Type[_TRANS_VAR_WR_TV], *args: Any, **kwargs: Any) -> _TRANS_VAR_WR_TV:
-        return super().make(*args, unwrap_args=False, **kwargs)  # type: ignore  # TODO: fix
+        return super().make(*args, unwrap_args=False, **kwargs)
 
 
 class TranslationResult(NamedTuple):

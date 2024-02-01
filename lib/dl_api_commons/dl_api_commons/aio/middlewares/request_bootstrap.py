@@ -74,7 +74,7 @@ class SentryRequestLoggingContextController(RequestLoggingContextController):
             self._scope.set_extra(key, val_to_write)
 
 
-@contextlib.contextmanager  # type: ignore  # TODO: fix
+@contextlib.contextmanager
 def last_chance_log() -> Iterable[None]:
     try:
         yield

@@ -107,7 +107,7 @@ class BitrixGDSDefaultAdapter(AiohttpDBAdapter, ETBasedExceptionMaker):
             redis_conn_params = None
         self._redis_cli_acm = get_redis_cli_acm_from_params(redis_conn_params)
 
-    @generic_profiler_async("db-query-cached")  # type: ignore  # TODO: fix
+    @generic_profiler_async("db-query-cached")
     async def _run_query_cached(self, dba_query: DBAdapterQuery) -> Any:
         async def wrap_run_query() -> Any:
             result = await self._run_query(dba_query)
@@ -137,7 +137,7 @@ class BitrixGDSDefaultAdapter(AiohttpDBAdapter, ETBasedExceptionMaker):
 
         return result
 
-    @generic_profiler_async("db-query")  # type: ignore  # TODO: fix
+    @generic_profiler_async("db-query")
     async def _run_query(self, dba_query: DBAdapterQuery) -> Any:
         query_text = self.compile_query_for_execution(dba_query.query)
         payload = self._build_request_payload(dba_query)
@@ -242,7 +242,7 @@ class BitrixGDSDefaultAdapter(AiohttpDBAdapter, ETBasedExceptionMaker):
                 details={},
             )
 
-    @generic_profiler_async("db-full")  # type: ignore  # TODO: fix
+    @generic_profiler_async("db-full")
     async def execute(self, query: DBAdapterQuery) -> AsyncRawExecutionResult:
         with self.wrap_execute_excs(query=query, stage="request"):
             if self._redis_cli_acm is not None:
@@ -252,7 +252,7 @@ class BitrixGDSDefaultAdapter(AiohttpDBAdapter, ETBasedExceptionMaker):
 
         rd = self._parse_response_body(resp_body, query)
 
-        async def chunk_gen(chunk_size=query.chunk_size or self._default_chunk_size):  # type: ignore  # TODO: fix
+        async def chunk_gen(chunk_size=query.chunk_size or self._default_chunk_size):
             data = rd["rows"]
             while data:
                 chunk = data[:chunk_size]
@@ -293,7 +293,7 @@ class BitrixGDSDefaultAdapter(AiohttpDBAdapter, ETBasedExceptionMaker):
         tables: list[str] = [table[0] for table in await resp.json()]
         return tables
 
-    @generic_profiler_async("db-table-info")  # type: ignore  # TODO: fix
+    @generic_profiler_async("db-table-info")
     async def get_table_info(
         self, table_def: Optional[TableDefinition] = None, fetch_idx_info: bool = False
     ) -> RawSchemaInfo:

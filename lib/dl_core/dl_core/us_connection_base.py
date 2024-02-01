@@ -103,8 +103,8 @@ _CB_TV = TypeVar("_CB_TV", bound="ConnectionBase")
 
 
 class ConnectionBase(USEntry, metaclass=abc.ABCMeta):
-    dir_name: ClassVar[str] = ""  # type: ignore  # TODO: fix
-    scope: ClassVar[str] = "connection"  # type: ignore  # TODO: fix
+    dir_name: ClassVar[str] = ""
+    scope: ClassVar[str] = "connection"
 
     conn_type: ConnectionType
     source_type: ClassVar[Optional[DataSourceType]] = None
@@ -204,7 +204,7 @@ class ConnectionBase(USEntry, metaclass=abc.ABCMeta):
     def is_dataset_allowed(self) -> bool:
         return True
 
-    def as_dict(self, short=False):  # type: ignore  # TODO: fix
+    def as_dict(self, short=False):
         resp = super().as_dict(short=short)
         if short:
             resp.update(
@@ -230,7 +230,7 @@ class ConnectionBase(USEntry, metaclass=abc.ABCMeta):
         return resp
 
     @classmethod
-    def create_from_dict(  # type: ignore  # TODO: fix
+    def create_from_dict(
         cls: Type[_CB_TV],
         data_dict: Union[dict, BaseAttrsDataModel],
         ds_key: Union[EntryLocation, str, None] = None,
@@ -252,11 +252,11 @@ class ConnectionBase(USEntry, metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @property
-    def table_name(self):  # type: ignore  # TODO: fix
+    def table_name(self):
         return self.data.table_name
 
     @property
-    def sample_table_name(self):  # type: ignore  # TODO: fix
+    def sample_table_name(self):
         return self.data.sample_table_name
 
     _dsrc_error = "Only materializable connections can have a data source"  # TODO remove?
@@ -405,13 +405,13 @@ class SubselectMixin:
 
     @property
     def is_subselect_allowed(self) -> bool:
-        return self.data.raw_sql_level in (RawSQLLevel.subselect, RawSQLLevel.dashsql)  # type: ignore  # TODO: fix
+        return self.data.raw_sql_level in (RawSQLLevel.subselect, RawSQLLevel.dashsql)
 
     @property
     def is_dashsql_allowed(self) -> bool:
-        if not self.allow_dashsql:  # type: ignore  # TODO: fix
+        if not self.allow_dashsql:
             return False
-        if self.data.raw_sql_level == RawSQLLevel.dashsql:  # type: ignore  # TODO: fix
+        if self.data.raw_sql_level == RawSQLLevel.dashsql:
             return True
         return False
 
@@ -440,13 +440,13 @@ class SubselectMixin:
                 ],
                 disabled=not allowed,
                 group=[],
-                connection_id=self.uuid,  # type: ignore  # TODO: fix
+                connection_id=self.uuid,
                 parameters={},
             ),
         ]
 
 
-class ConnectionSQL(SubselectMixin, ExecutorBasedMixin, ConnectionBase):  # type: ignore  # TODO: fix
+class ConnectionSQL(SubselectMixin, ExecutorBasedMixin, ConnectionBase):
     has_schema: ClassVar[bool] = False
     default_schema_name: ClassVar[Optional[str]] = None
 
@@ -506,8 +506,8 @@ class ConnectionSQL(SubselectMixin, ExecutorBasedMixin, ConnectionBase):  # type
             DataSourceTemplate(
                 title=self.get_data_source_template_title(parameters),
                 group=self.get_data_source_template_group(parameters),
-                source_type=self.source_type,  # type: ignore  # TODO: fix
-                connection_id=self.uuid,  # type: ignore  # TODO: fix
+                source_type=self.source_type,
+                connection_id=self.uuid,
                 parameters=parameters,
             )
             for parameters in self.get_parameter_combinations(conn_executor_factory=conn_executor_factory)

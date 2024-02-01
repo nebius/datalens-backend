@@ -149,7 +149,7 @@ class DatasetApiLoader:
                     **source_data["parameters"],
                 )  # not that this does not include title and raw_schema updates
                 old_raw_schema = old_src_coll.get_cached_raw_schema(role=DataSourceRole.origin)
-                schema_updated = not are_raw_schemas_same(old_raw_schema, source_data["raw_schema"])  # type: ignore  # TODO: fix
+                schema_updated = not are_raw_schemas_same(old_raw_schema, source_data["raw_schema"])
 
                 old_index_info_set = old_src_coll.get_strict(role=DataSourceRole.origin).saved_index_info_set
                 new_index_info_set = source_data["index_info_set"]
@@ -226,7 +226,7 @@ class DatasetApiLoader:
                 )
             if avatar_data["is_root"]:
                 root_avatar_id = avatar_data["id"]
-        return root_avatar_id, handled_source_avatar_ids  # type: ignore  # TODO: fix
+        return root_avatar_id, handled_source_avatar_ids
 
     @classmethod
     def _update_dataset_source_avatar_relations_from_body(cls, dataset: Dataset, body: dict) -> set:
@@ -254,7 +254,7 @@ class DatasetApiLoader:
         return handled_avatar_relation_ids
 
     @staticmethod
-    def _rls_list_to_set(rls_list):  # type: ignore  # TODO: fix
+    def _rls_list_to_set(rls_list):
         return set(
             (
                 rlse.field_guid,
@@ -304,7 +304,7 @@ class DatasetApiLoader:
                 # otherwise no effective config changes (that are worth checking in preview)
 
     @classmethod
-    def _update_dataset_obligatory_filters_from_body(cls, dataset: Dataset, body: dict) -> str:  # type: ignore  # TODO: fix
+    def _update_dataset_obligatory_filters_from_body(cls, dataset: Dataset, body: dict) -> str:
         # obligatory_filters
         ds_accessor = DatasetComponentAccessor(dataset=dataset)
         ds_editor = DatasetComponentEditor(dataset=dataset)

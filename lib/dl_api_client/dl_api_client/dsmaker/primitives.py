@@ -136,7 +136,7 @@ class Container(Generic[_ITEM_TV]):
         for id in self._item_ids:
             yield self._items[id]
 
-    def __setitem__(self, alias: str, item: _ITEM_TV):  # type: ignore  # TODO: fix
+    def __setitem__(self, alias: str, item: _ITEM_TV):
         """
         Add item to container under given alias.
         Item order is preserved.
@@ -270,7 +270,7 @@ class SourceAvatar(ApiProxyObject):
             join_type=join_type,
         )
 
-    def field(self, **kwargs) -> "ResultField":  # type: ignore  # TODO: fix
+    def field(self, **kwargs) -> "ResultField":
         return ResultField(avatar_id=self.id, **kwargs)
 
 
@@ -304,22 +304,22 @@ class ConditionMakerMixin:
             left_part=self.get_cpart_from_self(), right_part=other.get_cpart_from_self(), operator=operator
         )
 
-    def __eq__(self, other: "ConditionMakerMixin"):  # type: ignore  # TODO: fix
+    def __eq__(self, other: "ConditionMakerMixin"):
         return self._simple_condition(other, BinaryJoinOperator.eq)
 
-    def __ne__(self, other: "ConditionMakerMixin"):  # type: ignore  # TODO: fix
+    def __ne__(self, other: "ConditionMakerMixin"):
         return self._simple_condition(other, BinaryJoinOperator.ne)
 
-    def __lt__(self, other: "ConditionMakerMixin"):  # type: ignore  # TODO: fix
+    def __lt__(self, other: "ConditionMakerMixin"):
         return self._simple_condition(other, BinaryJoinOperator.lt)
 
-    def __le__(self, other: "ConditionMakerMixin"):  # type: ignore  # TODO: fix
+    def __le__(self, other: "ConditionMakerMixin"):
         return self._simple_condition(other, BinaryJoinOperator.lte)
 
-    def __gt__(self, other: "ConditionMakerMixin"):  # type: ignore  # TODO: fix
+    def __gt__(self, other: "ConditionMakerMixin"):
         return self._simple_condition(other, BinaryJoinOperator.gt)
 
-    def __ge__(self, other: "ConditionMakerMixin"):  # type: ignore  # TODO: fix
+    def __ge__(self, other: "ConditionMakerMixin"):
         return self._simple_condition(other, BinaryJoinOperator.gte)
 
     def get_cpart_from_self(self) -> JoinPart:
@@ -339,7 +339,7 @@ class _Column:
     lock_aggregation: bool = attr.ib(default=False)
 
 
-class Column(ConditionMakerMixin, _Column):  # type: ignore  # TODO: fix
+class Column(ConditionMakerMixin, _Column):
     def get_cpart_from_self(self) -> JoinPart:
         return DirectJoinPart(source=self.name)
 
@@ -359,8 +359,8 @@ class AvatarRelation(ApiProxyObject):
     join_type: JoinType = attr.ib(default=JoinType.inner)
     managed_by: ManagedBy = attr.ib(default=ManagedBy.user)
 
-    def on(self, *conditions: List[JoinCondition]):  # type: ignore  # TODO: fix
-        self.conditions += conditions  # type: ignore  # TODO: fix
+    def on(self, *conditions: List[JoinCondition]):
+        self.conditions += conditions
         return self
 
 
@@ -645,7 +645,7 @@ class ObligatoryFilter(ApiProxyObject):
     valid: bool = attr.ib(default=True)
 
 
-class ResultField(ConditionMakerMixin, _ResultField):  # type: ignore  # TODO: fix
+class ResultField(ConditionMakerMixin, _ResultField):
     def get_cpart_from_self(self) -> JoinPart:
         return ResultFieldJoinPart(field_id=self.id)
 
@@ -887,7 +887,7 @@ class ComponentErrorPack:
 class ComponentErrorRegistry:
     items: List[ComponentErrorPack] = attr.ib(factory=list)
 
-    def get_pack(self, id: str) -> Optional[ComponentErrorPack]:  # type: ignore  # TODO: fix
+    def get_pack(self, id: str) -> Optional[ComponentErrorPack]:
         for item in self.items:
             if item.id == id:
                 return item
@@ -926,7 +926,7 @@ class Dataset(ApiProxyObject):
             kwargs["title"] = name
         return Column(name=name, **kwargs)
 
-    def field(self, avatar: SourceAvatar = None, **kwargs) -> "ResultField":  # type: ignore  # TODO: fix
+    def field(self, avatar: SourceAvatar = None, **kwargs) -> "ResultField":
         avatar_id = avatar.id if avatar is not None else kwargs.pop("avatar_id", None)
         return ResultField(avatar_id=avatar_id, **kwargs)
 

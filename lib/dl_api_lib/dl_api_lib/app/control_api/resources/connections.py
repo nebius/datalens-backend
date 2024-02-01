@@ -48,7 +48,7 @@ LOGGER = logging.getLogger(__name__)
 ns = API.namespace("Connections", path="/connections")
 
 
-def _handle_conn_test_exc(exception: Exception):  # type: ignore  # TODO: fix
+def _handle_conn_test_exc(exception: Exception):
     if isinstance(exception, DLBaseException):
         raise exception
     else:
@@ -59,7 +59,7 @@ def _handle_conn_test_exc(exception: Exception):  # type: ignore  # TODO: fix
 @ns.route("/test_connection_params")
 class ConnectionParamsTester(BIResource):
     @schematic_request(ns=ns)
-    def post(self):  # type: ignore  # TODO: fix
+    def post(self):
         service_registry = self.get_service_registry()
         schema = GenericConnectionSchema(context=self.get_schema_ctx(schema_operations_mode=CreateMode.test))
         body_json = dict(request.json)  # type: ignore  # 2024-01-24 # TODO: Argument 1 to "dict" has incompatible type "Any | None"; expected "SupportsKeysAndGetItem[Any, Any]"  [arg-type]
@@ -85,7 +85,7 @@ class ConnectionParamsTester(BIResource):
 @ns.route("/test_connection/<connection_id>")
 class ConnectionTester(BIResource):
     @schematic_request(ns=ns)
-    def post(self, connection_id):  # type: ignore  # TODO: fix
+    def post(self, connection_id):
         usm = self.get_us_manager()
         service_registry = self.get_service_registry()
         conn = usm.get_by_id(connection_id, expected_type=ConnectionBase)
@@ -123,7 +123,7 @@ class ConnectionTester(BIResource):
 class ConnectionsList(BIResource):
     @put_to_request_context(endpoint_code="ConnectionCreate")
     @schematic_request(ns=ns)
-    def post(self):  # type: ignore  # TODO: fix
+    def post(self):
         us_manager = self.get_us_manager()
 
         conn_availability = self.get_service_registry().get_connector_availability()
@@ -190,7 +190,7 @@ class ConnectionItem(BIResource):
             # 200: ('Success', GetConnectionResponseSchema()),
         },
     )
-    def get(self, connection_id):  # type: ignore  # TODO: fix
+    def get(self, connection_id):
         conn = self.get_us_manager().get_by_id(connection_id, expected_type=ConnectionBase)
         need_permission_on_entry(conn, USPermissionKind.read)
 
@@ -209,10 +209,10 @@ class ConnectionItem(BIResource):
 
     @put_to_request_context(endpoint_code="ConnectionUpdate")
     @schematic_request(ns=ns)
-    def put(self, connection_id):  # type: ignore  # TODO: fix
+    def put(self, connection_id):
         us_manager = self.get_us_manager()
 
-        with us_manager.get_locked_entry_cm(ConnectionBase, connection_id) as conn:  # type: ignore  # TODO: fix
+        with us_manager.get_locked_entry_cm(ConnectionBase, connection_id) as conn:
             need_permission_on_entry(conn, USPermissionKind.edit)
             conn_orig = us_manager.clone_entry_instance(conn)
             assert isinstance(conn_orig, ConnectionBase)  # for typing
@@ -234,16 +234,16 @@ class ConnectionItem(BIResource):
             us_manager.save(conn)
 
 
-def _dump_source_templates(tpls) -> dict:  # type: ignore  # TODO: fix
+def _dump_source_templates(tpls) -> dict:
     if tpls is None:
-        return None  # type: ignore  # TODO: fix
-    return [dict(tpl._asdict(), parameter_hash=tpl.get_param_hash()) for tpl in tpls]  # type: ignore  # TODO: fix
+        return None
+    return [dict(tpl._asdict(), parameter_hash=tpl.get_param_hash()) for tpl in tpls]
 
 
 @ns.route("/<connection_id>/info/metadata_sources")
 class ConnectionInfoMetadataSources(BIResource):
     @schematic_request(ns=ns, responses={200: ("Success", ConnectionSourceTemplatesResponseSchema())})
-    def get(self, connection_id):  # type: ignore  # TODO: fix
+    def get(self, connection_id):
         connection = self.get_us_manager().get_by_id(connection_id, expected_type=ConnectionBase)
 
         localizer = self.get_service_registry().get_localizer()
@@ -270,7 +270,7 @@ class ConnectionInfoSources(BIResource):
         query=ConnectionSourcesQuerySchema(),
         responses={200: ("Success", ConnectionSourceTemplatesResponseSchema())},
     )
-    def get(self, connection_id, query):  # type: ignore  # TODO: fix
+    def get(self, connection_id, query):
         connection = self.get_us_manager().get_by_id(connection_id, expected_type=ConnectionBase)
 
         service_registry = self.get_service_registry()
@@ -308,7 +308,7 @@ class ConnectionInfoSourceSchema(BIResource):
         body=ConnectionInfoSourceSchemaQuerySchema(),
         responses={200: ("Success", ConnectionInfoSourceSchemaResponseSchema())},
     )
-    def post(self, connection_id: str, body: dict):  # type: ignore  # TODO: fix
+    def post(self, connection_id: str, body: dict):
         connection = self.get_us_manager().get_by_id(connection_id, expected_type=ConnectionBase)
         sr = self.get_service_registry()
 

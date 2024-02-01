@@ -111,22 +111,22 @@ class AsyncUSManager(USManagerBase):
             LOGGER.warning("Error during closing AsyncUSManager", exc_info=True)
 
     @overload
-    async def get_by_id(self, entry_id: str, expected_type: type(None) = None) -> USEntry:  # type: ignore  # TODO: fix
+    async def get_by_id(self, entry_id: str, expected_type: type(None) = None) -> USEntry:
         pass
 
     @overload  # noqa
-    async def get_by_id(self, entry_id: str, expected_type: Type[_ENTRY_TV] = None) -> _ENTRY_TV:  # type: ignore  # TODO: fix
+    async def get_by_id(self, entry_id: str, expected_type: Type[_ENTRY_TV] = None) -> _ENTRY_TV:
         pass
 
-    @generic_profiler_async("us-fetch-entity")  # type: ignore  # TODO: fix
-    async def get_by_id(self, entry_id: str, expected_type: Type[_ENTRY_TV] = None) -> _ENTRY_TV:  # type: ignore  # TODO: fix
+    @generic_profiler_async("us-fetch-entity")
+    async def get_by_id(self, entry_id: str, expected_type: Type[_ENTRY_TV] = None) -> _ENTRY_TV:
         with self._enrich_us_exception(
             entry_id=entry_id,
             entry_scope=expected_type.scope if expected_type is not None else None,
         ):
             us_resp = await self._us_client.get_entry(entry_id)
 
-        obj: _ENTRY_TV = self._entry_dict_to_obj(us_resp, expected_type)  # type: ignore  # TODO: fix
+        obj: _ENTRY_TV = self._entry_dict_to_obj(us_resp, expected_type)
         await self.get_lifecycle_manager(entry=obj).post_init_async_hook()
 
         return obj
@@ -183,7 +183,7 @@ class AsyncUSManager(USManagerBase):
         entry.data = reloaded_entry.data
         entry._us_resp = us_resp
 
-    @asynccontextmanager  # type: ignore  # TODO: fix
+    @asynccontextmanager
     async def locked_entry_cm(
         self,
         entry_id: str,
@@ -202,7 +202,7 @@ class AsyncUSManager(USManagerBase):
 
         try:
             entry = await self.get_by_id(entry_id, expected_type)  # type: ignore  # 2024-01-30 # TODO: Incompatible types in assignment (expression has type "USEntry", variable has type "_ENTRY_TV | None")  [assignment]
-            entry._lock = lock_token  # type: ignore  # TODO: fix
+            entry._lock = lock_token
             assert entry is not None
             yield entry
 
@@ -243,7 +243,7 @@ class AsyncUSManager(USManagerBase):
 
         if isinstance(conn, BrokenUSLink):
             if referrer is not None:
-                conn.add_referrer_id(referrer.uuid)  # type: ignore  # TODO: fix
+                conn.add_referrer_id(referrer.uuid)
             return None
         elif isinstance(conn, ConnectionBase):
             return conn
@@ -272,7 +272,7 @@ class AsyncUSManager(USManagerBase):
 
             refs_to_load_queue.update(
                 self._get_entry_links(
-                    resolved_ref,  # type: ignore  # TODO: fix
+                    resolved_ref,
                 )
                 - processed_refs
             )

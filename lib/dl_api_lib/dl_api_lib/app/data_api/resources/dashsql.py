@@ -181,11 +181,11 @@ class DashSQLView(BaseView):
         async for event_name, event_data in result_events:
             if postprocess_row is None and event_name == DashSQLEvent.metadata.value:
                 assert isinstance(event_data, dict)
-                postprocess_row = self._make_postprocess_row(event_data["bi_types"])  # type: ignore  # TODO: fix
+                postprocess_row = self._make_postprocess_row(event_data["bi_types"])
             elif event_name == DashSQLEvent.rowchunk.value and postprocess_row is not None:
-                event_data = tuple(postprocess_row(row) for row in event_data)  # type: ignore  # TODO: fix
+                event_data = tuple(postprocess_row(row) for row in event_data)
             elif event_name == DashSQLEvent.row.value and postprocess_row is not None:  # should be obsolete
-                event_data = postprocess_row(event_data)  # type: ignore  # TODO: fix
+                event_data = postprocess_row(event_data)
             yield event_name, event_data
 
     @staticmethod
@@ -195,7 +195,7 @@ class DashSQLView(BaseView):
             if event_name == DashSQLEvent.rowchunk.value:
                 for row in event_data:
                     assert isinstance(row, (tuple, list))
-                    yield DashSQLEvent.row.value, row  # type: ignore  # TODO: fix
+                    yield DashSQLEvent.row.value, row
             else:
                 yield event_name, event_data
 

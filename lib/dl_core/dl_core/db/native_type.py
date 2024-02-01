@@ -59,14 +59,14 @@ class GenericNativeType:
         normalized_name = norm_native_type(name)
         return cls(
             conn_type=conn_type,
-            name=normalized_name,  # type: ignore  # TODO: fix
+            name=normalized_name,
         )
 
     @property
     def as_generic(self) -> GenericNativeType:  # for subclasses
         return GenericNativeType(conn_type=self.conn_type, name=self.name)
 
-    def as_common(self, default_nullable=True) -> CommonNativeType:  # type: ignore  # TODO: fix
+    def as_common(self, default_nullable=True) -> CommonNativeType:
         """
         Helper method that converts a GenericNativeType object to a
         CommonNativeType object with the specified `nullable` value; for
@@ -96,11 +96,11 @@ class CommonNativeType(GenericNativeType):
         normalized_name = norm_native_type(name)
         return cls(
             conn_type=conn_type,
-            name=normalized_name,  # type: ignore  # TODO: fix
+            name=normalized_name,
             nullable=nullable,
         )
 
-    def as_common(self: _COMMON_NATIVE_TYPE_TV, default_nullable=None) -> _COMMON_NATIVE_TYPE_TV:  # type: ignore  # TODO: fix
+    def as_common(self: _COMMON_NATIVE_TYPE_TV, default_nullable=None) -> _COMMON_NATIVE_TYPE_TV:
         return self
 
 

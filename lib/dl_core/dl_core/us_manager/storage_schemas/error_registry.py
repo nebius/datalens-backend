@@ -41,7 +41,7 @@ class ComponentErrorPackSchema(OneOfSchema):
         }.items()
     }
 
-    def get_obj_type(self, obj):  # type: ignore  # TODO: fix
+    def get_obj_type(self, obj):
         return getattr(obj, self.type_field).name
 
 

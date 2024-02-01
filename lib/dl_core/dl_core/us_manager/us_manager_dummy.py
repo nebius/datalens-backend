@@ -20,7 +20,7 @@ class DummyUSManager(USManagerBase):
             bi_context=bi_context,
             us_base_url="http://localhost:66000",
             us_api_prefix="dummy",
-            crypto_keys_config=CryptoKeysConfig(  # type: ignore  # TODO: fix
+            crypto_keys_config=CryptoKeysConfig(
                 map_id_key={"dummy_usm_key": fernet.Fernet.generate_key().decode("ascii")},
                 actual_key_id="dummy_usm_key",
             ),

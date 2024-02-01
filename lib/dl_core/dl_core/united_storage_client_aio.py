@@ -59,7 +59,7 @@ class UStorageClientAIO(UStorageClientBase):
             return self._response.headers.get(name)
 
         @property
-        def elapsed_seconds(self) -> float:  # type: ignore  # TODO: fix
+        def elapsed_seconds(self) -> float:
             return self._elapsed_seconds
 
         @property
@@ -81,7 +81,7 @@ class UStorageClientAIO(UStorageClientBase):
         def json(self) -> dict:
             if self._parsed_json_data is None:
                 self._parsed_json_data = json.loads(self._content.decode("utf-8"))
-            return self._parsed_json_data  # type: ignore  # TODO: fix
+            return self._parsed_json_data
 
     class RequestAdapter(UStorageClientBase.RequestAdapter):
         def __init__(self, request: aiohttp.RequestInfo, request_data: UStorageClientBase.RequestData):
@@ -101,7 +101,7 @@ class UStorageClientAIO(UStorageClientBase):
 
         @property
         def json(self) -> dict:
-            return self._request_data.json  # type: ignore  # TODO: fix
+            return self._request_data.json
 
     _bi_http_client: BIAioHTTPClient
 
@@ -142,7 +142,7 @@ class UStorageClientAIO(UStorageClientBase):
             ca_data=ca_data,
         )
 
-    async def _request(self, request_data: UStorageClientBase.RequestData):  # type: ignore  # TODO: fix
+    async def _request(self, request_data: UStorageClientBase.RequestData):
         self._raise_for_disabled_interactions()
         self._log_request_start(request_data)
         tracing_headers = get_current_tracing_headers()
@@ -175,7 +175,7 @@ class UStorageClientAIO(UStorageClientBase):
     async def get_entry(self, entry_id: str) -> dict:
         return await self._request(self._req_data_get_entry(entry_id=entry_id))
 
-    async def create_entry(  # type: ignore  # TODO: fix
+    async def create_entry(
         self,
         key: EntryLocation,
         scope: str,
@@ -200,7 +200,7 @@ class UStorageClientAIO(UStorageClientBase):
         )
         return await self._request(rq_data)
 
-    async def update_entry(  # type: ignore  # TODO: fix
+    async def update_entry(
         self, entry_id, data=None, unversioned_data=None, meta=None, lock=None, hidden=None, links=None
     ):
         return await self._request(
@@ -215,7 +215,7 @@ class UStorageClientAIO(UStorageClientBase):
             )
         )
 
-    async def delete_entry(self, entry_id, lock=None) -> NoReturn:  # type: ignore  # TODO: fix
+    async def delete_entry(self, entry_id, lock=None) -> NoReturn:
         await self._request(self._req_data_delete_entry(entry_id, lock=lock))
 
     async def entries_iterator(
@@ -292,11 +292,11 @@ class UStorageClientAIO(UStorageClientBase):
                 else:
                     raise
 
-    async def release_lock(self, entry_id, lock):  # type: ignore  # TODO: fix
+    async def release_lock(self, entry_id, lock):
         try:
             await self._request(self._req_data_release_lock(entry_id, lock=lock))
         except USReqException:
             LOGGER.exception('Unable to release lock "%s"', lock)
 
-    async def close(self):  # type: ignore  # TODO: fix
+    async def close(self):
         await self._bi_http_client.close()

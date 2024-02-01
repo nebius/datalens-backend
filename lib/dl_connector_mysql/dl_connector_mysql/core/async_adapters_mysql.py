@@ -192,7 +192,7 @@ class AsyncMySQLAdapter(
                         )
                     )
 
-    @generic_profiler_async("db-full")  # type: ignore  # TODO: fix
+    @generic_profiler_async("db-full")
     async def execute(self, query: DBAdapterQuery) -> AsyncRawExecutionResult:
         steps = self._execute_by_steps(query)
         cursor_info_step = await steps.__anext__()

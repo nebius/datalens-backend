@@ -19,7 +19,7 @@ class LegacyComponentDependencyManagerFactory(ComponentDependencyManagerFactory)
     def set_relation_expressions(self, _relation_expressions: Dict[RelationId, ExpressionCtx]) -> None:
         self._relation_expressions = _relation_expressions
 
-    def _make_relation_avatar_dependency_manager(self) -> LegacyRelationAvatarDependencyManager:  # type: ignore  # TODO: fix
+    def _make_relation_avatar_dependency_manager(self) -> LegacyRelationAvatarDependencyManager:
         return LegacyRelationAvatarDependencyManager(
             relation_expressions=self._relation_expressions,
         )

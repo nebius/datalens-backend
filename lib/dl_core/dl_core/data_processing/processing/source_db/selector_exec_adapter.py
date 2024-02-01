@@ -78,7 +78,7 @@ class SourceDbExecAdapter(ProcessorDbExecAdapterBase):  # noqa
     _row_count_hard_limit: Optional[int] = attr.ib(kw_only=True, default=None)
     _us_entry_buffer: USEntryBuffer = attr.ib(kw_only=True)
 
-    def __attrs_post_init__(self):  # type: ignore  # TODO: fix
+    def __attrs_post_init__(self):
         if self._prep_component_manager is None:
             self._prep_component_manager = DefaultPreparedComponentManager(
                 dataset=self._dataset,
@@ -121,7 +121,7 @@ class SourceDbExecAdapter(ProcessorDbExecAdapterBase):  # noqa
         wrapped_result_iter = AsyncChunked(chunked_data=exec_result.result)
 
         async def initialize_data_stream() -> AsyncChunkedBase[list[TBIDataValue]]:
-            return wrapped_result_iter  # type: ignore  # TODO: fix
+            return wrapped_result_iter
 
         async def finalize_data_stream() -> None:
             pass

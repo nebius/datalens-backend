@@ -54,9 +54,9 @@ class BitrixGDSAsyncAdapterConnExecutor(DefaultSqlAlchemyConnExecutor[BitrixGDSD
                 pass_db_query_to_user=self._conn_options.pass_db_query_to_user,
                 portal=self._conn_dto.portal,
                 token=self._conn_dto.token,
-                max_execution_time=self._conn_options.max_execution_time,  # type: ignore  # TODO: fix
-                total_timeout=self._conn_options.total_timeout,  # type: ignore  # TODO: fix
-                connect_timeout=self._conn_options.connect_timeout,  # type: ignore  # TODO: fix
+                max_execution_time=self._conn_options.max_execution_time,
+                total_timeout=self._conn_options.total_timeout,
+                connect_timeout=self._conn_options.connect_timeout,
                 redis_conn_params=conn_params,
                 redis_caches_ttl=caches_ttl,
             )

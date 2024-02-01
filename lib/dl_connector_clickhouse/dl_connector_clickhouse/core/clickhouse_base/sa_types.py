@@ -52,7 +52,7 @@ def ch_instantiator(typecls: Type[TypeEngine]) -> Callable:
     return type_gen
 
 
-def ch_fallback_type_gen(*args, **kwargs):  # type: ignore  # TODO: fix
+def ch_fallback_type_gen(*args, **kwargs):
     return ch_types.Nullable(ch_types.String())
 
 

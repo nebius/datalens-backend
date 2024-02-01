@@ -83,7 +83,7 @@ class SRFactory(Generic[SERVICE_REGISTRY_TV], metaclass=abc.ABCMeta):
 
 
 @attr.s
-class DefaultSRFactory(SRFactory[SERVICE_REGISTRY_TV]):  # type: ignore  # TODO: fix
+class DefaultSRFactory(SRFactory[SERVICE_REGISTRY_TV]):
     ca_data: bytes = attr.ib()
     rqe_config: Optional[RQEConfig] = attr.ib()
     async_env: bool = attr.ib()
@@ -102,7 +102,7 @@ class DefaultSRFactory(SRFactory[SERVICE_REGISTRY_TV]):  # type: ignore  # TODO:
     required_services: set[RequiredService] = attr.ib(factory=set)
     inst_specific_sr_factory: Optional[InstallationSpecificServiceRegistryFactory] = attr.ib(default=None)
 
-    service_registry_cls: ClassVar[Type[SERVICE_REGISTRY_TV]] = DefaultServicesRegistry  # type: ignore  # TODO: fix
+    service_registry_cls: ClassVar[Type[SERVICE_REGISTRY_TV]] = DefaultServicesRegistry
 
     def is_bleeding_edge_user(self, request_context_info: RequestContextInfo) -> bool:
         return request_context_info.user_name in self.bleeding_edge_users
@@ -120,7 +120,7 @@ class DefaultSRFactory(SRFactory[SERVICE_REGISTRY_TV]):  # type: ignore  # TODO:
             tpe=ContextVarExecutor(),
             conn_sec_mgr=self.env_manager_factory.make_security_manager(),
             rqe_config=self.rqe_config,
-            services_registry_ref=sr_ref,  # type: ignore  # TODO: fix
+            services_registry_ref=sr_ref,
             is_bleeding_edge_user=is_bleeding_edge_user,
             conn_cls_whitelist=self.conn_cls_whitelist,
             connect_options_factory=self.connect_options_factory,
@@ -150,10 +150,10 @@ class DefaultSRFactory(SRFactory[SERVICE_REGISTRY_TV]):  # type: ignore  # TODO:
         data_processor_service_factory: Optional[Callable[[ProcessorType], DataProcessorService]] = None,
     ) -> SERVICE_REGISTRY_TV:
         sr_ref: FutureRef[ServicesRegistry] = FutureRef()
-        sr = self.service_registry_cls(  # type: ignore  # TODO: fix
+        sr = self.service_registry_cls(
             default_cache_ttl_config=self.default_cache_ttl_config,
             rci=request_context_info,
-            conn_exec_factory=self.make_conn_executor_factory(request_context_info, sr_ref),  # type: ignore  # TODO: fix
+            conn_exec_factory=self.make_conn_executor_factory(request_context_info, sr_ref),
             caches_redis_client_factory=caches_redis_client_factory,
             mutations_redis_client_factory=mutations_redis_client_factory,
             mutations_cache_factory=mutations_cache_factory,

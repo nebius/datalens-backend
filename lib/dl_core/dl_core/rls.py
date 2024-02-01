@@ -126,7 +126,7 @@ class RLS:
             assert userid_entry.subject.subject_type == RLSSubjectType.userid
             allow_userid = True
 
-        return False, allow_userid, allowed_values  # type: ignore  # TODO: fix
+        return False, allow_userid, allowed_values
 
     def _should_add_entry(
         self,
@@ -144,7 +144,7 @@ class RLS:
         if pattern_type == RLSPatternType.userid:
             return not allow_userid  # add if it's not already set.
         # Add if not existing:
-        return allowed_value not in existing_allowed_values  # type: ignore  # TODO: fix
+        return allowed_value not in existing_allowed_values
 
     def add_field_restriction_for_subject(
         self,
@@ -198,11 +198,11 @@ class RLS:
 
             # For `userid: userid`, add the subject id to the values.
             if allow_userid:
-                allowed_values = list(allowed_values) + [subject_id]  # type: ignore  # TODO: fix
+                allowed_values = list(allowed_values) + [subject_id]
 
             result[field_guid] = allowed_values
 
-        return result  # type: ignore  # TODO: fix
+        return result
 
 
 class BaseSubjectResolver(metaclass=abc.ABCMeta):

@@ -231,7 +231,7 @@ class FuncDatetimeTZ(TypeConvFunction):
 
     return_type = Fixed(DataType.DATETIMETZ)
     return_type_params = ParamsCustom(
-        lambda args: DataTypeParams(timezone=un_literal(args[1].expression))  # type: ignore  # TODO: fix
+        lambda args: DataTypeParams(timezone=un_literal(args[1].expression))
     )
 
 
@@ -255,7 +255,7 @@ class FuncDatetimeTZConst(SingleVariantTranslationBase, FuncDatetimeTZ):
     ]
 
     @classmethod
-    def _translate_main(cls, value_ctx, tz_ctx, *, _env: TranslationEnvironment):  # type: ignore  # TODO: fix
+    def _translate_main(cls, value_ctx, tz_ctx, *, _env: TranslationEnvironment):
         value = un_literal(value_ctx.expression, value_ctx=value_ctx)
         # TODO?: re-check the `type(value)` by `value_ctx.data_type`?
 
@@ -692,10 +692,10 @@ class FuncDbCastBase(TypeConvFunction):
         cls, dialect: DialectCombo, wr_name: TranslationCtx, value: TranslationCtx, type_args: Sequence[TranslationCtx]
     ) -> TypeEngine:
         whitelist_by_type = cls.WHITELISTS[dialect]
-        name = un_literal(wr_name.expression)  # type: ignore  # TODO: fix
+        name = un_literal(wr_name.expression)
         assert isinstance(name, str)
         name = name.upper()
-        data_type = value.data_type.non_const_type  # type: ignore  # TODO: fix
+        data_type = value.data_type.non_const_type
 
         try:
             whitelist = whitelist_by_type[data_type]
@@ -725,16 +725,16 @@ class FuncDbCastBase(TypeConvFunction):
         unwrapped_native_type_args = []
         for arg_num, (arg, req_arg_type) in enumerate(zip(type_args, type_spec.arg_types)):
             if isinstance(req_arg_type, DataType):
-                if not arg.data_type.casts_to(req_arg_type):  # type: ignore  # TODO: fix
+                if not arg.data_type.casts_to(req_arg_type):
                     _raise_type_mismath(arg_num)
             elif isinstance(req_arg_type, tuple):
                 for sub_req_arg_type in req_arg_type:
-                    if not arg.data_type.casts_to(sub_req_arg_type):  # type: ignore  # TODO: fix
+                    if not arg.data_type.casts_to(sub_req_arg_type):
                         _raise_type_mismath(arg_num)
             else:
                 raise TypeError(type(req_arg_type))
 
-            unwrapped_native_type_args.append(un_literal(arg.expression))  # type: ignore  # TODO: fix
+            unwrapped_native_type_args.append(un_literal(arg.expression))
 
         # All validation checks are done
         # Create the type and make the cast

@@ -241,7 +241,7 @@ class BaseClickHouseAdapter(BaseClassicAdapter["BaseClickHouseConnTargetDTO"], B
         if self._dt_with_system_tz:
             system_tz = db_engine.scalar(sa.text("select timezone()"))
 
-        def make_native_type(col):  # type: ignore  # TODO: fix
+        def make_native_type(col):
             col_type = col["type"]
             col_type = self.normalize_sa_col_type(col_type)
 
@@ -277,7 +277,7 @@ class BaseClickHouseAdapter(BaseClassicAdapter["BaseClickHouseConnTargetDTO"], B
             if isinstance(col_type, ch_types.DateTimeWithTZ):
                 return ClickHouseDateTimeWithTZNativeType(
                     conn_type=conn_type,
-                    name=name,  # type: ignore  # TODO: fix
+                    name=name,
                     nullable=nullable,
                     lowcardinality=lowcardinality,
                     timezone_name=col_type.tz,
@@ -286,7 +286,7 @@ class BaseClickHouseAdapter(BaseClassicAdapter["BaseClickHouseConnTargetDTO"], B
             if isinstance(col_type, ch_types.DateTime64WithTZ):
                 return ClickHouseDateTime64WithTZNativeType(
                     conn_type=conn_type,
-                    name=name,  # type: ignore  # TODO: fix
+                    name=name,
                     nullable=nullable,
                     lowcardinality=lowcardinality,
                     precision=col_type.precision,
@@ -296,14 +296,14 @@ class BaseClickHouseAdapter(BaseClassicAdapter["BaseClickHouseConnTargetDTO"], B
             if isinstance(col_type, ch_types.DateTime64):
                 return ClickHouseDateTime64NativeType(
                     conn_type=conn_type,
-                    name=name,  # type: ignore  # TODO: fix
+                    name=name,
                     nullable=nullable,
                     lowcardinality=lowcardinality,
                     precision=col_type.precision,
                 )
             return ClickHouseNativeType(
                 conn_type=conn_type,
-                name=name,  # type: ignore  # TODO: fix
+                name=name,
                 nullable=nullable,
                 lowcardinality=lowcardinality,
             )
@@ -390,7 +390,7 @@ class BaseAsyncClickHouseAdapter(AiohttpDBAdapter):
             path=self._target_dto.endpoint,
         )
 
-    def get_session_timeout(self) -> Optional[ClientTimeout]:  # type: ignore  # TODO: fix
+    def get_session_timeout(self) -> Optional[ClientTimeout]:
         return ClientTimeout(connect=self._target_dto.connect_timeout, total=self._target_dto.total_timeout)
 
     def get_session_auth(self) -> Optional[BasicAuth]:
@@ -537,7 +537,7 @@ class BaseAsyncClickHouseAdapter(AiohttpDBAdapter):
         except Exception:
             LOGGER.warning("Failed to dump clickhouse summary", exc_info=True)
 
-    @generic_profiler_async("db-full")  # type: ignore  # TODO: fix
+    @generic_profiler_async("db-full")
     async def execute(self, query: DBAdapterQuery) -> AsyncRawExecutionResult:
         et = JSONCompactChunksParser.parts
 
@@ -590,12 +590,12 @@ class BaseAsyncClickHouseAdapter(AiohttpDBAdapter):
                 async for evt_tuple in events_generator:
                     evt_type, evt_data = evt_tuple
                     if evt_type not in expected_types:
-                        raise exc.SourceProtocolError()  # type: ignore  # TODO: fix
+                        raise exc.SourceProtocolError()
 
                     if evt_type == et.DATACHUNK:
                         yield tuple(
                             tuple(
-                                _safe_col_converter(col_converter, val)  # type: ignore  # TODO: fix
+                                _safe_col_converter(col_converter, val)
                                 if col_converter is not None
                                 else val
                                 for val, col_converter in zip(raw_row, row_converters)
@@ -613,7 +613,7 @@ class BaseAsyncClickHouseAdapter(AiohttpDBAdapter):
 
             if evt_type != et.FINISHED:
                 # TODO: For user databases this should probably be passed to the user.
-                raise exc.SourceProtocolError(  # type: ignore  # TODO: fix
+                raise exc.SourceProtocolError(
                     debug_info=dict(msg="Unexpected last event", event=evt_type, data=evt_data)
                 )
 
@@ -678,7 +678,7 @@ class BaseAsyncClickHouseAdapter(AiohttpDBAdapter):
         raise NotImplementedError()
 
     @classmethod
-    def create(  # type: ignore  # TODO: fix
+    def create(
         cls: Type[_DBA_TV],
         target_dto: _TARGET_DTO_TV,
         req_ctx_info: DBAdapterScopedRCI,

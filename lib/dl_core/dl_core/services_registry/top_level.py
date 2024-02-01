@@ -115,7 +115,7 @@ class ServicesRegistry(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def get_mutation_cache_engine_factory(
         self, cache_type: Type[GenericCacheEngine]
-    ) -> MutationCacheEngineFactory:  # type: ignore  # TODO: fix
+    ) -> MutationCacheEngineFactory:
         pass
 
     @abc.abstractmethod
@@ -148,7 +148,7 @@ class ServicesRegistry(metaclass=abc.ABCMeta):
 
 
 @attr.s(hash=False)
-class DefaultServicesRegistry(ServicesRegistry):  # type: ignore  # TODO: fix
+class DefaultServicesRegistry(ServicesRegistry):
     _rci: RequestContextInfo = attr.ib()
     _reporting_registry: ReportingRegistry = attr.ib()
     _mutations_cache_factory: Optional[USEntryMutationCacheFactory] = attr.ib()
@@ -178,7 +178,7 @@ class DefaultServicesRegistry(ServicesRegistry):  # type: ignore  # TODO: fix
 
     @_data_processor_factory.default  # noqa
     def _default_data_processor_factory(self) -> BaseClosableDataProcessorFactory:
-        return DefaultDataProcessorFactory(  # type: ignore  # TODO: fix
+        return DefaultDataProcessorFactory(
             services_registry_ref=FutureRef.fulfilled(self),
         )
 
@@ -213,7 +213,7 @@ class DefaultServicesRegistry(ServicesRegistry):  # type: ignore  # TODO: fix
     def get_compute_executor(self) -> ComputeExecutor:
         return self._compute_executor
 
-    def get_cache_engine_factory(self) -> Optional[CacheEngineFactory]:  # type: ignore  # TODO: fix
+    def get_cache_engine_factory(self) -> Optional[CacheEngineFactory]:
         return self._cache_engine_factory
 
     def get_mutation_cache_factory(self) -> Optional[USEntryMutationCacheFactory]:
@@ -221,7 +221,7 @@ class DefaultServicesRegistry(ServicesRegistry):  # type: ignore  # TODO: fix
 
     def get_mutation_cache_engine_factory(
         self, cache_type: Type[GenericCacheEngine]
-    ) -> MutationCacheEngineFactory:  # type: ignore  # TODO: fix
+    ) -> MutationCacheEngineFactory:
         # TODO: Save already created CacheEngine's?
         return DefaultMutationCacheEngineFactory(services_registry_ref=FutureRef.fulfilled(self), cache_type=cache_type)
 
@@ -277,7 +277,7 @@ class DefaultServicesRegistry(ServicesRegistry):  # type: ignore  # TODO: fix
         if self._task_processor_factory is not None:
             await self._task_processor_factory.cleanup_async()
 
-    def clone(self, **kwargs):  # type: ignore  # TODO: fix
+    def clone(self, **kwargs):
         return attr.evolve(self, **kwargs)
 
 
@@ -306,10 +306,10 @@ class DummyServiceRegistry(ServicesRegistry):
     def get_conn_executor_factory(self) -> ConnExecutorFactory:
         raise NotImplementedError(self.NOT_IMPLEMENTED_MSG)
 
-    def get_caches_redis_client(self) -> Optional[redis.asyncio.Redis]:  # type: ignore  # TODO: fix
+    def get_caches_redis_client(self) -> Optional[redis.asyncio.Redis]:
         raise NotImplementedError(self.NOT_IMPLEMENTED_MSG)
 
-    def get_mutations_redis_client(self) -> Optional[redis.asyncio.Redis]:  # type: ignore  # TODO: fix
+    def get_mutations_redis_client(self) -> Optional[redis.asyncio.Redis]:
         raise NotImplementedError(self.NOT_IMPLEMENTED_MSG)
 
     def get_reporting_registry(self) -> ReportingRegistry:
@@ -318,7 +318,7 @@ class DummyServiceRegistry(ServicesRegistry):
     def get_compute_executor(self) -> ComputeExecutor:
         raise NotImplementedError(self.NOT_IMPLEMENTED_MSG)
 
-    def get_cache_engine_factory(self) -> Optional[CacheEngineFactory]:  # type: ignore  # TODO: fix
+    def get_cache_engine_factory(self) -> Optional[CacheEngineFactory]:
         raise NotImplementedError(self.NOT_IMPLEMENTED_MSG)
 
     def get_mutation_cache_factory(self) -> Optional[USEntryMutationCacheFactory]:
@@ -326,7 +326,7 @@ class DummyServiceRegistry(ServicesRegistry):
 
     def get_mutation_cache_engine_factory(
         self, cache_type: Type[GenericCacheEngine]
-    ) -> MutationCacheEngineFactory:  # type: ignore  # TODO: fix
+    ) -> MutationCacheEngineFactory:
         raise NotImplementedError(self.NOT_IMPLEMENTED_MSG)
 
     def get_data_processor_service_factory(self) -> Optional[Callable[[ProcessorType], DataProcessorService]]:

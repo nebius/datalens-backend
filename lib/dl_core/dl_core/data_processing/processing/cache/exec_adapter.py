@@ -76,7 +76,7 @@ class CacheExecAdapter(ProcessorDbExecAdapterBase):  # noqa
 
         ds_id = self._dataset.uuid
         cache_helper = CacheProcessingHelper(
-            entity_id=ds_id,  # type: ignore  # TODO: fix
+            entity_id=ds_id,
             service_registry=self._service_registry,
         )
 
@@ -99,7 +99,7 @@ class CacheExecAdapter(ProcessorDbExecAdapterBase):  # noqa
         try:
             sit, result_iter = await cache_helper.run_with_cache(
                 allow_cache_read=self._use_cache,
-                generate_func=_get_from_source,  # type: ignore  # TODO: fix
+                generate_func=_get_from_source,
                 cache_options=cache_options,
                 use_locked_cache=self._use_locked_cache,
             )

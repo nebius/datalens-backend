@@ -46,7 +46,7 @@ class AIOHTTPErrorHandler(metaclass=abc.ABCMeta):
     use_sentry: bool = attr.ib(default=False)
 
     @sentry_app_name_tag.validator
-    def _validate_sentry_app_name_tag(self, attribute, value):  # type: ignore  # TODO: fix
+    def _validate_sentry_app_name_tag(self, attribute, value):
         if value is not None and not isinstance(value, str):
             raise ValueError(f"Unexpected type of sentry_app_name_tag: '{value}'")
 
@@ -94,7 +94,7 @@ class AIOHTTPErrorHandler(metaclass=abc.ABCMeta):
                     err_data,
                 )
 
-    def log_error_http_response(  # type: ignore  # TODO: fix
+    def log_error_http_response(
         self,
         err: Exception,
         err_data: ErrorData,

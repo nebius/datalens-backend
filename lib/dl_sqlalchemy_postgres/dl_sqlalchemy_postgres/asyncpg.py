@@ -109,7 +109,7 @@ class AsyncBIPGDialect(BIPGDialect):
     supports_native_enum = True
     supports_smallserial = True  # 9.2+
     supports_sane_multi_rowcount = True  # psycopg 2.0.9+
-    _has_native_hstore = True  # type: ignore  # TODO: fix
+    _has_native_hstore = True
     _backslash_escapes = False
 
     colspecs = util.update_copy(

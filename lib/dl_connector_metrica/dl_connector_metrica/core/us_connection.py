@@ -60,34 +60,34 @@ def parse_metrica_ids(ids_str: str) -> Sequence[str]:
 class MetrikaBaseMixin(ConnectionBase):
     metrica_host: Optional[str] = None
 
-    def __init__(self, *args, **kwargs):  # type: ignore  # TODO: fix
-        super().__init__(*args, **kwargs)  # type: ignore  # TODO: fix
-        self._initial_counter_id = self.data.counter_id if self._data is not None else None  # type: ignore  # TODO: fix
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._initial_counter_id = self.data.counter_id if self._data is not None else None
 
     @property
     def allow_public_usage(self) -> bool:
         return False
 
     @property
-    def metrika_oauth(self):  # type: ignore  # TODO: fix
-        return self.data.token  # type: ignore  # TODO: fix
+    def metrika_oauth(self):
+        return self.data.token
 
     @property
-    def counter_id(self):  # type: ignore  # TODO: fix
-        return self.data.counter_id  # type: ignore  # TODO: fix
+    def counter_id(self):
+        return self.data.counter_id
 
     def get_metrica_api_cli(self) -> metrika_api_client.MetrikaApiClient:
         return metrika_api_client.MetrikaApiClient(oauth_token=self.metrika_oauth, host=self.metrica_host)
 
-    def get_counter_creation_date(self):  # type: ignore  # TODO: fix
+    def get_counter_creation_date(self):
         assert isinstance(self.counter_id, str)
         ids = list(filter(lambda t: t, parse_metrica_ids(self.counter_id)))
         min_date = min([self.get_metrica_api_cli().get_counter_creation_date(cid) for cid in ids])
         return min_date
 
     @property
-    def counter_creation_date(self):  # type: ignore  # TODO: fix
-        return self.data.counter_creation_date  # type: ignore  # TODO: fix
+    def counter_creation_date(self):
+        return self.data.counter_creation_date
 
     def get_available_counters(self) -> list[dict]:
         return self.get_metrica_api_cli().get_available_counters()
@@ -115,7 +115,7 @@ class MetrikaBaseMixin(ConnectionBase):
         raise exc.ConnectionConfigurationError('"token" must be specified if "counter_id" is changing.')
 
 
-class MetrikaApiConnection(MetrikaBaseMixin, ExecutorBasedMixin, ConnectionBase):  # type: ignore  # TODO: fix
+class MetrikaApiConnection(MetrikaBaseMixin, ExecutorBasedMixin, ConnectionBase):
     is_always_internal_source: ClassVar[bool] = True
     allow_cache: ClassVar[bool] = True
 
@@ -137,11 +137,11 @@ class MetrikaApiConnection(MetrikaBaseMixin, ExecutorBasedMixin, ConnectionBase)
             }
 
     @property
-    def metrika_oauth(self):  # type: ignore  # TODO: fix
+    def metrika_oauth(self):
         return self.data.token
 
     @property
-    def table_name(self):  # type: ignore  # TODO: fix
+    def table_name(self):
         return self.data.counter_id
 
     def get_conn_dto(self) -> MetricaAPIConnDTO:
@@ -156,7 +156,7 @@ class MetrikaApiConnection(MetrikaBaseMixin, ExecutorBasedMixin, ConnectionBase)
         return None
 
     @classmethod
-    def get_api_fields_info(cls):  # type: ignore  # TODO: fix
+    def get_api_fields_info(cls):
         return dl_sqlalchemy_metrica_api.api_info.metrika
 
     @classmethod
@@ -201,7 +201,7 @@ class MetrikaApiConnection(MetrikaBaseMixin, ExecutorBasedMixin, ConnectionBase)
                 title=parameters["db_name"],
                 group=[],
                 source_type=self.source_type,
-                connection_id=self.uuid,  # type: ignore  # TODO: fix
+                connection_id=self.uuid,
                 parameters=parameters,
             )
             for parameters in self.get_parameter_combinations(conn_executor_factory=conn_executor_factory)
@@ -226,7 +226,7 @@ class AppMetricaApiConnection(MetrikaApiConnection):
         )
 
     @classmethod
-    def get_api_fields_info(cls):  # type: ignore  # TODO: fix
+    def get_api_fields_info(cls):
         return dl_sqlalchemy_metrica_api.api_info.appmetrica
 
     def get_parameter_combinations(

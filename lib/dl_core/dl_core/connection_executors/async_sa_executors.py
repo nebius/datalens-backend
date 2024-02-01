@@ -69,11 +69,11 @@ _DBA_TV = TypeVar("_DBA_TV", bound=CommonBaseDirectAdapter)
 
 def _dba_pool_revolver_wrapper(func: Callable) -> Callable:
     @functools.wraps(func)
-    async def method_wrapper(self: DefaultSqlAlchemyConnExecutor, *args, **kwargs):  # type: ignore  # TODO: fix
+    async def method_wrapper(self: DefaultSqlAlchemyConnExecutor, *args, **kwargs):
         # Not sure do we have to reset index on every call
         # self._dba_attempt_index = 0
 
-        while self._dba_attempt_index < len(self._async_dba_pool):  # type: ignore  # TODO: fix
+        while self._dba_attempt_index < len(self._async_dba_pool):
             try:
                 return await func(self, *args, **kwargs)
             except (exc.SourceConnectError, exc.DatabaseOperationalError) as ex:
@@ -83,7 +83,7 @@ def _dba_pool_revolver_wrapper(func: Callable) -> Callable:
                     self._host_fail_callback(self._conn_hosts_pool[self._dba_attempt_index])
 
                 self._dba_attempt_index += 1
-                if self._dba_attempt_index >= len(self._async_dba_pool):  # type: ignore  # TODO: fix
+                if self._dba_attempt_index >= len(self._async_dba_pool):
                     raise
             except Exception as ex:
                 LOGGER.info("Non-retriable dba exception %s: %s", type(ex), ex, exc_info=True)
@@ -94,7 +94,7 @@ def _dba_pool_revolver_wrapper(func: Callable) -> Callable:
 
 def _postprocess_db_excs_wrapper(func: Callable) -> Callable:
     @functools.wraps(func)
-    async def method_wrapper(self: DefaultSqlAlchemyConnExecutor, *args, **kwargs):  # type: ignore  # TODO: fix
+    async def method_wrapper(self: DefaultSqlAlchemyConnExecutor, *args, **kwargs):
         with self._postprocess_db_excs():
             return await func(self, *args, **kwargs)
 

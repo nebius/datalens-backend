@@ -96,7 +96,7 @@ def make_user_auth_cookies(
 
 
 # TODO FIX: Remove after migration to Connection Executors
-def compile_query_for_debug(query, dialect):  # type: ignore  # TODO: fix
+def compile_query_for_debug(query, dialect):
     """
     Compile query to string.
     This function is only suitable for logging and not execution of the result.
@@ -118,7 +118,7 @@ def parse_comma_separated_hosts(host: Optional[str]) -> tuple[str, ...]:
     return tuple(h.strip() for h in host.split(","))
 
 
-def validate_hostname_or_ip_address(hostname: str):  # type: ignore  # TODO: fix
+def validate_hostname_or_ip_address(hostname: str):
     # IP address case
     try:
         ipaddress.ip_address(hostname)
@@ -149,7 +149,7 @@ def validate_hostname_or_ip_address(hostname: str):  # type: ignore  # TODO: fix
         raise ValueError("Not a valid netloc")
 
 
-def shorten_uuid(some_uuid: str):  # type: ignore  # TODO: fix
+def shorten_uuid(some_uuid: str):
     return shortuuid.encode(uuid.UUID(some_uuid))
 
 
@@ -185,7 +185,7 @@ def make_id() -> str:
 _MODEL_TYPE_TV = TypeVar("_MODEL_TYPE_TV", bound=attr.AttrsInstance)
 
 
-def attrs_evolve_to_subclass(cls: Type[_MODEL_TYPE_TV], inst: Any, **kwargs) -> _MODEL_TYPE_TV:  # type: ignore  # TODO: fix
+def attrs_evolve_to_subclass(cls: Type[_MODEL_TYPE_TV], inst: Any, **kwargs) -> _MODEL_TYPE_TV:
     """
     Evolve an attr.s instance to a subclass instance with additional attributes.
     Note that this works correctly only for attributes with ``init=True``.
@@ -200,10 +200,10 @@ def attrs_evolve_to_subclass(cls: Type[_MODEL_TYPE_TV], inst: Any, **kwargs) -> 
     assert issubclass(cls, super_cls), f"Expected subclass of {super_cls.__name__}, got {cls.__name__}"
     all_attrs = {f.name: getattr(inst, f.name.lstrip("_")) for f in attr.fields(super_cls) if f.init}
     all_attrs.update(kwargs)
-    return cls(**all_attrs)  # type: ignore  # TODO: fix
+    return cls(**all_attrs)
 
 
-def attrs_evolve_to_superclass(cls: Type[_MODEL_TYPE_TV], inst: Any, **kwargs) -> _MODEL_TYPE_TV:  # type: ignore  # TODO: fix
+def attrs_evolve_to_superclass(cls: Type[_MODEL_TYPE_TV], inst: Any, **kwargs) -> _MODEL_TYPE_TV:
     """
     Evolve an attr.s instance to a superclass instance with additional attributes.
     Note that this works correctly only for attributes with ``init=True``.
@@ -218,7 +218,7 @@ def attrs_evolve_to_superclass(cls: Type[_MODEL_TYPE_TV], inst: Any, **kwargs) -
     assert issubclass(sub_cls, cls), f"Expected superclass of {sub_cls.__name__}, got {cls.__name__}"
     all_attrs = {f.name: getattr(inst, f.name.lstrip("_")) for f in attr.fields(cls) if f.init}
     all_attrs.update(kwargs)
-    return cls(**all_attrs)  # type: ignore  # TODO: fix
+    return cls(**all_attrs)
 
 
 def get_current_w3c_tracing_headers(

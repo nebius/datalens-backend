@@ -14,11 +14,11 @@ class MySQLTypeTransformer(TypeTransformer):
     conn_type = CONNECTION_TYPE_MYSQL
     native_to_user_map = {
         **{
-            make_native_type(CONNECTION_TYPE_MYSQL, t): UserDataType.integer  # type: ignore  # TODO: fix
+            make_native_type(CONNECTION_TYPE_MYSQL, t): UserDataType.integer
             for t in (my_types.TINYINT, my_types.SMALLINT, my_types.MEDIUMINT, my_types.INTEGER, my_types.BIGINT)
         },
         **{
-            make_native_type(CONNECTION_TYPE_MYSQL, t): UserDataType.float  # type: ignore  # TODO: fix
+            make_native_type(CONNECTION_TYPE_MYSQL, t): UserDataType.float
             for t in (
                 my_types.FLOAT,
                 my_types.DOUBLE,
@@ -42,7 +42,7 @@ class MySQLTypeTransformer(TypeTransformer):
         },
         make_native_type(CONNECTION_TYPE_MYSQL, my_types.DATE): UserDataType.date,
         **{
-            make_native_type(CONNECTION_TYPE_MYSQL, t): UserDataType.genericdatetime  # type: ignore  # TODO: fix
+            make_native_type(CONNECTION_TYPE_MYSQL, t): UserDataType.genericdatetime
             for t in (my_types.DATETIME, my_types.TIMESTAMP)
         },
         make_native_type(CONNECTION_TYPE_MYSQL, my_types.ENUM): UserDataType.string,

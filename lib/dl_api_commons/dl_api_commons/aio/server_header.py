@@ -9,14 +9,14 @@ class ServerHeader:
     _server_header: str = attr.ib()
 
     @_server_header.validator
-    def validate_server_header(self, _, value):  # type: ignore  # TODO: fix
+    def validate_server_header(self, _, value):
         if not isinstance(value, str):
             raise TypeError(f"Server header must be a 'str', not '{type(value).__qualname__}'")
         if len(value) < 1:
             raise ValueError("Server header must have non-zero length")
 
-    def add_signal_handlers(self, app: web.Application):  # type: ignore  # TODO: fix
+    def add_signal_handlers(self, app: web.Application):
         app.on_response_prepare.append(self.on_response_prepare)  # type: ignore  # 2024-01-24 # TODO: Argument 1 to "append" of "MutableSequence" has incompatible type "Callable[[Request, Response], Coroutine[Any, Any, Any]]"; expected "Callable[[Request, StreamResponse], Awaitable[None]]"  [arg-type]
 
-    async def on_response_prepare(self, _: web.Request, response: web.Response):  # type: ignore  # TODO: fix
+    async def on_response_prepare(self, _: web.Request, response: web.Response):
         response.headers["Server"] = self._server_header

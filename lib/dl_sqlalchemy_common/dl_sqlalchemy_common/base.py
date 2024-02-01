@@ -98,7 +98,7 @@ def _cls_keys(cls: type) -> set[str]:
     return {key for key in cls.__dict__ if not key.startswith("__")}
 
 
-class CompilerPrettyMixin(sa.sql.compiler.SQLCompiler):  # type: ignore  # TODO: fix
+class CompilerPrettyMixin(sa.sql.compiler.SQLCompiler):
     """
     Compiler with SQL prettification.
 

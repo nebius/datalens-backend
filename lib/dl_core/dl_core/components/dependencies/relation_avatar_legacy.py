@@ -25,4 +25,4 @@ class LegacyRelationAvatarDependencyManager(RelationAvatarDependencyManagerBase)
         """
         Return a set of all avatars referenced directly or indirectly by the given relation.
         """
-        return frozenset(self._relation_expressions[relation_id].avatar_ids)  # type: ignore  # TODO: fix
+        return frozenset(self._relation_expressions[relation_id].avatar_ids)

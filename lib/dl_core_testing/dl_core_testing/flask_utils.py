@@ -13,9 +13,9 @@ from dl_api_commons.tracing import get_current_tracing_headers
 
 
 class FlaskTestResponse(werkzeug.wrappers.Response):
-    def _json(self):  # type: ignore  # TODO: fix
+    def _json(self):
         """Get the result of json.loads if possible."""
-        if "json" not in self.mimetype:  # type: ignore  # TODO: fix
+        if "json" not in self.mimetype:
             raise AttributeError("Not a JSON response")
         return json.loads(self.data)
 
@@ -30,10 +30,10 @@ class FlaskTestClient(FlaskClient):
     def get_default_headers(self) -> Dict[str, Optional[str]]:
         return {}
 
-    def post_process_response(self, resp) -> None:  # type: ignore  # TODO: fix
+    def post_process_response(self, resp) -> None:
         pass
 
-    def open(self, *args, **kw):  # type: ignore  # TODO: fix
+    def open(self, *args, **kw):
         kw["headers"] = {**self.get_default_headers(), **kw.get("headers", {}), **get_current_tracing_headers()}
         kw["headers"] = {key: val for key, val in kw["headers"].items() if val}
         resp = super().open(*args, **kw)

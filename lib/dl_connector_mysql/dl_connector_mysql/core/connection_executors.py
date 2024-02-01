@@ -26,7 +26,7 @@ class _BaseMySQLConnExecutor(DefaultSqlAlchemyConnExecutor[_BASE_MYSQL_ADAPTER_T
     _conn_options: ConnectOptions = attr.ib()
     _conn_hosts_pool: Sequence[str] = attr.ib()
 
-    async def _make_target_conn_dto_pool(self) -> List[MySQLConnTargetDTO]:  # type: ignore  # TODO: fix
+    async def _make_target_conn_dto_pool(self) -> List[MySQLConnTargetDTO]:
         dto_pool = []
         for host in self._conn_hosts_pool:
             dto_pool.append(

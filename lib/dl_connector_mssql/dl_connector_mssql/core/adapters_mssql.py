@@ -248,7 +248,7 @@ class MSSQLDefaultAdapter(BaseClassicAdapter):
         exc_cls, kw = super().make_exc(wrapper_exc, orig_exc, debug_compiled_query)
 
         db_msg = kw["db_message"]
-        specific_exc_cls = cls.get_exc_class(db_msg)  # type: ignore  # TODO: fix
+        specific_exc_cls = cls.get_exc_class(db_msg)
         exc_cls = specific_exc_cls if specific_exc_cls is not None else exc_cls
 
         return exc_cls, kw

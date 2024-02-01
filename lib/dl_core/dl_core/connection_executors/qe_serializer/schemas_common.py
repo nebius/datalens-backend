@@ -94,7 +94,7 @@ class DBAdapterQueryStrSchema(BaseQEAPISchema):
 
 # noinspection PyMethodMayBeStatic
 class DBAdapterQuerySQLASchema(DBAdapterQueryStrSchema):
-    query = fields.Method(serialize="dump_query", deserialize="load_query")  # type: ignore  # TODO: fix
+    query = fields.Method(serialize="dump_query", deserialize="load_query")
     tables = fields.Method(serialize="dump_tables", deserialize="load_tables")
 
     def dump_query(self, dba_query: DBAdapterQuery) -> str:
@@ -211,7 +211,7 @@ class TableDefinitionSchema(OneOfSchema):
         TableIdent: TableIdentSchema,
         SATextTableDefinition: SATextTableDefinitionSchema,
     }
-    type_schemas = {type_obj.def_type.name: schema_cls for type_obj, schema_cls in supported_types.items()}  # type: ignore  # TODO: fix
+    type_schemas = {type_obj.def_type.name: schema_cls for type_obj, schema_cls in supported_types.items()}
 
     def get_obj_type(self, obj: TableDefinition) -> str:
         if type(obj) in self.supported_types:

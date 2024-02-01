@@ -81,7 +81,7 @@ class SnowFlakeDefaultAdapter(BaseClassicAdapter, BaseSAAdapter[SnowFlakeConnTar
         13: ssa.BOOLEAN,
     }
 
-    def _cursor_column_to_sa(self, cursor_col, require: bool = True) -> Optional[SATypeSpec]:  # type: ignore  # TODO: fix
+    def _cursor_column_to_sa(self, cursor_col, require: bool = True) -> Optional[SATypeSpec]:
         """
         cursor_col:
 

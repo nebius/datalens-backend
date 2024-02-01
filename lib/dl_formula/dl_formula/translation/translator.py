@@ -69,7 +69,7 @@ class SqlAlchemyTranslator:
 
         def translator_cb(obj: nodes.FormulaItem) -> Union[nodes.FormulaItem, ClauseElement]:
             """Callback that can translate a formula node for usage from function implementation"""
-            return self.translate_node(  # type: ignore  # TODO: fix
+            return self.translate_node(
                 obj,
                 ctx=TranslationCtx(node=obj, required_scopes=ctx.required_scopes & ~Scope.EXPLICIT_USAGE),
                 postprocess=False,
@@ -105,8 +105,8 @@ class SqlAlchemyTranslator:
             dialect_name = self._env.dialect.single_bit.name.name if self._env.dialect.deterministic else ""
             signature = FunctionStatsSignature(
                 name=func_name,
-                arg_types=tuple(at.name for at in arg_types),  # type: ignore  # TODO: fix
-                dialect=dialect_name,  # type: ignore  # TODO: fix
+                arg_types=tuple(at.name for at in arg_types),
+                dialect=dialect_name,
                 is_window=isinstance(node, nodes.WindowFuncCall),
             )
             self._env.translation_stats.add_function_hit(signature)
@@ -115,7 +115,7 @@ class SqlAlchemyTranslator:
         try:
             func_definition = OPERATION_REGISTRY.get_definition(
                 name=func_name,
-                arg_types=arg_types,  # type: ignore  # TODO: fix
+                arg_types=arg_types,
                 is_window=isinstance(node, nodes.WindowFuncCall),
                 dialect=self._env.dialect,
                 required_scopes=ctx.required_scopes,
@@ -374,9 +374,9 @@ class SqlAlchemyTranslator:
         child = self.translate_node(node.expr, ctx=ctx.child(node=node.expr), postprocess=True)
         expression = child.expression
         if isinstance(node, nodes.OrderDescending):
-            expression = desc(expression)  # type: ignore  # TODO: fix
+            expression = desc(expression)
         ctx.set_expression(expression)
-        ctx.set_type(child.data_type, child.data_type_params)  # type: ignore  # TODO: fix
+        ctx.set_type(child.data_type, child.data_type_params)
 
     @_translate_node.register(aux_nodes.ErrorNode)
     def _translate_node_error(self, node: aux_nodes.ErrorNode, ctx: TranslationCtx) -> None:
@@ -460,7 +460,7 @@ def translate_and_compile(
         context_flags=context_flags,
     )
     sa_dialect = get_sa_dialect(env.dialect)
-    sa_compiled_expr = result.expression.compile(  # type: ignore  # TODO: fix
+    sa_compiled_expr = result.expression.compile(
         compile_kwargs={"literal_binds": True},
         dialect=sa_dialect,
     )

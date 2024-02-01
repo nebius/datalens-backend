@@ -82,7 +82,7 @@ class YDBConnection(ClassicConnectionSQL):
                     },
                 ],
                 group=[],
-                connection_id=self.uuid,  # type: ignore  # TODO: fix
+                connection_id=self.uuid,
             ),
         ] + self._make_subselect_templates(
             title="Subselect over YDB",

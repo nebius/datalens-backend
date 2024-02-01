@@ -84,7 +84,7 @@ class MetrikaApiDataSource(PseudoSQLDataSource):
             max_value = now
         else:
             min_value = creation_date
-            max_value = now.date()  # type: ignore  # TODO: fix
+            max_value = now.date()
 
         return min_value, max_value
 

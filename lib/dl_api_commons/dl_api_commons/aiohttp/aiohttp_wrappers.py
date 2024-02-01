@@ -61,7 +61,7 @@ class DLRequestBase:
     KEY_REPORTING_PROFILER = "reporting_profiler"
 
     HANDLER_ATTR_NAME_REQUIRED_RESOURCES = "REQUIRED_RESOURCES"
-    NO_RESOURCES = frozenset()  # type: ignore  # TODO: fix
+    NO_RESOURCES = frozenset()
 
     # flag that forces `.url` to use `https` scheme
     enforce_https_on_self_url: bool = True
@@ -94,7 +94,7 @@ class DLRequestBase:
             pfx = "http://"
             if result.startswith(pfx):
                 return "https://" + result[len(pfx) :]
-        return self.request.url  # type: ignore  # TODO: fix
+        return self.request.url
 
     # TODO FIX: Check that is not used and remove
     @property
@@ -104,11 +104,11 @@ class DLRequestBase:
     # TODO FIX: Check that is not used and remove
     @property
     def user_id(self) -> str:
-        return self.rci.user_id  # type: ignore  # TODO: fix
+        return self.rci.user_id
 
     # TODO FIX: Check that is not used and remove
     @property
-    def user_name(self):  # type: ignore  # TODO: fix
+    def user_name(self):
         return self.rci.user_name
 
     @property
@@ -120,7 +120,7 @@ class DLRequestBase:
             raise RCINotSet("Temp RCI was not initiated")
         return self.request[self.KEY_RCI_TEMP]
 
-    def init_temp_rci(self, rci: RequestContextInfo):  # type: ignore  # TODO: fix
+    def init_temp_rci(self, rci: RequestContextInfo):
         """This method should be called in request_id middleware (or another top-level middleware)"""
         self._set_attr_once(self.KEY_RCI_TEMP, rci)
 
@@ -173,16 +173,16 @@ class DLRequestBase:
 
     @property
     def reporting_registry(self) -> ReportingRegistry:
-        return self.request.get(self.KEY_REPORTING_REGISTRY)  # type: ignore  # TODO: fix
+        return self.request.get(self.KEY_REPORTING_REGISTRY)
 
     @reporting_registry.setter
-    def reporting_registry(self, value: ReportingRegistry):  # type: ignore  # TODO: fix
+    def reporting_registry(self, value: ReportingRegistry):
         value.rci = self.temp_rci
         self._set_attr_once(self.KEY_REPORTING_REGISTRY, value)
 
     @property
     def reporting_profiler(self) -> ReportingProfiler:
-        return self.request.get(self.KEY_REPORTING_PROFILER)  # type: ignore  # TODO: fix
+        return self.request.get(self.KEY_REPORTING_PROFILER)
 
     @reporting_profiler.setter
     def reporting_profiler(self, value: ReportingProfiler) -> None:

@@ -119,7 +119,7 @@ class ConditionPartSchema(OneOfSchema):
         }.items()
     }
 
-    def get_obj_type(self, obj):  # type: ignore  # TODO: fix
+    def get_obj_type(self, obj):
         return getattr(obj, self.type_field).name
 
 
@@ -166,11 +166,11 @@ class RLSSchema(DefaultStorageSchema):
 
     items = ma_fields.List(ma_fields.Nested(RLSEntrySchema))
 
-    def pre_process_input_data(self, data):  # type: ignore  # TODO: fix
+    def pre_process_input_data(self, data):
         return {"items": data}
 
     @post_dump
-    def flatten_items(self, data, **_):  # type: ignore  # TODO: fix
+    def flatten_items(self, data, **_):
         return data.get("items")
 
 
@@ -395,13 +395,13 @@ class ResultSchemaStorageSchema(DefaultStorageSchema):
         def to_object(self, data: dict) -> BIField:
             return BIField.make(**data)
 
-    fields = ma_fields.List(ma_fields.Nested(BIFieldSchema))  # type: ignore  # TODO: fix
+    fields = ma_fields.List(ma_fields.Nested(BIFieldSchema))
 
-    def pre_process_input_data(self, data):  # type: ignore  # TODO: fix
+    def pre_process_input_data(self, data):
         return {"fields": data}
 
     @post_dump
-    def flatten_fields(self, data, **_):  # type: ignore  # TODO: fix
+    def flatten_fields(self, data, **_):
         return data.get("fields")
 
     @post_load

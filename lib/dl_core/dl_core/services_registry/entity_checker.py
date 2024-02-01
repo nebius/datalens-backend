@@ -38,5 +38,5 @@ class EntityUsageChecker(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def ensure_data_connection_can_be_used(self, rci: RequestContextInfo, conn: ConnectionBase):  # type: ignore  # TODO: fix
+    def ensure_data_connection_can_be_used(self, rci: RequestContextInfo, conn: ConnectionBase):
         pass

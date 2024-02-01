@@ -57,7 +57,7 @@ class StrictMarkupCompatibleArgTypes(ArgTypeForAll):
 # TODO: make this definitely unnecessary.
 def concat_strings(items, sep=""):  # type: ignore  # 2024-01-24 # TODO: Function is missing a type annotation  [no-untyped-def]
     result = []
-    literals_buf = []  # type: ignore  # TODO: fix
+    literals_buf = []
 
     def flush():  # type: ignore  # 2024-01-24 # TODO: Function is missing a return type annotation  [no-untyped-def]
         if literals_buf:
@@ -236,7 +236,7 @@ class ConcatMultiMarkup(FuncMarkup):
     argument_types = [
         ArgTypeForAll(MARKUP_EFFECTIVELY),
     ]
-    return_type = Fixed(DataType.MARKUP)  # type: ignore  # TODO: fix
+    return_type = Fixed(DataType.MARKUP)
 
     variants = make_variants("c")
 

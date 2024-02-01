@@ -74,7 +74,7 @@ DEFINITIONS_STRING = [
         variants=[
             V(
                 D.POSTGRESQL,
-                lambda x, y, z: n.if_(sa.func.STRPOS(sa.func.SUBSTRING(x, z), y) > 0)  # type: ignore  # TODO: fix
+                lambda x, y, z: n.if_(sa.func.STRPOS(sa.func.SUBSTRING(x, z), y) > 0)
                 .then(
                     sa.func.STRPOS(sa.func.SUBSTRING(x, z), y) + z - 1,
                 )

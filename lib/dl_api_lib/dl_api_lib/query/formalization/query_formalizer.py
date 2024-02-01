@@ -400,7 +400,7 @@ class DataQuerySpecFormalizer(SimpleQuerySpecFormalizer):  # noqa
                 FilterFieldSpec(
                     field_id=field_guid,
                     operation=WhereClauseOperation.IN,
-                    values=values,  # type: ignore  # TODO: fix
+                    values=values,
                     anonymous=True,
                 )
             )
@@ -504,7 +504,7 @@ class DataQuerySpecFormalizer(SimpleQuerySpecFormalizer):  # noqa
         }
 
         # Normalize avatars (fix them if there are no user-managed ones)
-        explicitly_required_avatar_ids = normalize_explicit_avatar_ids(  # type: ignore  # TODO: fix
+        explicitly_required_avatar_ids = normalize_explicit_avatar_ids(
             dataset=self._dataset, required_avatar_ids=explicitly_required_avatar_ids
         )
         if not explicitly_required_avatar_ids:

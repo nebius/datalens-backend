@@ -27,11 +27,11 @@ class ExecutionStep:
 
 
 @attr.s(frozen=True)
-class ExecutionStepCursorInfo(ExecutionStep):  # type: ignore  # TODO: fix
+class ExecutionStepCursorInfo(ExecutionStep):
     cursor_info: Dict = attr.ib(factory=lambda: {})
     # Definitely not to be serialized:
-    raw_cursor_description = attr.ib(default=None)  # type: ignore  # TODO: fix
-    raw_engine = attr.ib(default=None)  # type: ignore  # TODO: fix
+    raw_cursor_description = attr.ib(default=None)
+    raw_engine = attr.ib(default=None)
 
 
 @attr.s(frozen=True)

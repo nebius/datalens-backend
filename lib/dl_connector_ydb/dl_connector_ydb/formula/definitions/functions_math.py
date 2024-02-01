@@ -171,8 +171,8 @@ DEFINITIONS_MATH = [
             V(
                 D.YQL,
                 lambda x: n.if_(
-                    n.if_(x < 0).then(-1),  # type: ignore  # TODO: fix
-                    n.if_(x > 0).then(1),  # type: ignore  # TODO: fix
+                    n.if_(x < 0).then(-1),
+                    n.if_(x > 0).then(1),
                 ).else_(0),
             ),
         ]

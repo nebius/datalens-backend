@@ -176,7 +176,7 @@ class BaseClassicAdapter(WithMinimalCursorInfo, BaseSAAdapter[_CONN_DTO_TV]):
 
         assert query_res.raw_cursor_info
         data = list(query_res.data_chunks)
-        return query_res.raw_cursor_info, data  # type: ignore  # TODO: fix
+        return query_res.raw_cursor_info, data
 
     def _get_subselect_table_info(self, subquery: SATextTableDefinition) -> RawSchemaInfo:
         """Will not work without non-empty `self._type_code_to_sa`"""
@@ -200,7 +200,7 @@ class BaseClassicAdapter(WithMinimalCursorInfo, BaseSAAdapter[_CONN_DTO_TV]):
             if native_type is None:
                 native_type = CommonNativeType.normalize_name_and_create(
                     conn_type=self.conn_type,
-                    name=self.normalize_sa_col_type(sa.sql.sqltypes.NullType),  # type: ignore  # TODO: fix
+                    name=self.normalize_sa_col_type(sa.sql.sqltypes.NullType),
                     nullable=True,
                 )
             columns.append(

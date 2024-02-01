@@ -50,11 +50,11 @@ def abort_request(code, message=None, response_data: Optional[dict] = None) -> N
         if message:
             response_data["message"] = str(message)
         if response_data:
-            e.data = response_data  # type: ignore  # TODO: fix
+            e.data = response_data
         raise
 
 
-def schematic_request(  # type: ignore  # TODO: fix
+def schematic_request(
     ns: Namespace,
     body: Optional[Schema] = None,
     query: Optional[Schema] = None,
@@ -78,13 +78,13 @@ def schematic_request(  # type: ignore  # TODO: fix
     body_schema = body
     query_schema = query
 
-    def decorator(f):  # type: ignore  # TODO: fix
+    def decorator(f):
         if responses:
             for code, (description, model) in api_model_responses.items():
                 f = ns.response(code, description, model)(f)
 
         @wraps(f)
-        def wrapper(*args, **kwargs):  # type: ignore  # TODO: fix
+        def wrapper(*args, **kwargs):
             body = request.get_json() if body_schema is not None else None
 
             if LOGGER.isEnabledFor(logging.INFO):
@@ -131,8 +131,8 @@ def schematic_request(  # type: ignore  # TODO: fix
                 else:
                     code = status.OK
                 code = int(code)
-                if dump and code in responses:  # type: ignore  # TODO: fix
-                    response_schema = responses[code][1]  # type: ignore  # TODO: fix
+                if dump and code in responses:
+                    response_schema = responses[code][1]
                     if response_schema:
                         result = response_schema.dump(result)
             except HTTPException:
@@ -168,12 +168,12 @@ def schematic_request(  # type: ignore  # TODO: fix
     return decorator
 
 
-def with_profiler_stats(stats_dir: str, condition_check: Callable = None):  # type: ignore  # TODO: fix
+def with_profiler_stats(stats_dir: str, condition_check: Callable = None):
     """Run function with cProfiler and save stats to file"""
 
-    def decorator(func):  # type: ignore  # TODO: fix
+    def decorator(func):
         @wraps(func)
-        def wrapper(*args, **kwargs):  # type: ignore  # TODO: fix
+        def wrapper(*args, **kwargs):
             if condition_check is None or condition_check(*args, **kwargs):
                 with utils.profile_stats(stats_dir):
                     return func(*args, **kwargs)

@@ -13,7 +13,7 @@ from dl_db_testing.database.engine_wrapper import EngineWrapperBase
 class OracleEngineWrapper(EngineWrapperBase):
     URL_PREFIX = "oracle"  # Not using the bi_* version because we only need basic functionality here
 
-    def execute(self, query: Any, *multiparams: Any, **params: Any):  # type: ignore  # TODO: fix
+    def execute(self, query: Any, *multiparams: Any, **params: Any):
         # FIXME: Note the following problem:
         #  https://stackoverflow.com/questions/54709396/incorrect-type-conversion-with-cx-oracle-and-sqlalchemy-queries
 
@@ -35,11 +35,11 @@ class OracleEngineWrapper(EngineWrapperBase):
             r"HOST=(?P<host>[^)]+)\).*PORT=(?P<port>\d+)\).*(SERVICE_NAME|SID)=(?P<db_name>[^)]+)\)", oracle_dsn
         )
         return dict(
-            host=match.group("host"),  # type: ignore  # TODO: fix
-            port=int(match.group("port")),  # type: ignore  # TODO: fix
+            host=match.group("host"),
+            port=int(match.group("port")),
             username=username,
             password=password,
-            db_name=match.group("db_name"),  # type: ignore  # TODO: fix
+            db_name=match.group("db_name"),
         )
 
     def insert_into_table(self, table: sa.Table, data: Sequence[dict]) -> None:

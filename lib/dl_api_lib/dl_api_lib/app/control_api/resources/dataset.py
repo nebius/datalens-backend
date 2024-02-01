@@ -84,7 +84,7 @@ class DatasetCollection(DatasetResource):
             200: ("Success", dl_api_lib.schemas.main.CreateDatasetResponseSchema()),
         },
     )
-    def post(self, body):  # type: ignore  # TODO: fix
+    def post(self, body):
         """Create dataset"""
         us_manager = self.get_us_manager()
         dataset = Dataset.create_from_dict(
@@ -116,11 +116,11 @@ class DatasetItem(BIResource):
     @schematic_request(
         ns=ns,
         responses={
-            200: ("Success", None),  # type: ignore  # TODO: fix
-            404: ("Not found", None),  # type: ignore  # TODO: fix
+            200: ("Success", None),
+            404: ("Not found", None),
         },
     )
-    def delete(self, dataset_id):  # type: ignore  # TODO: fix
+    def delete(self, dataset_id):
         """Delete dataset"""
         us_manager = self.get_us_manager()
         ds, _ = DatasetResource.get_dataset(dataset_id=dataset_id, body={})
@@ -139,7 +139,7 @@ class DatasetItemFields(BIResource):
             200: ("Success", dl_api_lib.schemas.data.DatasetFieldsResponseSchema()),
         },
     )
-    def get(self, dataset_id):  # type: ignore  # TODO: fix
+    def get(self, dataset_id):
         ds, _ = DatasetResource.get_dataset(dataset_id=dataset_id, body={})
         fields = [
             {
@@ -167,7 +167,7 @@ class DatasetCopy(DatasetResource):
             400: ("Failed", dl_api_lib.schemas.main.BadRequestResponseSchema()),
         },
     )
-    def post(self, dataset_id, body):  # type: ignore  # TODO: fix
+    def post(self, dataset_id, body):
         copy_us_key = body["new_key"]
         us_manager = self.get_us_manager()
         ds, _ = self.get_dataset(dataset_id=dataset_id, body={})
@@ -200,7 +200,7 @@ class DatasetVersionItem(DatasetResource):
             400: ("Failed", dl_api_lib.schemas.main.BadRequestResponseSchema()),
         },
     )
-    def get(self, dataset_id, version):  # type: ignore  # TODO: fix
+    def get(self, dataset_id, version):
         """Get dataset version"""
         us_manager = self.get_us_manager()
         ds, _ = self.get_dataset(dataset_id=dataset_id, body={})
@@ -281,17 +281,17 @@ class DatasetVersionValidator(DatasetResource):
             400: ("Failed", dl_api_lib.schemas.validation.DatasetValidationResponseSchema()),
         },
     )
-    def post(self, dataset_id: str = None, version: str = None, body: dict = None):  # type: ignore  # TODO: fix
+    def post(self, dataset_id: str = None, version: str = None, body: dict = None):
         """Validate dataset version schema"""
         us_manager = self.get_us_manager()
-        dataset, _ = self.get_dataset(dataset_id=dataset_id, body=body)  # type: ignore  # TODO: fix
+        dataset, _ = self.get_dataset(dataset_id=dataset_id, body=body)
         dataset_validator_factory = self.get_service_registry().get_dataset_validator_factory()
         ds_validator = dataset_validator_factory.get_dataset_validator(ds=dataset, us_manager=us_manager)
         data = {}
 
         # apply updates
         try:
-            ds_validator.apply_batch(action_batch=body.get("updates", ()))  # type: ignore  # TODO: fix
+            ds_validator.apply_batch(action_batch=body.get("updates", ()))
         except exc.DLValidationFatal as err:
             any_errors = True
             code = _make_api_err_code(exc.DLValidationFatal.err_code)
@@ -333,7 +333,7 @@ class DatasetVersionFieldValidator(DatasetResource):
             400: ("Failed", dl_api_lib.schemas.validation.FieldValidationResponseSchema()),
         },
     )
-    def post(self, *, dataset_id: str = None, version: str = None, body):  # type: ignore  # TODO: fix
+    def post(self, *, dataset_id: str = None, version: str = None, body):
         """Validate formula field of dataset version"""
         us_manager = self.get_us_manager()
         dataset, _ = self.get_dataset(dataset_id=dataset_id, body=body)

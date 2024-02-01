@@ -195,7 +195,7 @@ class AsyncPromQLAdapter(AiohttpDBAdapter):
             details={},
         )
 
-    @generic_profiler_async("db-full")  # type: ignore  # TODO: fix
+    @generic_profiler_async("db-full")
     async def execute(self, dba_query: DBAdapterQuery) -> AsyncRawExecutionResult:
         with self.wrap_execute_excs(query=dba_query, stage="request"):
             resp = await self._run_query(dba_query)

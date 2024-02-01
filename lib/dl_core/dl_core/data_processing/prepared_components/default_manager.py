@@ -72,9 +72,9 @@ class DefaultPreparedComponentManager(PreparedComponentManagerBase):
         if not isinstance(dsrc, dl_core.data_source.sql.BaseSQLDataSource):
             raise TypeError(f"Root data source has non-SQL type: {type(dsrc)}")
 
-        def get_columns():  # type: ignore  # TODO: fix
-            with self._handle_incomplete_source(avatar=avatar):  # type: ignore  # TODO: fix
-                columns = dsrc.saved_raw_schema  # type: ignore  # TODO: fix
+        def get_columns():
+            with self._handle_incomplete_source(avatar=avatar):
+                columns = dsrc.saved_raw_schema
                 if columns is None:
                     raise exc.TableNameNotConfiguredError()
                 return columns
@@ -96,12 +96,12 @@ class DefaultPreparedComponentManager(PreparedComponentManagerBase):
             fields = [sa.literal_column(query_compiler.quote(col_name)) for col_name in col_names] or ["*"]
             sql_source = (
                 sa.select(fields)
-                .select_from(dsrc.get_sql_source())  # type: ignore  # TODO: fix
+                .select_from(dsrc.get_sql_source())
                 .limit(subquery_limit or DataAPILimits.DEFAULT_SUBQUERY_LIMIT)
                 .alias(alias)
             )
         else:
-            sql_source = dsrc.get_sql_source(alias=alias)  # type: ignore  # TODO: fix
+            sql_source = dsrc.get_sql_source(alias=alias)
 
         target_connection_ref = dsrc.connection_ref
         target_connection = self._us_entry_buffer.get_entry(target_connection_ref)

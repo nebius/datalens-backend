@@ -4,7 +4,7 @@ import collections
 from typing import Type
 
 
-def inheritors(klass: Type):  # type: ignore  # TODO: fix
+def inheritors(klass: Type):
     subclasses = set()
     work = collections.deque([klass])
     while work:

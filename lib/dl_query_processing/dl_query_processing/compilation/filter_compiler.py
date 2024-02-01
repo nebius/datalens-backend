@@ -77,10 +77,10 @@ class FilterParams:
 
     field: BIField
     operation: WhereClauseOperation
-    filter_args: list = None  # type: ignore  # TODO: fix
-    data_type: DataType = None  # type: ignore  # TODO: fix
-    field_cast_type: DataType = None  # type: ignore  # TODO: fix
-    arg_cast_type: DataType = None  # type: ignore  # TODO: fix
+    filter_args: list = None
+    data_type: DataType = None
+    field_cast_type: DataType = None
+    arg_cast_type: DataType = None
 
     def clone(self: _FILTER_PARAMS_TV, **updates: Any) -> _FILTER_PARAMS_TV:
         """Convenience method so that callers don't need to know about `attr`"""
@@ -166,7 +166,7 @@ class FilterFormulaCompiler:
         filter_params = FilterParams(
             field=field,
             operation=operation,
-            filter_args=filter_args,  # type: ignore  # TODO: fix
+            filter_args=filter_args,
             data_type=data_type,
             # defaults:
             field_cast_type=data_type,
@@ -229,7 +229,7 @@ class FilterFormulaCompiler:
                 raise dl_query_processing.exc.FilterArgumentCountError(
                     f"Invalid argument count for {operation.value}: expected {add_arg_cnt}, got {len(args_nodes)}"
                 )
-            args = args_nodes  # type: ignore  # TODO: fix
+            args = args_nodes
 
         # 3. Create formula object
         formula_obj = formula_nodes.Formula.make(expr=expr_callable(field_formula_obj.expr, *args))

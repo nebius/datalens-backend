@@ -77,7 +77,7 @@ class BaseClosableDataProcessorFactory(DataProcessorFactory):
         await processor.start()
         return processor
 
-    def _create_data_processor(  # type: ignore  # TODO: fix
+    def _create_data_processor(
         self,
         dataset: Dataset,
         processor_type: ProcessorType,

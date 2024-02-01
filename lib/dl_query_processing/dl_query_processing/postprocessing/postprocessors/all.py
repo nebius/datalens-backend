@@ -26,7 +26,7 @@ from dl_query_processing.postprocessing.primitives import PostprocessedData
 
 
 if TYPE_CHECKING:
-    from dl_query_processing.compilation.primitives import DetailedType  # type: ignore  # TODO: fix
+    from dl_query_processing.compilation.primitives import DetailedType
 
 
 def stringify_or_null(value: Any) -> Optional[str]:
@@ -62,7 +62,7 @@ def get_type_processor(field_type_info: Optional[DetailedType]) -> Callable[[Any
     # Basic
     result = TYPE_PROCESSORS.get(field_type_info.data_type)
     if result is not None:
-        return result  # type: ignore  # TODO: fix
+        return result
 
     # Parmetrized
     if field_type_info.data_type == UserDataType.datetimetz:

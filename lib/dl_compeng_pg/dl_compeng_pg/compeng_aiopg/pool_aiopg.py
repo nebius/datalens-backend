@@ -45,5 +45,5 @@ class AiopgPoolWrapper(BasePgPoolWrapper):
     async def disconnect(self) -> None:
         pool = self._pool
         self._pool = None
-        pool.terminate()  # type: ignore  # TODO: fix
-        await pool.wait_closed()  # type: ignore  # TODO: fix
+        pool.terminate()
+        await pool.wait_closed()

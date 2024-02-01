@@ -28,7 +28,7 @@ class DLRequestDataCore(DLRequestBase):
     @property
     def us_manager(self) -> AsyncUSManager:
         """US manager associated with request's user"""
-        return self.request.get(self.KEY_US_MANAGER)  # type: ignore  # TODO: fix
+        return self.request.get(self.KEY_US_MANAGER)
 
     @us_manager.setter
     def us_manager(self, value: AsyncUSManager) -> None:
@@ -37,7 +37,7 @@ class DLRequestDataCore(DLRequestBase):
     @property
     def service_us_manager(self) -> AsyncUSManager:
         """US manager with master token"""
-        return self.request.get(self.KEY_SERVICE_US_MANAGER)  # type: ignore  # TODO: fix
+        return self.request.get(self.KEY_SERVICE_US_MANAGER)
 
     @service_us_manager.setter
     def service_us_manager(self, value: AsyncUSManager) -> None:
@@ -45,7 +45,7 @@ class DLRequestDataCore(DLRequestBase):
 
     @property
     def services_registry(self) -> "ServicesRegistry":
-        return self.request.get(self.KEY_SERVICES_REGISTRY)  # type: ignore  # TODO: fix
+        return self.request.get(self.KEY_SERVICES_REGISTRY)
 
     @services_registry.setter
     def services_registry(self, value: "ServicesRegistry") -> None:

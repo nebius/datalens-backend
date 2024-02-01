@@ -84,7 +84,7 @@ class BitrixGDSConnection(ExecutorBasedMixin, ConnectionBase):
                 title=parameters["table_name"],
                 group=[],
                 source_type=SOURCE_TYPE_BITRIX_GDS,
-                connection_id=self.uuid,  # type: ignore  # TODO: fix
+                connection_id=self.uuid,
                 parameters=parameters,
             )
             for parameters in self.get_parameter_combinations(conn_executor_factory=conn_executor_factory)

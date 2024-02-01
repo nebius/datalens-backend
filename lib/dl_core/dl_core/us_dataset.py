@@ -57,8 +57,8 @@ LOGGER = logging.getLogger(__name__)
 
 
 class Dataset(USEntry):
-    dir_name = ""  # type: ignore  # TODO: fix
-    scope = "dataset"  # type: ignore  # TODO: fix
+    dir_name = ""
+    scope = "dataset"
 
     @attr.s
     class DataModel(BaseAttrsDataModel):
@@ -87,7 +87,7 @@ class Dataset(USEntry):
     def error_registry(self) -> ComponentErrorRegistry:
         return self.data.component_errors
 
-    def get_single_data_source_id(self, ignore_source_ids: Optional[Collection[str]] = None) -> str:  # type: ignore  # TODO: fix
+    def get_single_data_source_id(self, ignore_source_ids: Optional[Collection[str]] = None) -> str:
         # FIXME: remove in the future
         ignore_source_ids = ignore_source_ids or ()
         for dsrc_coll_spec in self.data.source_collections or ():
@@ -110,7 +110,7 @@ class Dataset(USEntry):
                 if dsrc_spec.table_name is not None:
                     yield dsrc_spec.table_name
 
-    def find_data_source_configuration(  # type: ignore  # TODO: fix
+    def find_data_source_configuration(
         self,
         connection_id: Optional[str],
         created_from: Optional[DataSourceType] = None,
@@ -131,7 +131,7 @@ class Dataset(USEntry):
 
         def spec_matches_parameters(existing_spec: DataSourceSpec) -> bool:
             # FIXME: Refactor
-            for key, value in parameters.items():  # type: ignore  # TODO: fix
+            for key, value in parameters.items():
                 if getattr(existing_spec, key, None) != value:
                     return False
             return True
@@ -198,7 +198,7 @@ class Dataset(USEntry):
     def result_schema(self) -> ResultSchema:
         return self.data.result_schema
 
-    def _dump_rls(self):  # type: ignore  # TODO: fix
+    def _dump_rls(self):
         """Remove rls entries for non-existing in result_schema fields"""
         # FIXME: this should be in the scope of result_schema management
         field_guids = [f.guid for f in self.result_schema.fields]

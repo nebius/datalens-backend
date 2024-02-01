@@ -83,7 +83,7 @@ class USManagerFlaskMiddleware:
         app.before_request(self.bind_us_managers_to_request)
         return self
 
-    def run(self):  # type: ignore  # TODO: fix
+    def run(self):
         return self.bind_us_managers_to_request()
 
     @classmethod

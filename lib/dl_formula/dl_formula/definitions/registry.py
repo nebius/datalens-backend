@@ -148,7 +148,7 @@ class OperationRegistry:
         Result is a list of (<func_name>, <arg_cnt>) tuples
         (keys from ``OPERATION_REGISTRY``).
         """
-        support_by_key = defaultdict(lambda: D.EMPTY)  # type: ignore  # TODO: fix
+        support_by_key = defaultdict(lambda: D.EMPTY)
         for func_key, func_tr in self.items():
             if func_tr.scopes & function_scopes != function_scopes:
                 continue

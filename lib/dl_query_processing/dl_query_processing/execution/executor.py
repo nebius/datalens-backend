@@ -132,7 +132,7 @@ class QueryExecutor(QueryExecutorBase):
             f"Executing level type {level_type}. " f"Got source streams with result IDs: {list(streams_by_result_id)}"
         )
 
-        streams: List[DataStreamAsync] = [stream for _, stream in sorted(streams_by_result_id.items())]  # type: ignore  # TODO: fix
+        streams: List[DataStreamAsync] = [stream for _, stream in sorted(streams_by_result_id.items())]
         operations: List[BaseOp] = []
 
         # 1. Make operations for uploading data (if necessary).
@@ -291,7 +291,7 @@ class QueryExecutor(QueryExecutorBase):
         streams_by_result_id: Dict[AvatarId, AbstractStream] = {}
         stream_aliases: dict[str, str] = {}
         for avatar_id in required_avatar_ids:
-            alias = self._avatar_alias_mapper(avatar_id)  # type: ignore  # TODO: fix
+            alias = self._avatar_alias_mapper(avatar_id)
             prep_src_info = prep_component_manager.get_prepared_source(
                 avatar_id=avatar_id,
                 alias=alias,
@@ -348,7 +348,7 @@ class QueryExecutor(QueryExecutorBase):
 
         # Process data in source_db
         try:
-            streams_by_result_id, stream_aliases = await self._process_multi_query(  # type: ignore  # TODO: fix
+            streams_by_result_id, stream_aliases = await self._process_multi_query(
                 level_type=ExecutionLevel.source_db,
                 translated_multi_query=source_db_multi_query,
                 streams_by_result_id=streams_by_result_id,
@@ -377,15 +377,15 @@ class QueryExecutor(QueryExecutorBase):
             )
 
         source_db_queries = [
-            out_s.meta.query  # type: ignore  # TODO: fix
+            out_s.meta.query
             for _, out_s in sorted(streams_by_result_id.items())
-            if out_s.meta.query is not None and out_s.meta.pass_db_query_to_user  # type: ignore  # TODO: fix
+            if out_s.meta.query is not None and out_s.meta.pass_db_query_to_user
         ]
         query_for_response = "\n;\n\n".join(source_db_queries) or None
 
         # Process data in compeng
         async with self._compeng_semaphore:
-            streams_by_result_id, stream_aliases = await self._process_multi_query(  # type: ignore  # TODO: fix
+            streams_by_result_id, stream_aliases = await self._process_multi_query(
                 level_type=ExecutionLevel.compeng,
                 translated_multi_query=compeng_multi_query,
                 streams_by_result_id=streams_by_result_id,

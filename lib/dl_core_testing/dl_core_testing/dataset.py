@@ -28,11 +28,11 @@ if TYPE_CHECKING:
     )
 
 
-def make_ds_key(*args) -> str:  # type: ignore  # TODO: fix
+def make_ds_key(*args) -> str:
     return "/".join(["tests", *args])
 
 
-def make_dataset(  # type: ignore  # TODO: fix
+def make_dataset(
     sync_usm: SyncUSManager,
     connection: Optional[ConnectionBase] = None,
     db_table: Optional[DbTable] = None,

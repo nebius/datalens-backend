@@ -176,7 +176,7 @@ class SyncHttpDatasetApiV1(SyncHttpApiV1Base):
             # `fail_ok` should not mean `allow 5xx`
             assert response.status_code < 500, response.json
 
-    def cleanup_created_resources(self):  # type: ignore  # TODO: fix
+    def cleanup_created_resources(self):
         for dataset_id in self._created_dataset_id_list:
             try:
                 self.delete_dataset(dataset_id, fail_ok=True)
@@ -209,7 +209,7 @@ class SyncHttpDatasetApiV1(SyncHttpApiV1Base):
             dataset=dataset,
         )
 
-    def apply_updates(  # type: ignore  # TODO: fix
+    def apply_updates(
         self,
         dataset: Dataset,
         updates: list[Union[UpdateAction, dict]] = None,  # type: ignore  # 2024-01-24 # TODO: Incompatible default for argument "updates" (default has type "None", argument has type "list[UpdateAction | dict[Any, Any]]")  [assignment]

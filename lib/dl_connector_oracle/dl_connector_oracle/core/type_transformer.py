@@ -19,7 +19,7 @@ class OracleServerTypeTransformer(TypeTransformer):
             for t in (sa.Integer,)  # pseudo type used if scale == 0
         },
         **{
-            make_native_type(CONNECTION_TYPE_ORACLE, t): UserDataType.float  # type: ignore  # TODO: fix
+            make_native_type(CONNECTION_TYPE_ORACLE, t): UserDataType.float
             for t in (or_types.NUMBER, or_types.BINARY_FLOAT, or_types.BINARY_DOUBLE)
         },
         **{
@@ -34,7 +34,7 @@ class OracleServerTypeTransformer(TypeTransformer):
             )
         },
         **{
-            make_native_type(CONNECTION_TYPE_ORACLE, t): UserDataType.genericdatetime  # type: ignore  # TODO: fix
+            make_native_type(CONNECTION_TYPE_ORACLE, t): UserDataType.genericdatetime
             for t in (or_types.DATE, or_types.TIMESTAMP)
         },
         # No separate type for date, it's the same as for datetime

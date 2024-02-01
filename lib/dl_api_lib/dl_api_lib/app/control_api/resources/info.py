@@ -51,7 +51,7 @@ ns = API.namespace("Info", path="/info")
 @ns.route("/field_types")
 class FieldTypeCollection(BIResource):
     @schematic_request(ns=ns, responses={200: ("Success", GetFieldTypeCollectionResponseSchema())})
-    def get(self):  # type: ignore  # TODO: fix
+    def get(self):
         return {
             "types": [
                 {"name": k.name, "aggregations": [x.name for x in v]}
@@ -75,7 +75,7 @@ class DatasetsPublicityChecker(BIResource):
         body=DatasetsPublicityCheckerRequestSchema(),
         responses={200: ("Success", DatasetsPublicityCheckerResponseSchema())},
     )
-    def post(self, body):  # type: ignore  # TODO: fix
+    def post(self, body):
         ds_ids = body["datasets"]
         responses = []
         us_manager = self.get_us_manager()
@@ -97,7 +97,7 @@ class DatasetsPublicityChecker(BIResource):
                 reason = exc.message
             else:
                 allowed = True
-                reason = None  # type: ignore  # TODO: fix
+                reason = None
 
             responses.append(
                 {

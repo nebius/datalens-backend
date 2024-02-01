@@ -11,7 +11,7 @@ import six
 _LOG_CONTEXT = contextvars.ContextVar("_LOG_CONTEXT", default=None)
 
 
-def force_unicode(obj):  # type: ignore  # TODO: fix
+def force_unicode(obj):
     if not isinstance(obj, six.string_types):
         obj = repr(obj)
     return obj.decode(sys.getdefaultencoding())
@@ -19,26 +19,26 @@ def force_unicode(obj):  # type: ignore  # TODO: fix
 
 class ContextFormatter:
     @classmethod
-    def is_context_exist(cls):  # type: ignore  # TODO: fix
+    def is_context_exist(cls):
         return _LOG_CONTEXT.get() is not None
 
     @classmethod
-    def get_or_create_logging_context(cls):  # type: ignore  # TODO: fix
+    def get_or_create_logging_context(cls):
         if not cls.is_context_exist():
-            _LOG_CONTEXT.set(defaultdict(list))  # type: ignore  # TODO: fix
+            _LOG_CONTEXT.set(defaultdict(list))
         return _LOG_CONTEXT.get()
 
 
-def reset_context():  # type: ignore  # TODO: fix
-    _LOG_CONTEXT.set(defaultdict(list))  # type: ignore  # TODO: fix
+def reset_context():
+    _LOG_CONTEXT.set(defaultdict(list))
 
 
-def put_to_context(key, value):  # type: ignore  # TODO: fix
+def put_to_context(key, value):
     ctx = ContextFormatter.get_or_create_logging_context()
     ctx[key].append(value)
 
 
-def pop_from_context(key):  # type: ignore  # TODO: fix
+def pop_from_context(key):
     if not ContextFormatter.is_context_exist():
         return
     ctx = ContextFormatter.get_or_create_logging_context()
@@ -53,16 +53,16 @@ def pop_from_context(key):  # type: ignore  # TODO: fix
 class LogContext(object):
     context = None
 
-    def __init__(self, **context):  # type: ignore  # TODO: fix
+    def __init__(self, **context):
         self.context = context
 
-    def __enter__(self):  # type: ignore  # TODO: fix
-        for key, value in self.context.items():  # type: ignore  # TODO: fix
+    def __enter__(self):
+        for key, value in self.context.items():
             put_to_context(key, value)
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):  # type: ignore  # TODO: fix
-        for key in self.context:  # type: ignore  # TODO: fix
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        for key in self.context:
             pop_from_context(key)
         return False
 
@@ -70,7 +70,7 @@ class LogContext(object):
 log_context = LogContext
 
 
-def get_log_context():  # type: ignore  # TODO: fix
+def get_log_context():
     if not ContextFormatter.is_context_exist():
         return {}
     ctx = ContextFormatter.get_or_create_logging_context()

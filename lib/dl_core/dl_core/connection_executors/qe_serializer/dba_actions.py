@@ -60,10 +60,10 @@ class NonStreamAction(Generic[_RES_SCHEMA_TV], RemoteDBAdapterAction, metaclass=
     ResultSchema = ClassVar[Type[BaseQEAPISchema]]
 
     def serialize_response(self, val: _RES_SCHEMA_TV) -> Dict:
-        return self.ResultSchema().dump(val)  # type: ignore  # TODO: fix
+        return self.ResultSchema().dump(val)
 
     def deserialize_response(self, data: Dict) -> _RES_SCHEMA_TV:
-        return self.ResultSchema().load(data)  # type: ignore  # TODO: fix
+        return self.ResultSchema().load(data)
 
 
 @attr.s(frozen=True)
@@ -78,7 +78,7 @@ class ActionGetDBVersion(NonStreamAction[Optional[str]]):
     db_ident: DBIdent = attr.ib()
 
     class ResultSchema(PrimitivesResponseSchema):
-        value = fields.String(allow_none=True)  # type: ignore  # TODO: fix
+        value = fields.String(allow_none=True)
 
 
 @attr.s(frozen=True)
@@ -86,7 +86,7 @@ class ActionGetSchemaNames(NonStreamAction[List[str]]):
     db_ident: DBIdent = attr.ib()
 
     class ResultSchema(PrimitivesResponseSchema):
-        value = fields.List(fields.String())  # type: ignore  # TODO: fix
+        value = fields.List(fields.String())
 
 
 @attr.s(frozen=True)
@@ -94,7 +94,7 @@ class ActionGetTables(NonStreamAction[List[TableIdent]]):
     schema_ident: SchemaIdent = attr.ib()
 
     class ResultSchema(PrimitivesResponseSchema):
-        value = fields.Nested(TableIdentSchema, many=True)  # type: ignore  # TODO: fix
+        value = fields.Nested(TableIdentSchema, many=True)
 
 
 @attr.s(frozen=True)
@@ -110,7 +110,7 @@ class ActionIsTableExists(NonStreamAction[bool]):
     table_ident: TableIdent = attr.ib()
 
     class ResultSchema(PrimitivesResponseSchema):
-        value = fields.Boolean()  # type: ignore  # TODO: fix
+        value = fields.Boolean()
 
 
 @attr.s(frozen=True)
@@ -119,4 +119,4 @@ class ActionExecuteTypedQuery(NonStreamAction[str]):
     typed_query_str: str = attr.ib(kw_only=True)
 
     class ResultSchema(PrimitivesResponseSchema):
-        value = fields.String()  # type: ignore  # TODO: fix
+        value = fields.String()

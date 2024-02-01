@@ -92,7 +92,7 @@ class USEntry:
             raise AssertionError(f"Unexpected type of entry key: {type(ds_key)}")
 
         obj = cls(
-            data=data_dict,  # type: ignore  # TODO: fix
+            data=data_dict,
             entry_key=effective_entry_key,
             type_=type_,
             meta=meta,
@@ -143,9 +143,9 @@ class USEntry:
 
     @property
     def _context(self) -> RequestContextInfo:
-        return self._us_manager.bi_context  # type: ignore  # TODO: fix
+        return self._us_manager.bi_context
 
-    def on_updated(self):  # type: ignore  # TODO: fix
+    def on_updated(self):
         """Post-update actions go here"""
 
     def _load_data(self, data: dict, strict: bool = True) -> Union[BaseAttrsDataModel, DotDict]:
@@ -162,7 +162,7 @@ class USEntry:
                 return DotDict(data)
 
             data = schema.load(data)
-            return data  # type: ignore  # TODO: fix
+            return data
         else:
             raise TypeError(f"Unexpected data type ({type(self.DataModel)}) for entry class {type(self)}")
 
@@ -170,12 +170,12 @@ class USEntry:
         return self._data is not None
 
     @property
-    def data(self):  # type: ignore  # TODO: fix
+    def data(self):
         assert self._data is not None
         return self._data
 
     @data.setter
-    def data(self, value):  # type: ignore  # TODO: fix
+    def data(self, value):
         self._data = value
 
     @property
@@ -225,20 +225,20 @@ class USEntry:
         return ret
 
     @property
-    def created_by(self):  # type: ignore  # TODO: fix
-        return self._us_resp.get("createdBy") if isinstance(self._us_resp, dict) else None  # type: ignore  # TODO: fix
+    def created_by(self):
+        return self._us_resp.get("createdBy") if isinstance(self._us_resp, dict) else None
 
     @property
-    def created_at(self):  # type: ignore  # TODO: fix
-        return self._us_resp.get("createdAt") if isinstance(self._us_resp, dict) else None  # type: ignore  # TODO: fix
+    def created_at(self):
+        return self._us_resp.get("createdAt") if isinstance(self._us_resp, dict) else None
 
     @property
-    def updated_at(self):  # type: ignore  # TODO: fix
-        return self._us_resp.get("updatedAt") if isinstance(self._us_resp, dict) else None  # type: ignore  # TODO: fix
+    def updated_at(self):
+        return self._us_resp.get("updatedAt") if isinstance(self._us_resp, dict) else None
 
     @property
-    def revision_id(self):  # type: ignore  # TODO: fix
-        return self._us_resp.get("revId") if isinstance(self._us_resp, dict) else None  # type: ignore  # TODO: fix
+    def revision_id(self):
+        return self._us_resp.get("revId") if isinstance(self._us_resp, dict) else None
 
     @property
     def raw_tenant_id(self) -> Optional[str]:
@@ -306,4 +306,4 @@ class USMigrationEntry(USEntry):
 
     @property
     def unversioned_data(self) -> DotDict:
-        return self._unversioned_data  # type: ignore  # TODO: fix
+        return self._unversioned_data

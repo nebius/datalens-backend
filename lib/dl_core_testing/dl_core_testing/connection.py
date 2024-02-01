@@ -24,7 +24,7 @@ if TYPE_CHECKING:
     from dl_core.us_connection_base import ConnectionBase
 
 
-def make_conn_key(*args) -> str:  # type: ignore  # TODO: fix
+def make_conn_key(*args) -> str:
     return "/".join(["tests", *args])
 
 
@@ -89,7 +89,7 @@ def make_connection(
     )
 
 
-def make_saved_connection(  # type: ignore  # TODO: fix
+def make_saved_connection(
     sync_usm: SyncUSManager,
     db: Optional[Db] = None,
     conn_type: Optional[ConnectionType] = None,

@@ -136,14 +136,14 @@ class OperationProcessorAsyncBase(abc.ABC):
                     assert isinstance(op, SingleSourceOp)
                     source_stream_ids = {op.source_stream_id}
 
-                if not source_stream_ids.issubset(set(ready_streams)):  # type: ignore  # TODO: fix
+                if not source_stream_ids.issubset(set(ready_streams)):
                     # Make these streams ready
                     await _make_output_streams_ready_recursive(source_stream_ids)
 
                 # All streams are ready for this operation
                 for source_stream_id in source_stream_ids:
                     source_stream = ctx.get_stream(stream_id=source_stream_id)
-                    self._validate_input_stream(source_stream, op)  # type: ignore  # TODO: fix
+                    self._validate_input_stream(source_stream, op)
                     if isinstance(source_stream, DataStreamAsync):  # These streams are not reusable
                         del ready_streams[source_stream_id]
 
@@ -183,7 +183,7 @@ class OperationProcessorAsyncBase(abc.ABC):
                 output_stream_ids
             ), f"Destination streams do not match: expected {output_stream_ids}, got {actual_output_stream_ids}"
             # Finalize streams
-            result = await self.prepare_output_streams(output_streams=stream_list)  # type: ignore  # TODO: fix
+            result = await self.prepare_output_streams(output_streams=stream_list)
 
         except Exception as fired_exception:
             exec_exception = fired_exception

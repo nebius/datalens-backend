@@ -163,7 +163,7 @@ class DatasetComponentAbstraction:
     def validate_component_can_be_managed(self, component_ref: DatasetComponentRef, by: Optional[ManagedBy]) -> None:
         if by is not None:
             component = self.get_component(component_ref=component_ref)
-            if component.managed_by != by:  # type: ignore  # TODO: fix
+            if component.managed_by != by:
                 raise common_exc.DatasetConfigurationError(
                     f"Component {component_ref.component_type.name} {component_ref.component_id} "
                     f"cannot be managed by {by.name}"

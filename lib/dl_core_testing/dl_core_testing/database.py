@@ -160,15 +160,15 @@ class C:
         return make_sa_type(native_type, nullable=self.nullable)
 
     @classmethod
-    def array_data_getter(cls, data_container) -> "C.ArrayDataGetter":  # type: ignore  # TODO: fix
+    def array_data_getter(cls, data_container) -> "C.ArrayDataGetter":
         return cls.ArrayDataGetter(data_container)
 
     @classmethod
-    def int_value(cls, name: str = "int_value"):  # type: ignore  # TODO: fix
+    def int_value(cls, name: str = "int_value"):
         return cls(name, UserDataType.integer)
 
     @classmethod
-    def datetime_value(cls, name: str = "datetime_value"):  # type: ignore  # TODO: fix
+    def datetime_value(cls, name: str = "datetime_value"):
         return cls(name, UserDataType.datetime)
 
     @classmethod
@@ -188,7 +188,7 @@ class C:
         ]
 
     @classmethod
-    def array_columns(cls):  # type: ignore  # TODO: fix
+    def array_columns(cls):
         return [
             cls("array_int_value", UserDataType.array_int),
             cls("array_str_value", UserDataType.array_str),
@@ -210,7 +210,7 @@ def make_sample_data(
     if columns is None:
         columns = C.full_house()
     result = [
-        {col.name: col.vg(rn=idx, ts=ts, rnd=rnd) for col in columns}  # type: ignore  # TODO: fix
+        {col.name: col.vg(rn=idx, ts=ts, rnd=rnd) for col in columns}
         for idx in range(start_value, start_value + rows)
     ]
     return result
@@ -234,7 +234,7 @@ def make_table(
         schema=schema,
         table_name=name,
     )
-    db_table = DbTable(db=db, table=table, schema=schema)  # type: ignore  # TODO: fix
+    db_table = DbTable(db=db, table=table, schema=schema)
     # now = datetime.datetime.utcnow().replace(tzinfo=None, microsecond=0)
     if data is None:
         data = make_sample_data(columns=columns, rows=rows, start_value=start_value)
@@ -266,7 +266,7 @@ def make_pg_table_with_enums(  # TODO: move to pg connector package
         table_name=name,
     )
     db.create_table(table)
-    db_table = DbTable(db=db, table=table, schema=schema)  # type: ignore  # TODO: fix
+    db_table = DbTable(db=db, table=table, schema=schema)
     db_table.insert(
         [
             {"col1": "var1", "col2": "str1", "col3": 1},
@@ -302,7 +302,7 @@ class DbView(NamedTuple):
     db: Db
     name: str
     query: str
-    schema: str = None  # type: ignore  # TODO: fix
+    schema: str = None
 
     @property
     def as_table(self) -> DbTable:
@@ -317,7 +317,7 @@ class DbView(NamedTuple):
 def make_view(db: Db, query: str, schema: str = None, name: str = None) -> DbView:  # type: ignore  # 2024-01-29 # TODO: Incompatible default for argument "schema" (default has type "None", argument has type "str")  [assignment]
     name = name or "test_view_{}".format(uuid.uuid4().hex[:10])
     db.create_view(query=query, schema=schema, name=name)
-    return DbView(db=db, schema=schema, name=name, query=query)  # type: ignore  # TODO: fix
+    return DbView(db=db, schema=schema, name=name, query=query)
 
 
 def make_view_from_table(db_table: DbTable, name: str = None, schema: str = None) -> DbView:  # type: ignore  # 2024-01-29 # TODO: Incompatible default for argument "name" (default has type "None", argument has type "str")  [assignment]
@@ -330,7 +330,7 @@ class MultiTables(NamedTuple):
     comments: DbTable
 
 
-def make_multiple_db_tables(db, string_kwargs):  # type: ignore  # TODO: fix
+def make_multiple_db_tables(db, string_kwargs):
     """Basic table for all db types"""
     sa_tables = [
         db.table_from_columns(
@@ -357,7 +357,7 @@ def make_multiple_db_tables(db, string_kwargs):  # type: ignore  # TODO: fix
         ),
     ]
 
-    def create(table):  # type: ignore  # TODO: fix
+    def create(table):
         db.create_table(table)
         return DbTable(db=db, table=table)
 

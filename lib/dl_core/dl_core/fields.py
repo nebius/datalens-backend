@@ -397,7 +397,7 @@ class ResultSchema:
     _title_cache: Dict[str, BIField] = attr.ib(init=False, eq=False)
     valid: bool = attr.ib(default=True)
 
-    def __attrs_post_init__(self):  # type: ignore  # TODO: fix
+    def __attrs_post_init__(self):
         self._guid_cache = {}
         self._title_cache = {}
         self.reload_caches()
@@ -442,16 +442,16 @@ class ResultSchema:
     def guids_to_titles(self) -> Dict[FieldId, str]:
         return {f.guid: f.title for f in self.fields}
 
-    def __iter__(self):  # type: ignore  # TODO: fix
+    def __iter__(self):
         return self.fields.__iter__()
 
-    def __bool__(self):  # type: ignore  # TODO: fix
+    def __bool__(self):
         return self.fields.__iter__()
 
-    def __len__(self):  # type: ignore  # TODO: fix
+    def __len__(self):
         return self.fields.__len__()
 
-    def __getitem__(self, ind):  # type: ignore  # TODO: fix
+    def __getitem__(self, ind):
         return self.fields.__getitem__(ind)
 
     def add(self, field: BIField, idx: Optional[int]) -> None:

@@ -323,7 +323,7 @@ class FuncGreatestMain(FuncGreatestBase):
 
 
 class GreatestMulti(FuncGreatestBase):
-    arg_cnt = None  # type: ignore  # TODO: fix
+    arg_cnt = None
     variants = [
         VW(
             D.DUMMY | D.SQLITE,
@@ -376,7 +376,7 @@ class FuncLeastMain(FuncLeastBase):
 
 
 class LeastMulti(FuncLeastBase):
-    arg_cnt = None  # type: ignore  # TODO: fix
+    arg_cnt = None
     variants = [
         VW(
             D.DUMMY | D.SQLITE,

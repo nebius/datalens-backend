@@ -115,7 +115,7 @@ class ColumnRegistry:
 
     def get_used_avatar_ids_for_formula_obj(self, formula_obj: formula_nodes.Formula) -> Set[str]:
         column_ids = {field_node.name for field_node in used_fields(formula_obj)}
-        return {self._columns.get(column_id).avatar_id for column_id in column_ids}  # type: ignore  # TODO: fix
+        return {self._columns.get(column_id).avatar_id for column_id in column_ids}
 
     def get_multipart_column_names(self, avatar_alias_mapper: Callable[[AvatarId], str]) -> Dict[str, Tuple[str, str]]:
         return {
@@ -129,7 +129,7 @@ class ColumnRegistry:
         }
 
     def get(self, column_id: str) -> AvatarColumn:
-        return self._columns.get(column_id)  # type: ignore  # TODO: fix
+        return self._columns.get(column_id)
 
     def get_avatar_column(self, avatar_id: str, name: str) -> AvatarColumn:
         try:
@@ -148,7 +148,7 @@ class ColumnRegistry:
 
     def get_column_avatar_ids(self) -> Dict[Tuple[str, str], str]:
         return {
-            column_id: av_column.avatar_id  # type: ignore  # TODO: fix
+            column_id: av_column.avatar_id
             for column_id, av_column in self._columns.items()
         }
 

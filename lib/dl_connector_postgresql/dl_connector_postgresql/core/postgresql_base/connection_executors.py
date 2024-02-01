@@ -34,7 +34,7 @@ class BasePostgresConnExecutor(DefaultSqlAlchemyConnExecutor[_BASE_POSTGRES_ADAP
             enforce_collate = PGEnforceCollateMode.off
         return enforce_collate
 
-    async def _make_target_conn_dto_pool(self) -> list[PostgresConnTargetDTO]:  # type: ignore  # TODO: fix
+    async def _make_target_conn_dto_pool(self) -> list[PostgresConnTargetDTO]:
         dto_pool = []
         effective_enforce_collate = self._get_effective_enforce_collate(
             enforce_collate=self._conn_dto.enforce_collate,
@@ -58,7 +58,7 @@ class BasePostgresConnExecutor(DefaultSqlAlchemyConnExecutor[_BASE_POSTGRES_ADAP
             )
         return dto_pool
 
-    def mutate_for_dashsql(self, db_params: Optional[dict[str, str]] = None):  # type: ignore  # TODO: fix
+    def mutate_for_dashsql(self, db_params: Optional[dict[str, str]] = None):
         if db_params:
             # TODO: better exception class for HTTP 4xx response
             raise Exception("No db_params supported here at the moment")

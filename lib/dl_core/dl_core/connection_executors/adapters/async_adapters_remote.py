@@ -232,7 +232,7 @@ class RemoteAsyncAdapter(AsyncDBAdapter):
 
     # Here we have some async problem:
     #  "qe" stage will be finished before some nested stages in RQE (e.g. "qe/fetch")
-    @generic_profiler_async("qe")  # type: ignore  # TODO: fix
+    @generic_profiler_async("qe")
     async def execute(self, query: DBAdapterQuery) -> AsyncRawExecutionResult:
         resp = await self._make_request(
             dba_actions.ActionExecuteQuery(
@@ -280,7 +280,7 @@ class RemoteAsyncAdapter(AsyncDBAdapter):
                     except KeyError:
                         raise QueryExecutorException(f"QE parse: unknown event_type: {event_type_name!r}")
 
-                    yield event_type, event_data  # type: ignore  # TODO: fix
+                    yield event_type, event_data
 
                 if raw_chunk == b"" and not end_of_chunk:
                     return
@@ -340,7 +340,7 @@ class RemoteAsyncAdapter(AsyncDBAdapter):
         )
 
     async def get_tables(self, schema_ident: SchemaIdent) -> List[TableIdent]:
-        return await self._make_request_parse_response(  # type: ignore  # TODO: fix
+        return await self._make_request_parse_response(
             dba_actions.ActionGetTables(
                 target_conn_dto=self._target_dto,
                 dba_cls=self._dba_cls,

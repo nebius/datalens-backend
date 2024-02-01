@@ -68,7 +68,7 @@ class MultiLevelQueryTranslator:
             dialect=self._compeng_dialect,
         )
 
-    def _log_info(self, *args, **kwargs) -> None:  # type: ignore  # TODO: fix
+    def _log_info(self, *args, **kwargs) -> None:
         if self._verbose_logging:
             LOGGER.info(*args, **kwargs)
 

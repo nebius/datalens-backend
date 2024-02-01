@@ -45,7 +45,7 @@ class ComponentErrorPack:
             cond = lambda err: err.code == code
         elif code_prefix is not None:
             code_prefix = list(code_prefix)
-            cond = lambda err: err.code[: len(code_prefix)] == code_prefix  # type: ignore  # TODO: fix
+            cond = lambda err: err.code[: len(code_prefix)] == code_prefix
         else:
             cond = lambda err: True
         return [err for err in self.errors if cond(err)]
@@ -74,7 +74,7 @@ ERROR_CLS_BY_COMP_TYPE: Dict[ComponentType, Type[ComponentError]] = {
 class ComponentErrorRegistry:
     items: List[ComponentErrorPack] = attr.ib(factory=list)
 
-    def get_pack(self, id: str) -> Optional[ComponentErrorPack]:  # type: ignore  # TODO: fix
+    def get_pack(self, id: str) -> Optional[ComponentErrorPack]:
         for item in self.items:
             if item.id == id:
                 return item
@@ -97,7 +97,7 @@ class ComponentErrorRegistry:
         if not item.errors:
             self.items.remove(item)
 
-    def add_error(  # type: ignore  # TODO: fix
+    def add_error(
         self,
         id: str,
         type: ComponentType,

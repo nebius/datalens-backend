@@ -210,10 +210,10 @@ class PublicAPIErrorSchema(RegularAPIErrorSchema):
         PUBLIC_DEFAULT_MESSAGE = "Something went wrong"
         PUBLIC_DEFAULT_ERR_CODE = "ERR.UNKNOWN"
 
-    message = fields.Method(serialize="serialize_message")  # type: ignore  # TODO: fix
+    message = fields.Method(serialize="serialize_message")
 
-    debug = fields.Constant({})  # type: ignore  # TODO: fix
-    details = fields.Constant({})  # type: ignore  # TODO: fix
+    debug = fields.Constant({})
+    details = fields.Constant({})
 
     def serialize_error_code(self, data: BIError) -> str:
         if tuple(data.application_code_stack) in self.Meta.PUBLIC_FORWARDED_ERROR_CODES:

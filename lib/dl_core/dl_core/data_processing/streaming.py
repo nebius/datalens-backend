@@ -134,9 +134,9 @@ class LazyAsyncChunked(AsyncChunkedBase[_ENTRY_TV]):
     def items(self) -> AsyncIterable[_ENTRY_TV]:
         async def item_gen() -> AsyncGenerator[_ENTRY_TV, None]:
             if self._chunked is None:
-                self._chunked = await self._initializer()  # type: ignore  # TODO: fix
+                self._chunked = await self._initializer()
             try:
-                async for item in self._chunked.items:  # type: ignore  # TODO: fix
+                async for item in self._chunked.items:
                     yield item
             finally:
                 await self._finalizer()
@@ -147,9 +147,9 @@ class LazyAsyncChunked(AsyncChunkedBase[_ENTRY_TV]):
     def chunks(self) -> AsyncIterable[TChunk[_ENTRY_TV]]:
         async def chunk_gen() -> AsyncGenerator[TChunk[_ENTRY_TV], None]:
             if self._chunked is None:
-                self._chunked = await self._initializer()  # type: ignore  # TODO: fix
+                self._chunked = await self._initializer()
             try:
-                async for chunk in self._chunked.chunks:  # type: ignore  # TODO: fix
+                async for chunk in self._chunked.chunks:
                     yield chunk
             finally:
                 await self._finalizer()

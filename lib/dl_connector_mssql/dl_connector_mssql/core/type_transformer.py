@@ -15,7 +15,7 @@ class MSSQLServerTypeTransformer(TypeTransformer):
     conn_type = CONNECTION_TYPE_MSSQL
     native_to_user_map = {
         **{
-            make_native_type(CONNECTION_TYPE_MSSQL, t): UserDataType.integer  # type: ignore  # TODO: fix
+            make_native_type(CONNECTION_TYPE_MSSQL, t): UserDataType.integer
             for t in (ms_types.TINYINT, ms_types.SMALLINT, ms_types.INTEGER, ms_types.BIGINT)
         },
         **{
@@ -57,6 +57,6 @@ class MSSQLServerTypeTransformer(TypeTransformer):
         UserDataType.unsupported: make_native_type(CONNECTION_TYPE_MSSQL, sa.sql.sqltypes.NullType),
     }
     casters = {
-        **TypeTransformer.casters,  # type: ignore  # TODO: fix
+        **TypeTransformer.casters,
         UserDataType.uuid: LowercaseTypeCaster(),
     }
