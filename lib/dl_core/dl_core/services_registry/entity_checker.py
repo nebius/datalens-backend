@@ -38,5 +38,5 @@ class EntityUsageChecker(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def ensure_data_connection_can_be_used(self, rci: RequestContextInfo, conn: ConnectionBase):
+    def ensure_data_connection_can_be_used(self, rci: RequestContextInfo, conn: ConnectionBase):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         pass

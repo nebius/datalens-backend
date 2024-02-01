@@ -70,7 +70,7 @@ class BaseStorageSchema(Schema, Generic[_TARGET_TV]):
         raise NotImplementedError("This schema is does not implement object deserialization")
 
     @pre_load(pass_many=False)
-    def pre_load(self, data, **_):
+    def pre_load(self, data, **_):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         normalized_data = self.pre_process_input_data(data)
         # storing unknown fields
         unknown_keys = normalized_data.keys() - self.fields.keys()
@@ -83,13 +83,13 @@ class BaseStorageSchema(Schema, Generic[_TARGET_TV]):
         return normalized_data
 
     @post_load(pass_many=False)
-    def post_load(self, data, **_):
+    def post_load(self, data, **_):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         obj = self.to_object(data)
         self.pop_ctx(data)
         return obj
 
     @post_dump(pass_many=False)
-    def post_dump(self, data: Dict[str, Any], **_) -> Dict[str, Any]:
+    def post_dump(self, data: Dict[str, Any], **_) -> Dict[str, Any]:  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
         normalized_data = self.post_process_output_data(data)
         return normalized_data
 

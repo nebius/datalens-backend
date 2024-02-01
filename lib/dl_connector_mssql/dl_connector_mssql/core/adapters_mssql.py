@@ -248,7 +248,7 @@ class MSSQLDefaultAdapter(BaseClassicAdapter):
         exc_cls, kw = super().make_exc(wrapper_exc, orig_exc, debug_compiled_query)
 
         db_msg = kw["db_message"]
-        specific_exc_cls = cls.get_exc_class(db_msg)
+        specific_exc_cls = cls.get_exc_class(db_msg)  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "get_exc_class" of "MSSQLDefaultAdapter" has incompatible type "str | None"; expected "str"  [arg-type]
         exc_cls = specific_exc_cls if specific_exc_cls is not None else exc_cls
 
         return exc_cls, kw

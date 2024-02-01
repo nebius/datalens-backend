@@ -23,7 +23,7 @@ if TYPE_CHECKING:
 LOGGER = logging.getLogger(__name__)
 
 
-def create_s3_client(s3_settings) -> AsyncS3Client:
+def create_s3_client(s3_settings) -> AsyncS3Client:  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
     session = aiobotocore.session.get_session()
     return session.create_client(
         service_name="s3",
@@ -33,7 +33,7 @@ def create_s3_client(s3_settings) -> AsyncS3Client:
     )
 
 
-def create_sync_s3_client(s3_settings) -> SyncS3Client:
+def create_sync_s3_client(s3_settings) -> SyncS3Client:  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
     session = boto3.Session()
     return session.client(
         service_name="s3",
@@ -102,8 +102,8 @@ S3_TBL_FUNC_TEMPLATE = """s3(
 '{schema_line}')"""
 
 
-def s3_tbl_func_maker(s3_settings) -> Callable[..., str]:
-    def table_function(
+def s3_tbl_func_maker(s3_settings) -> Callable[..., str]:  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
+    def table_function(  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
         for_: str,
         conn_dto,
         filename: str,

@@ -76,7 +76,7 @@ class PublicEnvEntityUsageChecker(EntityUsageChecker):
         else:
             raise EntityUsageNotAllowed(f"Unexpected data source role resolved for dataset {dataset.uuid}")
 
-    def ensure_data_connection_can_be_used(self, rci: RequestContextInfo, conn: ConnectionBase):
+    def ensure_data_connection_can_be_used(self, rci: RequestContextInfo, conn: ConnectionBase):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         LOGGER.info("Checking if connection %s %s can be used in public env", conn.conn_type, conn.uuid)
         if conn.allow_public_usage:
             return

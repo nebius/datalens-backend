@@ -95,21 +95,21 @@ class DataSource(metaclass=abc.ABCMeta):
         return self._spec
 
     def _validate_connection(self) -> None:
-        if self._connection is not None and self._spec.connection_ref is None:
+        if self._connection is not None and self._spec.connection_ref is None:  # type: ignore  # 2024-02-01 # TODO: Item "None" of "DataSourceSpec | None" has no attribute "connection_ref"  [union-attr]
             # TODO CONSIDER: extraction of connection ref
             pass
-        elif self._spec.connection_ref is not None and self._connection is None:
+        elif self._spec.connection_ref is not None and self._connection is None:  # type: ignore  # 2024-02-01 # TODO: Item "None" of "DataSourceSpec | None" has no attribute "connection_ref"  [union-attr]
             pass
         else:
             raise ValueError(
-                f"Unexpected combination of 'connection' and 'connection_ref':"
+                f"Unexpected combination of 'connection' and 'connection_ref':"  # type: ignore  # 2024-02-01 # TODO: Item "None" of "DataSourceSpec | None" has no attribute "connection_ref"  [union-attr]
                 f" {self._connection} and {self._spec.connection_ref}"
             )
 
         if self._connection is not None:
             self._validate_connection_cls(self._connection)
 
-    def __attrs_post_init__(self):
+    def __attrs_post_init__(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         self._validate_connection()
 
     @classmethod
@@ -174,7 +174,7 @@ class DataSource(metaclass=abc.ABCMeta):
     def connection_ref(self) -> ConnectionRef:
         if self.spec.connection_ref is None:
             # TODO CONSIDER: May raise exception if connection has no ref? Or raise on save attempt?
-            self.spec.connection_ref = self._connection.conn_ref
+            self.spec.connection_ref = self._connection.conn_ref  # type: ignore  # 2024-02-01 # TODO: Item "None" of "ConnectionBase | None" has no attribute "conn_ref"  [union-attr]
 
         connection_ref = self.spec.connection_ref
         assert connection_ref is not None

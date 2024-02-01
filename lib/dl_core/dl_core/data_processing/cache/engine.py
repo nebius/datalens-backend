@@ -396,7 +396,7 @@ class EntityCacheEntryManagerAsync(EntityCacheEntryManagerAsyncBase):
 class RedisCacheLockWrapped(RedisCacheLock):
     """Local profiling additions to the RCL"""
 
-    @generic_profiler_async("qcache-locked-get-data-slave")
+    @generic_profiler_async("qcache-locked-get-data-slave")  # type: ignore  # 2024-02-01 # TODO: Value of type variable "_GPA_CORO_TV" of function cannot be "Callable[[RedisCacheLockWrapped], Coroutine[Any, Any, bytes | None]]"  [type-var]
     async def get_data_slave(self) -> Optional[bytes]:
         return await super().get_data_slave()
 
@@ -461,7 +461,7 @@ class EntityCacheEntryLockedManagerAsync(EntityCacheEntryManagerAsyncBase):
             self._history_holder = history_holder
         return rcl
 
-    @generic_profiler_async("qcache-locked-initialize")
+    @generic_profiler_async("qcache-locked-initialize")  # type: ignore  # 2024-02-01 # TODO: Value of type variable "_GPA_CORO_TV" of function cannot be "Callable[[EntityCacheEntryLockedManagerAsync], Coroutine[Any, Any, dict[str, dict[Any, Any] | list[Any] | tuple[Any, ...] | date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None] | list[dict[Any, Any] | list[Any] | tuple[Any, ...] | date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None] | tuple[dict[Any, Any] | list[Any] | tuple[Any, ...] | date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None, ...] | date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None | None]]"  [type-var]
     async def _initialize(self) -> Optional[TJSONExt]:
         """
         WARNING: partially reimplements `EntityCacheEngineAsync._get_from_cache`.
@@ -492,7 +492,7 @@ class EntityCacheEntryLockedManagerAsync(EntityCacheEntryManagerAsyncBase):
         cache_engine._log_after_read(full_key=full_key, cache_entry=cache_entry)
         return result_data
 
-    @generic_profiler_async("qcache-locked-finalize")
+    @generic_profiler_async("qcache-locked-finalize")  # type: ignore  # 2024-02-01 # TODO: Value of type variable "_GPA_CORO_TV" of function cannot be "Callable[[EntityCacheEntryLockedManagerAsync, dict[str, dict[Any, Any] | list[Any] | tuple[Any, ...] | date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None] | list[dict[Any, Any] | list[Any] | tuple[Any, ...] | date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None] | tuple[dict[Any, Any] | list[Any] | tuple[Any, ...] | date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None, ...] | date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None | None, Any | None, float | None], Coroutine[Any, Any, None]]"  [type-var]
     async def _finalize(
         self,
         result: Optional[TJSONExt],
@@ -741,7 +741,7 @@ class EntityCacheEngineAsync(EntityCacheEngineBase):
         )
 
     # Redis helpers
-    @generic_profiler_async("qcache-invalidate")
+    @generic_profiler_async("qcache-invalidate")  # type: ignore  # 2024-02-01 # TODO: Value of type variable "_GPA_CORO_TV" of function cannot be "Callable[[EntityCacheEngineAsync, str], Coroutine[Any, Any, None]]"  [type-var]
     async def _delete_keys_by_pattern(self, pattern: str) -> None:
         """SCAN is used to prevent redis lockout with KEYS command."""
         LOGGER.info("Invalidating cache for entity %s", self.entity_id)
@@ -759,7 +759,7 @@ class EntityCacheEngineAsync(EntityCacheEngineBase):
             pipeline.delete(key)
         await pipeline.execute()
 
-    @generic_profiler_async("qcache-update")
+    @generic_profiler_async("qcache-update")  # type: ignore  # 2024-02-01 # TODO: Value of type variable "_GPA_CORO_TV" of function cannot be "Callable[[EntityCacheEngineAsync, LocalKeyRepresentation, dict[str, dict[Any, Any] | list[Any] | tuple[Any, ...] | date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None] | list[dict[Any, Any] | list[Any] | tuple[Any, ...] | date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None] | tuple[dict[Any, Any] | list[Any] | tuple[Any, ...] | date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None, ...] | date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None, dict[str, Any] | None, float | None], Coroutine[Any, Any, None]]"  [type-var]
     async def _update_cache(
         self,
         local_key_rep: LocalKeyRepresentation,
@@ -788,7 +788,7 @@ class EntityCacheEngineAsync(EntityCacheEngineBase):
             except asyncio.TimeoutError as err:
                 self._log_save_failed(update_request=update_request, err=err)
 
-    @generic_profiler_async("qcache-write-redis-exec")
+    @generic_profiler_async("qcache-write-redis-exec")  # type: ignore  # 2024-02-01 # TODO: Value of type variable "_GPA_CORO_TV" of function cannot be "Callable[[EntityCacheEngineAsync, _CacheUpdateRequest], Coroutine[Any, Any, None]]"  [type-var]
     async def _redis_set(self, update_request: _CacheUpdateRequest) -> None:
         try:
             rcli = self.rc
@@ -801,7 +801,7 @@ class EntityCacheEngineAsync(EntityCacheEngineBase):
         else:
             self._log_after_save(update_request=update_request)
 
-    @generic_profiler_async("qcache-get")
+    @generic_profiler_async("qcache-get")  # type: ignore  # 2024-02-01 # TODO: Value of type variable "_GPA_CORO_TV" of function cannot be "Callable[[EntityCacheEngineAsync, LocalKeyRepresentation, float | None], Coroutine[Any, Any, dict[str, dict[Any, Any] | list[Any] | tuple[Any, ...] | date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None] | list[dict[Any, Any] | list[Any] | tuple[Any, ...] | date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None] | tuple[dict[Any, Any] | list[Any] | tuple[Any, ...] | date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None, ...] | date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None | None]]"  [type-var]
     async def _get_from_cache(
         self,
         local_key_rep: LocalKeyRepresentation,
@@ -833,7 +833,7 @@ class EntityCacheEngineAsync(EntityCacheEngineBase):
         self._log_after_read(full_key=full_key, cache_entry=cache_entry)
         return result
 
-    @generic_profiler_async("qcache-read-redis-exec")
+    @generic_profiler_async("qcache-read-redis-exec")  # type: ignore  # 2024-02-01 # TODO: Value of type variable "_GPA_CORO_TV" of function cannot be "Callable[[EntityCacheEngineAsync, str, float | None], Coroutine[Any, Any, bytes | None]]"  [type-var]
     async def _redis_get(
         self,
         full_key: str,

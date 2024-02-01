@@ -126,7 +126,7 @@ class RLS:
             assert userid_entry.subject.subject_type == RLSSubjectType.userid
             allow_userid = True
 
-        return False, allow_userid, allowed_values
+        return False, allow_userid, allowed_values  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "tuple[bool, bool, list[str | None]]", expected "tuple[bool, bool, list[str] | None]")  [return-value]
 
     def _should_add_entry(
         self,
@@ -144,7 +144,7 @@ class RLS:
         if pattern_type == RLSPatternType.userid:
             return not allow_userid  # add if it's not already set.
         # Add if not existing:
-        return allowed_value not in existing_allowed_values
+        return allowed_value not in existing_allowed_values  # type: ignore  # 2024-02-01 # TODO: Unsupported right operand type for in ("list[str] | None")  [operator]
 
     def add_field_restriction_for_subject(
         self,
@@ -198,11 +198,11 @@ class RLS:
 
             # For `userid: userid`, add the subject id to the values.
             if allow_userid:
-                allowed_values = list(allowed_values) + [subject_id]
+                allowed_values = list(allowed_values) + [subject_id]  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "list" has incompatible type "list[str] | None"; expected "Iterable[str]"  [arg-type]
 
             result[field_guid] = allowed_values
 
-        return result
+        return result  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "dict[str, list[str] | None]", expected "dict[str, list[str]]")  [return-value]
 
 
 class BaseSubjectResolver(metaclass=abc.ABCMeta):

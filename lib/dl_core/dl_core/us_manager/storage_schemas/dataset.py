@@ -119,7 +119,7 @@ class ConditionPartSchema(OneOfSchema):
         }.items()
     }
 
-    def get_obj_type(self, obj):
+    def get_obj_type(self, obj):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         return getattr(obj, self.type_field).name
 
 
@@ -166,11 +166,11 @@ class RLSSchema(DefaultStorageSchema):
 
     items = ma_fields.List(ma_fields.Nested(RLSEntrySchema))
 
-    def pre_process_input_data(self, data):
+    def pre_process_input_data(self, data):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         return {"items": data}
 
     @post_dump
-    def flatten_items(self, data, **_):
+    def flatten_items(self, data, **_):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         return data.get("items")
 
 
@@ -395,13 +395,13 @@ class ResultSchemaStorageSchema(DefaultStorageSchema):
         def to_object(self, data: dict) -> BIField:
             return BIField.make(**data)
 
-    fields = ma_fields.List(ma_fields.Nested(BIFieldSchema))
+    fields = ma_fields.List(ma_fields.Nested(BIFieldSchema))  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "marshmallow.fields.List", base class "Schema" defined the type as "dict[str, Field]")  [assignment]
 
-    def pre_process_input_data(self, data):
+    def pre_process_input_data(self, data):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         return {"fields": data}
 
     @post_dump
-    def flatten_fields(self, data, **_):
+    def flatten_fields(self, data, **_):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         return data.get("fields")
 
     @post_load

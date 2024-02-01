@@ -72,7 +72,7 @@ class DefaultPreparedComponentManager(PreparedComponentManagerBase):
         if not isinstance(dsrc, dl_core.data_source.sql.BaseSQLDataSource):
             raise TypeError(f"Root data source has non-SQL type: {type(dsrc)}")
 
-        def get_columns():
+        def get_columns():  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
             with self._handle_incomplete_source(avatar=avatar):
                 columns = dsrc.saved_raw_schema
                 if columns is None:
@@ -101,7 +101,7 @@ class DefaultPreparedComponentManager(PreparedComponentManagerBase):
                 .alias(alias)
             )
         else:
-            sql_source = dsrc.get_sql_source(alias=alias)
+            sql_source = dsrc.get_sql_source(alias=alias)  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "ClauseElement", variable has type "FromClause")  [assignment]
 
         target_connection_ref = dsrc.connection_ref
         target_connection = self._us_entry_buffer.get_entry(target_connection_ref)

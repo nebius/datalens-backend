@@ -26,7 +26,7 @@ from dl_query_processing.postprocessing.primitives import PostprocessedData
 
 
 if TYPE_CHECKING:
-    from dl_query_processing.compilation.primitives import DetailedType
+    from dl_query_processing.compilation.primitives import DetailedType  # type: ignore  # 2024-02-01 # TODO: Module "dl_query_processing.compilation.primitives" has no attribute "DetailedType"  [attr-defined]
 
 
 def stringify_or_null(value: Any) -> Optional[str]:
@@ -62,7 +62,7 @@ def get_type_processor(field_type_info: Optional[DetailedType]) -> Callable[[Any
     # Basic
     result = TYPE_PROCESSORS.get(field_type_info.data_type)
     if result is not None:
-        return result
+        return result  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "object", expected "Callable[[Any], Any]")  [return-value]
 
     # Parmetrized
     if field_type_info.data_type == UserDataType.datetimetz:

@@ -216,7 +216,7 @@ class DefaultQueryCompiler(RawQueryCompilerBase):
             chain.from_iterable(
                 formula.avatar_ids
                 for expr_list in (select, group_by, order_by, filters, join_on)
-                for formula in expr_list
+                for formula in expr_list  # type: ignore  # 2024-02-01 # TODO: "object" has no attribute "__iter__"; maybe "__dir__" or "__str__"? (not iterable)  [attr-defined]
             )
         )
 

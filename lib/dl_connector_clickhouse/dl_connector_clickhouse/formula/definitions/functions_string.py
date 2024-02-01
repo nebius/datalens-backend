@@ -70,7 +70,7 @@ DEFINITIONS_STRING = [
         variants=[
             V(
                 D.CLICKHOUSE,
-                lambda x, y, z: n.if_(
+                lambda x, y, z: n.if_(  # type: ignore  # 2024-02-01 # TODO: Item "IfBlockProxy" of "IfBlockProxy | IfPartProxy" has no attribute "then"  [union-attr]
                     sa.func.positionUTF8(sa.func.substringUTF8(x, z, sa.func.lengthUTF8(x)), y) > 0
                 )
                 .then(sa.func.positionUTF8(sa.func.substringUTF8(x, z, sa.func.lengthUTF8(x)), y) + z - 1)

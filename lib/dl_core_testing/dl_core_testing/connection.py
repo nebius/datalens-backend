@@ -24,7 +24,7 @@ if TYPE_CHECKING:
     from dl_core.us_connection_base import ConnectionBase
 
 
-def make_conn_key(*args) -> str:
+def make_conn_key(*args) -> str:  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
     return "/".join(["tests", *args])
 
 

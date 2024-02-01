@@ -111,22 +111,22 @@ class AsyncUSManager(USManagerBase):
             LOGGER.warning("Error during closing AsyncUSManager", exc_info=True)
 
     @overload
-    async def get_by_id(self, entry_id: str, expected_type: type(None) = None) -> USEntry:
+    async def get_by_id(self, entry_id: str, expected_type: type(None) = None) -> USEntry:  # type: ignore  # 2024-02-01 # TODO: Invalid type comment or annotation  [valid-type]
         pass
 
     @overload  # noqa
-    async def get_by_id(self, entry_id: str, expected_type: Type[_ENTRY_TV] = None) -> _ENTRY_TV:
+    async def get_by_id(self, entry_id: str, expected_type: Type[_ENTRY_TV] = None) -> _ENTRY_TV:  # type: ignore  # 2024-02-01 # TODO: Overloaded function signature 2 will never be matched: signature 1's parameter type(s) are the same or broader  [misc]
         pass
 
-    @generic_profiler_async("us-fetch-entity")
-    async def get_by_id(self, entry_id: str, expected_type: Type[_ENTRY_TV] = None) -> _ENTRY_TV:
+    @generic_profiler_async("us-fetch-entity")  # type: ignore  # 2024-02-01 # TODO: Value of type variable "_GPA_CORO_TV" of function cannot be "Callable[[AsyncUSManager, str, type[_ENTRY_TV]], Coroutine[Any, Any, _ENTRY_TV]]"  [type-var]
+    async def get_by_id(self, entry_id: str, expected_type: Type[_ENTRY_TV] = None) -> _ENTRY_TV:  # type: ignore  # 2024-02-01 # TODO: Incompatible default for argument "expected_type" (default has type "None", argument has type "type[_ENTRY_TV]")  [assignment]
         with self._enrich_us_exception(
             entry_id=entry_id,
             entry_scope=expected_type.scope if expected_type is not None else None,
         ):
             us_resp = await self._us_client.get_entry(entry_id)
 
-        obj: _ENTRY_TV = self._entry_dict_to_obj(us_resp, expected_type)
+        obj: _ENTRY_TV = self._entry_dict_to_obj(us_resp, expected_type)  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "USEntry", variable has type "_ENTRY_TV")  [assignment]
         await self.get_lifecycle_manager(entry=obj).post_init_async_hook()
 
         return obj
@@ -202,7 +202,7 @@ class AsyncUSManager(USManagerBase):
 
         try:
             entry = await self.get_by_id(entry_id, expected_type)  # type: ignore  # 2024-01-30 # TODO: Incompatible types in assignment (expression has type "USEntry", variable has type "_ENTRY_TV | None")  [assignment]
-            entry._lock = lock_token
+            entry._lock = lock_token  # type: ignore  # 2024-02-01 # TODO: Item "None" of "_ENTRY_TV | None" has no attribute "_lock"  [union-attr]
             assert entry is not None
             yield entry
 
@@ -243,7 +243,7 @@ class AsyncUSManager(USManagerBase):
 
         if isinstance(conn, BrokenUSLink):
             if referrer is not None:
-                conn.add_referrer_id(referrer.uuid)
+                conn.add_referrer_id(referrer.uuid)  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "add_referrer_id" of "BrokenUSLink" has incompatible type "str | None"; expected "str"  [arg-type]
             return None
         elif isinstance(conn, ConnectionBase):
             return conn
@@ -272,7 +272,7 @@ class AsyncUSManager(USManagerBase):
 
             refs_to_load_queue.update(
                 self._get_entry_links(
-                    resolved_ref,
+                    resolved_ref,  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "_get_entry_links" of "USManagerBase" has incompatible type "ConnectionBase | None"; expected "USEntry"  [arg-type]
                 )
                 - processed_refs
             )

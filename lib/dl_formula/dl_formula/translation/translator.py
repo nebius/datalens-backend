@@ -69,7 +69,7 @@ class SqlAlchemyTranslator:
 
         def translator_cb(obj: nodes.FormulaItem) -> Union[nodes.FormulaItem, ClauseElement]:
             """Callback that can translate a formula node for usage from function implementation"""
-            return self.translate_node(
+            return self.translate_node(  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "ClauseElement | None", expected "FormulaItem | ClauseElement")  [return-value]
                 obj,
                 ctx=TranslationCtx(node=obj, required_scopes=ctx.required_scopes & ~Scope.EXPLICIT_USAGE),
                 postprocess=False,
@@ -105,7 +105,7 @@ class SqlAlchemyTranslator:
             dialect_name = self._env.dialect.single_bit.name.name if self._env.dialect.deterministic else ""
             signature = FunctionStatsSignature(
                 name=func_name,
-                arg_types=tuple(at.name for at in arg_types),
+                arg_types=tuple(at.name for at in arg_types),  # type: ignore  # 2024-02-01 # TODO: Item "None" of "DataType | None" has no attribute "name"  [union-attr]
                 dialect=dialect_name,
                 is_window=isinstance(node, nodes.WindowFuncCall),
             )
@@ -115,7 +115,7 @@ class SqlAlchemyTranslator:
         try:
             func_definition = OPERATION_REGISTRY.get_definition(
                 name=func_name,
-                arg_types=arg_types,
+                arg_types=arg_types,  # type: ignore  # 2024-02-01 # TODO: Argument "arg_types" to "get_definition" of "OperationRegistry" has incompatible type "list[DataType | None]"; expected "Sequence[DataType]"  [arg-type]
                 is_window=isinstance(node, nodes.WindowFuncCall),
                 dialect=self._env.dialect,
                 required_scopes=ctx.required_scopes,
@@ -374,9 +374,9 @@ class SqlAlchemyTranslator:
         child = self.translate_node(node.expr, ctx=ctx.child(node=node.expr), postprocess=True)
         expression = child.expression
         if isinstance(node, nodes.OrderDescending):
-            expression = desc(expression)
+            expression = desc(expression)  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "desc" has incompatible type "ClauseElement | None"; expected "ClauseElement"  [arg-type]
         ctx.set_expression(expression)
-        ctx.set_type(child.data_type, child.data_type_params)
+        ctx.set_type(child.data_type, child.data_type_params)  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "set_type" of "TranslationCtx" has incompatible type "DataType | None"; expected "DataType"  [arg-type]
 
     @_translate_node.register(aux_nodes.ErrorNode)
     def _translate_node_error(self, node: aux_nodes.ErrorNode, ctx: TranslationCtx) -> None:
@@ -460,7 +460,7 @@ def translate_and_compile(
         context_flags=context_flags,
     )
     sa_dialect = get_sa_dialect(env.dialect)
-    sa_compiled_expr = result.expression.compile(
+    sa_compiled_expr = result.expression.compile(  # type: ignore  # 2024-02-01 # TODO: Item "None" of "ClauseElement | None" has no attribute "compile"  [union-attr]
         compile_kwargs={"literal_binds": True},
         dialect=sa_dialect,
     )

@@ -77,10 +77,10 @@ class FilterParams:
 
     field: BIField
     operation: WhereClauseOperation
-    filter_args: list = None
-    data_type: DataType = None
-    field_cast_type: DataType = None
-    arg_cast_type: DataType = None
+    filter_args: list = None  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "None", variable has type "list[Any]")  [assignment]
+    data_type: DataType = None  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "None", variable has type "DataType")  [assignment]
+    field_cast_type: DataType = None  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "None", variable has type "DataType")  [assignment]
+    arg_cast_type: DataType = None  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "None", variable has type "DataType")  [assignment]
 
     def clone(self: _FILTER_PARAMS_TV, **updates: Any) -> _FILTER_PARAMS_TV:
         """Convenience method so that callers don't need to know about `attr`"""
@@ -166,7 +166,7 @@ class FilterFormulaCompiler:
         filter_params = FilterParams(
             field=field,
             operation=operation,
-            filter_args=filter_args,
+            filter_args=filter_args,  # type: ignore  # 2024-02-01 # TODO: Argument "filter_args" to "FilterParams" has incompatible type "list[Any] | None"; expected "list[Any]"  [arg-type]
             data_type=data_type,
             # defaults:
             field_cast_type=data_type,
@@ -229,7 +229,7 @@ class FilterFormulaCompiler:
                 raise dl_query_processing.exc.FilterArgumentCountError(
                     f"Invalid argument count for {operation.value}: expected {add_arg_cnt}, got {len(args_nodes)}"
                 )
-            args = args_nodes
+            args = args_nodes  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "list[BaseLiteral]", variable has type "list[ExpressionList]")  [assignment]
 
         # 3. Create formula object
         formula_obj = formula_nodes.Formula.make(expr=expr_callable(field_formula_obj.expr, *args))

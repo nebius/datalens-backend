@@ -171,8 +171,8 @@ DEFINITIONS_MATH = [
             V(
                 D.YQL,
                 lambda x: n.if_(
-                    n.if_(x < 0).then(-1),
-                    n.if_(x > 0).then(1),
+                    n.if_(x < 0).then(-1),  # type: ignore  # 2024-02-01 # TODO: Item "IfBlockProxy" of "IfBlockProxy | IfPartProxy" has no attribute "then"  [union-attr]
+                    n.if_(x > 0).then(1),  # type: ignore  # 2024-02-01 # TODO: Item "IfBlockProxy" of "IfBlockProxy | IfPartProxy" has no attribute "then"  [union-attr]
                 ).else_(0),
             ),
         ]

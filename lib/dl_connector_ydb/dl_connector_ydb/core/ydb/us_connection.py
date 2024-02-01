@@ -82,7 +82,7 @@ class YDBConnection(ClassicConnectionSQL):
                     },
                 ],
                 group=[],
-                connection_id=self.uuid,
+                connection_id=self.uuid,  # type: ignore  # 2024-02-01 # TODO: Argument "connection_id" to "DataSourceTemplate" has incompatible type "str | None"; expected "str"  [arg-type]
             ),
         ] + self._make_subselect_templates(
             title="Subselect over YDB",

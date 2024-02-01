@@ -241,7 +241,7 @@ class BaseClickHouseAdapter(BaseClassicAdapter["BaseClickHouseConnTargetDTO"], B
         if self._dt_with_system_tz:
             system_tz = db_engine.scalar(sa.text("select timezone()"))
 
-        def make_native_type(col):
+        def make_native_type(col):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
             col_type = col["type"]
             col_type = self.normalize_sa_col_type(col_type)
 
@@ -277,7 +277,7 @@ class BaseClickHouseAdapter(BaseClassicAdapter["BaseClickHouseConnTargetDTO"], B
             if isinstance(col_type, ch_types.DateTimeWithTZ):
                 return ClickHouseDateTimeWithTZNativeType(
                     conn_type=conn_type,
-                    name=name,
+                    name=name,  # type: ignore  # 2024-02-01 # TODO: Argument "name" to "ClickHouseDateTimeWithTZNativeType" has incompatible type "str | None"; expected "str"  [arg-type]
                     nullable=nullable,
                     lowcardinality=lowcardinality,
                     timezone_name=col_type.tz,
@@ -286,7 +286,7 @@ class BaseClickHouseAdapter(BaseClassicAdapter["BaseClickHouseConnTargetDTO"], B
             if isinstance(col_type, ch_types.DateTime64WithTZ):
                 return ClickHouseDateTime64WithTZNativeType(
                     conn_type=conn_type,
-                    name=name,
+                    name=name,  # type: ignore  # 2024-02-01 # TODO: Argument "name" to "ClickHouseDateTime64WithTZNativeType" has incompatible type "str | None"; expected "str"  [arg-type]
                     nullable=nullable,
                     lowcardinality=lowcardinality,
                     precision=col_type.precision,
@@ -296,14 +296,14 @@ class BaseClickHouseAdapter(BaseClassicAdapter["BaseClickHouseConnTargetDTO"], B
             if isinstance(col_type, ch_types.DateTime64):
                 return ClickHouseDateTime64NativeType(
                     conn_type=conn_type,
-                    name=name,
+                    name=name,  # type: ignore  # 2024-02-01 # TODO: Argument "name" to "ClickHouseDateTime64NativeType" has incompatible type "str | None"; expected "str"  [arg-type]
                     nullable=nullable,
                     lowcardinality=lowcardinality,
                     precision=col_type.precision,
                 )
             return ClickHouseNativeType(
                 conn_type=conn_type,
-                name=name,
+                name=name,  # type: ignore  # 2024-02-01 # TODO: Argument "name" to "ClickHouseNativeType" has incompatible type "str | None"; expected "str"  [arg-type]
                 nullable=nullable,
                 lowcardinality=lowcardinality,
             )
@@ -390,7 +390,7 @@ class BaseAsyncClickHouseAdapter(AiohttpDBAdapter):
             path=self._target_dto.endpoint,
         )
 
-    def get_session_timeout(self) -> Optional[ClientTimeout]:
+    def get_session_timeout(self) -> Optional[ClientTimeout]:  # type: ignore  # 2024-02-01 # TODO: Return type "ClientTimeout | None" of "get_session_timeout" incompatible with return type "ClientTimeout" in supertype "AiohttpDBAdapter"  [override]
         return ClientTimeout(connect=self._target_dto.connect_timeout, total=self._target_dto.total_timeout)
 
     def get_session_auth(self) -> Optional[BasicAuth]:
@@ -537,7 +537,7 @@ class BaseAsyncClickHouseAdapter(AiohttpDBAdapter):
         except Exception:
             LOGGER.warning("Failed to dump clickhouse summary", exc_info=True)
 
-    @generic_profiler_async("db-full")
+    @generic_profiler_async("db-full")  # type: ignore  # 2024-02-01 # TODO: Value of type variable "_GPA_CORO_TV" of function cannot be "Callable[[BaseAsyncClickHouseAdapter, DBAdapterQuery], Coroutine[Any, Any, AsyncRawExecutionResult]]"  [type-var]
     async def execute(self, query: DBAdapterQuery) -> AsyncRawExecutionResult:
         et = JSONCompactChunksParser.parts
 
@@ -595,7 +595,7 @@ class BaseAsyncClickHouseAdapter(AiohttpDBAdapter):
                     if evt_type == et.DATACHUNK:
                         yield tuple(
                             tuple(
-                                _safe_col_converter(col_converter, val)
+                                _safe_col_converter(col_converter, val)  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "_safe_col_converter" has incompatible type "None"; expected "Callable[[str], Any]"  [arg-type]
                                 if col_converter is not None
                                 else val
                                 for val, col_converter in zip(raw_row, row_converters)
@@ -678,7 +678,7 @@ class BaseAsyncClickHouseAdapter(AiohttpDBAdapter):
         raise NotImplementedError()
 
     @classmethod
-    def create(
+    def create(  # type: ignore  # 2024-02-01 # TODO: Signature of "create" incompatible with supertype "AiohttpDBAdapter"  [override]
         cls: Type[_DBA_TV],
         target_dto: _TARGET_DTO_TV,
         req_ctx_info: DBAdapterScopedRCI,

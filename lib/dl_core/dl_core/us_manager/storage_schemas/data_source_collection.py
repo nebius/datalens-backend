@@ -46,7 +46,7 @@ class DataSourceCollectionSpecStorageSchema(BaseStorageSchema[DataSourceCollecti
     def pop_ctx(self, data: dict) -> None:
         self.context.pop(CtxKey.dsc_id, None)
 
-    def to_object(self, data):
+    def to_object(self, data):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         return self.get_target_cls()(
             id=data["id"],
             title=data["title"],
@@ -70,5 +70,5 @@ class GenericDataSourceCollectionStorageSchema(OneOfSchema):
 
     def get_obj_type(self, obj: Any) -> Optional[DataSourceCollectionType]:
         if isinstance(obj, DataSourceCollectionSpecBase):
-            return obj.dsrc_coll_type.name
+            return obj.dsrc_coll_type.name  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "str", expected "DataSourceCollectionType | None")  [return-value]
         return None

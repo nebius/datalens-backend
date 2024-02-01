@@ -13,8 +13,8 @@ class FakeUSClient(UStorageClient):
     This class is used by async US manager to prevent saving/updating entities with their BaseModel.*() methods
     """
 
-    def __init__(self):
+    def __init__(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         super().__init__(host="http://127.0.0.1:3030", auth_ctx=USAuthContextNoAuth())
 
-    def _request(self, request_data: UStorageClientBase.RequestData):
+    def _request(self, request_data: UStorageClientBase.RequestData):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         raise NotImplementedError("US entries created by async manager can not communicate with US directly")

@@ -28,10 +28,10 @@ def postprocess_genericdatetime(value: datetime.datetime) -> Optional[str]:
     return value.replace(tzinfo=None).isoformat()
 
 
-def make_postprocess_datetimetz(tzname: str):
+def make_postprocess_datetimetz(tzname: str):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
     tzobj = pytz.timezone(tzname)
 
-    def _postprocess_datetimetz(value: datetime.datetime, tzobj=tzobj) -> Optional[str]:
+    def _postprocess_datetimetz(value: datetime.datetime, tzobj=tzobj) -> Optional[str]:  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
         if value is None:
             return value
 

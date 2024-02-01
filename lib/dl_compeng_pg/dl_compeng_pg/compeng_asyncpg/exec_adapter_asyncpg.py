@@ -61,11 +61,11 @@ class AsyncpgExecAdapter(PostgreSQLExecAdapterAsync[asyncpg.pool.PoolConnectionP
         dialect.supports_smallserial = True  # 9.2+
         dialect._backslash_escapes = False  # type: ignore  # 2024-01-29 # TODO: "PGDialect_pypostgresql" has no attribute "_backslash_escapes"  [attr-defined]
         dialect.supports_sane_multi_rowcount = True  # psycopg 2.0.9+
-        dialect._has_native_hstore = True
+        dialect._has_native_hstore = True  # type: ignore  # 2024-02-01 # TODO: "PGDialect_pypostgresql" has no attribute "_has_native_hstore"  [attr-defined]
 
         return dialect
 
-    def _compile_query(self, query):
+    def _compile_query(self, query):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         # exclude {AsyncAdapt_asyncpg_dbapi.ENUM}
         # https://github.com/sqlalchemy/sqlalchemy/blob/rel_1_4/lib/sqlalchemy/dialects/postgresql/asyncpg.py#L345
         return compile_pg_query(query, self.dialect, exclude_types={DBAPIMock.ENUM}, add_types=False)
@@ -87,7 +87,7 @@ class AsyncpgExecAdapter(PostgreSQLExecAdapterAsync[asyncpg.pool.PoolConnectionP
             trans_exc = self._error_transformer.make_bi_error(wrapper_exc=wrapper_exc, debug_compiled_query=query_text)
             raise trans_exc from wrapper_exc
 
-    async def _execute_and_fetch(
+    async def _execute_and_fetch(  # type: ignore  # 2024-02-01 # TODO: Return type "Coroutine[Any, Any, AsyncChunked[list[date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None]]]" of "_execute_and_fetch" incompatible with return type "Coroutine[Any, Any, AsyncChunkedBase[Sequence[date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None]]]" in supertype "ProcessorDbExecAdapterBase"  [override]
         self,
         *,
         query: Union[str, sa.sql.selectable.Select],

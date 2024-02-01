@@ -61,7 +61,7 @@ class DLRequestBase:
     KEY_REPORTING_PROFILER = "reporting_profiler"
 
     HANDLER_ATTR_NAME_REQUIRED_RESOURCES = "REQUIRED_RESOURCES"
-    NO_RESOURCES = frozenset()
+    NO_RESOURCES = frozenset()  # type: ignore  # 2024-02-01 # TODO: Need type annotation for "NO_RESOURCES"  [var-annotated]
 
     # flag that forces `.url` to use `https` scheme
     enforce_https_on_self_url: bool = True
@@ -94,7 +94,7 @@ class DLRequestBase:
             pfx = "http://"
             if result.startswith(pfx):
                 return "https://" + result[len(pfx) :]
-        return self.request.url
+        return self.request.url  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "URL", expected "str")  [return-value]
 
     # TODO FIX: Check that is not used and remove
     @property
@@ -104,11 +104,11 @@ class DLRequestBase:
     # TODO FIX: Check that is not used and remove
     @property
     def user_id(self) -> str:
-        return self.rci.user_id
+        return self.rci.user_id  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "str | None", expected "str")  [return-value]
 
     # TODO FIX: Check that is not used and remove
     @property
-    def user_name(self):
+    def user_name(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return self.rci.user_name
 
     @property
@@ -120,7 +120,7 @@ class DLRequestBase:
             raise RCINotSet("Temp RCI was not initiated")
         return self.request[self.KEY_RCI_TEMP]
 
-    def init_temp_rci(self, rci: RequestContextInfo):
+    def init_temp_rci(self, rci: RequestContextInfo):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         """This method should be called in request_id middleware (or another top-level middleware)"""
         self._set_attr_once(self.KEY_RCI_TEMP, rci)
 
@@ -173,16 +173,16 @@ class DLRequestBase:
 
     @property
     def reporting_registry(self) -> ReportingRegistry:
-        return self.request.get(self.KEY_REPORTING_REGISTRY)
+        return self.request.get(self.KEY_REPORTING_REGISTRY)  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "Any | None", expected "ReportingRegistry")  [return-value]
 
     @reporting_registry.setter
-    def reporting_registry(self, value: ReportingRegistry):
+    def reporting_registry(self, value: ReportingRegistry):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         value.rci = self.temp_rci
         self._set_attr_once(self.KEY_REPORTING_REGISTRY, value)
 
     @property
     def reporting_profiler(self) -> ReportingProfiler:
-        return self.request.get(self.KEY_REPORTING_PROFILER)
+        return self.request.get(self.KEY_REPORTING_PROFILER)  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "Any | None", expected "ReportingProfiler")  [return-value]
 
     @reporting_profiler.setter
     def reporting_profiler(self, value: ReportingProfiler) -> None:

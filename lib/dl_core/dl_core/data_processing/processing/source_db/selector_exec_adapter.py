@@ -78,7 +78,7 @@ class SourceDbExecAdapter(ProcessorDbExecAdapterBase):  # noqa
     _row_count_hard_limit: Optional[int] = attr.ib(kw_only=True, default=None)
     _us_entry_buffer: USEntryBuffer = attr.ib(kw_only=True)
 
-    def __attrs_post_init__(self):
+    def __attrs_post_init__(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         if self._prep_component_manager is None:
             self._prep_component_manager = DefaultPreparedComponentManager(
                 dataset=self._dataset,
@@ -121,7 +121,7 @@ class SourceDbExecAdapter(ProcessorDbExecAdapterBase):  # noqa
         wrapped_result_iter = AsyncChunked(chunked_data=exec_result.result)
 
         async def initialize_data_stream() -> AsyncChunkedBase[list[TBIDataValue]]:
-            return wrapped_result_iter
+            return wrapped_result_iter  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "AsyncChunked[Sequence[date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None]]", expected "AsyncChunkedBase[list[date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None]]")  [return-value]
 
         async def finalize_data_stream() -> None:
             pass

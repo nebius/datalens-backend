@@ -43,7 +43,7 @@ class DbQueryExecutionReport:
     query_type: ReportingQueryType
     is_public: bool
 
-    def convert_for_logging_extras(self, value) -> Union[str, int, bool, None]:
+    def convert_for_logging_extras(self, value) -> Union[str, int, bool, None]:  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
         if value is None:
             return None
         elif isinstance(value, (str, int, bool)):
@@ -55,8 +55,8 @@ class DbQueryExecutionReport:
 
     def to_logging_extras(self) -> Dict[str, Union[str, int, bool]]:
         return dict(
-            {
-                k: self.convert_for_logging_extras(v) for k, v in attr.asdict(self)
+            {  # type: ignore  # 2024-02-01 # TODO: Unpacking a string is disallowed  [misc]
+                k: self.convert_for_logging_extras(v) for k, v in attr.asdict(self)  # type: ignore  # 2024-02-01 # TODO: Cannot determine type of "k"  [has-type]
             },
             event_code=self.event_code,
         )

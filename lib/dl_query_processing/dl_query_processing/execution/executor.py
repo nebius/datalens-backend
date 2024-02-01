@@ -132,7 +132,7 @@ class QueryExecutor(QueryExecutorBase):
             f"Executing level type {level_type}. " f"Got source streams with result IDs: {list(streams_by_result_id)}"
         )
 
-        streams: List[DataStreamAsync] = [stream for _, stream in sorted(streams_by_result_id.items())]
+        streams: List[DataStreamAsync] = [stream for _, stream in sorted(streams_by_result_id.items())]  # type: ignore  # 2024-02-01 # TODO: List comprehension has incompatible type List[AbstractStream]; expected List[DataStreamAsync]  [misc]
         operations: List[BaseOp] = []
 
         # 1. Make operations for uploading data (if necessary).
@@ -291,7 +291,7 @@ class QueryExecutor(QueryExecutorBase):
         streams_by_result_id: Dict[AvatarId, AbstractStream] = {}
         stream_aliases: dict[str, str] = {}
         for avatar_id in required_avatar_ids:
-            alias = self._avatar_alias_mapper(avatar_id)
+            alias = self._avatar_alias_mapper(avatar_id)  # type: ignore  # 2024-02-01 # TODO: "None" not callable  [misc]
             prep_src_info = prep_component_manager.get_prepared_source(
                 avatar_id=avatar_id,
                 alias=alias,
@@ -348,7 +348,7 @@ class QueryExecutor(QueryExecutorBase):
 
         # Process data in source_db
         try:
-            streams_by_result_id, stream_aliases = await self._process_multi_query(
+            streams_by_result_id, stream_aliases = await self._process_multi_query(  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "dict[str, DataStreamAsync]", variable has type "dict[str, AbstractStream]")  [assignment]
                 level_type=ExecutionLevel.source_db,
                 translated_multi_query=source_db_multi_query,
                 streams_by_result_id=streams_by_result_id,
@@ -385,7 +385,7 @@ class QueryExecutor(QueryExecutorBase):
 
         # Process data in compeng
         async with self._compeng_semaphore:
-            streams_by_result_id, stream_aliases = await self._process_multi_query(
+            streams_by_result_id, stream_aliases = await self._process_multi_query(  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "dict[str, DataStreamAsync]", variable has type "dict[str, AbstractStream]")  [assignment]
                 level_type=ExecutionLevel.compeng,
                 translated_multi_query=compeng_multi_query,
                 streams_by_result_id=streams_by_result_id,

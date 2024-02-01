@@ -115,7 +115,7 @@ class ColumnRegistry:
 
     def get_used_avatar_ids_for_formula_obj(self, formula_obj: formula_nodes.Formula) -> Set[str]:
         column_ids = {field_node.name for field_node in used_fields(formula_obj)}
-        return {self._columns.get(column_id).avatar_id for column_id in column_ids}
+        return {self._columns.get(column_id).avatar_id for column_id in column_ids}  # type: ignore  # 2024-02-01 # TODO: Item "None" of "AvatarColumn | None" has no attribute "avatar_id"  [union-attr]
 
     def get_multipart_column_names(self, avatar_alias_mapper: Callable[[AvatarId], str]) -> Dict[str, Tuple[str, str]]:
         return {
@@ -129,7 +129,7 @@ class ColumnRegistry:
         }
 
     def get(self, column_id: str) -> AvatarColumn:
-        return self._columns.get(column_id)
+        return self._columns.get(column_id)  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "AvatarColumn | None", expected "AvatarColumn")  [return-value]
 
     def get_avatar_column(self, avatar_id: str, name: str) -> AvatarColumn:
         try:
@@ -148,7 +148,7 @@ class ColumnRegistry:
 
     def get_column_avatar_ids(self) -> Dict[Tuple[str, str], str]:
         return {
-            column_id: av_column.avatar_id
+            column_id: av_column.avatar_id  # type: ignore  # 2024-02-01 # TODO: Key expression in dictionary comprehension has incompatible type "str"; expected type "tuple[str, str]"  [misc]
             for column_id, av_column in self._columns.items()
         }
 

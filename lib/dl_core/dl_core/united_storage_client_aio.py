@@ -59,7 +59,7 @@ class UStorageClientAIO(UStorageClientBase):
             return self._response.headers.get(name)
 
         @property
-        def elapsed_seconds(self) -> float:
+        def elapsed_seconds(self) -> float:  # type: ignore  # 2024-02-01 # TODO: Signature of "elapsed_seconds" incompatible with supertype "ResponseAdapter"  [override]
             return self._elapsed_seconds
 
         @property
@@ -81,7 +81,7 @@ class UStorageClientAIO(UStorageClientBase):
         def json(self) -> dict:
             if self._parsed_json_data is None:
                 self._parsed_json_data = json.loads(self._content.decode("utf-8"))
-            return self._parsed_json_data
+            return self._parsed_json_data  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "None", expected "dict[Any, Any]")  [return-value]
 
     class RequestAdapter(UStorageClientBase.RequestAdapter):
         def __init__(self, request: aiohttp.RequestInfo, request_data: UStorageClientBase.RequestData):
@@ -101,7 +101,7 @@ class UStorageClientAIO(UStorageClientBase):
 
         @property
         def json(self) -> dict:
-            return self._request_data.json
+            return self._request_data.json  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "dict[Any, Any] | None", expected "dict[Any, Any]")  [return-value]
 
     _bi_http_client: BIAioHTTPClient
 
@@ -142,7 +142,7 @@ class UStorageClientAIO(UStorageClientBase):
             ca_data=ca_data,
         )
 
-    async def _request(self, request_data: UStorageClientBase.RequestData):
+    async def _request(self, request_data: UStorageClientBase.RequestData):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         self._raise_for_disabled_interactions()
         self._log_request_start(request_data)
         tracing_headers = get_current_tracing_headers()
@@ -175,7 +175,7 @@ class UStorageClientAIO(UStorageClientBase):
     async def get_entry(self, entry_id: str) -> dict:
         return await self._request(self._req_data_get_entry(entry_id=entry_id))
 
-    async def create_entry(
+    async def create_entry(  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         self,
         key: EntryLocation,
         scope: str,
@@ -200,7 +200,7 @@ class UStorageClientAIO(UStorageClientBase):
         )
         return await self._request(rq_data)
 
-    async def update_entry(
+    async def update_entry(  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         self, entry_id, data=None, unversioned_data=None, meta=None, lock=None, hidden=None, links=None
     ):
         return await self._request(
@@ -215,7 +215,7 @@ class UStorageClientAIO(UStorageClientBase):
             )
         )
 
-    async def delete_entry(self, entry_id, lock=None) -> NoReturn:
+    async def delete_entry(self, entry_id, lock=None) -> NoReturn:  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
         await self._request(self._req_data_delete_entry(entry_id, lock=lock))
 
     async def entries_iterator(
@@ -292,11 +292,11 @@ class UStorageClientAIO(UStorageClientBase):
                 else:
                     raise
 
-    async def release_lock(self, entry_id, lock):
+    async def release_lock(self, entry_id, lock):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         try:
             await self._request(self._req_data_release_lock(entry_id, lock=lock))
         except USReqException:
             LOGGER.exception('Unable to release lock "%s"', lock)
 
-    async def close(self):
+    async def close(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         await self._bi_http_client.close()

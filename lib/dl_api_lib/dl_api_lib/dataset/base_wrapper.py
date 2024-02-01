@@ -299,7 +299,7 @@ class DatasetBaseWrapper:
     def allow_nested_window_functions(self) -> bool:
         return True
 
-    def load_exbuilders(self):
+    def load_exbuilders(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         self.inspect_env = InspectionEnvironment()
         self._column_reg = ColumnRegistry(
             db_columns=self._generate_raw_column_list(),

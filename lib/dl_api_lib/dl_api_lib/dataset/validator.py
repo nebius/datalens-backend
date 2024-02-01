@@ -297,10 +297,10 @@ class DatasetValidator(DatasetBaseWrapper):
             )
             formula_comp_multi_query = self.process_compiled_query(compiled_query=formula_comp_query)
             multi_translator = self.make_multi_query_translator()
-            errors += multi_translator.collect_errors(compiled_multi_query=formula_comp_multi_query)
+            errors += multi_translator.collect_errors(compiled_multi_query=formula_comp_multi_query)  # type: ignore  # 2024-02-01 # TODO: Unsupported left operand type for + ("None")  [operator]
         except formula_exc.FormulaError:
             pass
-        return errors
+        return errors  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "list[FormulaErrorCtx] | None", expected "list[FormulaErrorCtx]")  [return-value]
 
     def _get_relation_errors(self, relation: AvatarRelation) -> list[FormulaErrorCtx]:
         # TODO: switch to ComponentError items
@@ -333,7 +333,7 @@ class DatasetValidator(DatasetBaseWrapper):
             errors.append(
                 FormulaErrorCtx(
                     message=common_exc.AvatarRelationJoinTypeError.default_message,
-                    code=common_exc.AvatarRelationJoinTypeError.err_code,
+                    code=common_exc.AvatarRelationJoinTypeError.err_code,  # type: ignore  # 2024-02-01 # TODO: Argument "code" to "FormulaErrorCtx" has incompatible type "list[str]"; expected "tuple[str, ...]"  [arg-type]
                     level=MessageLevel.ERROR,
                 )
             )
@@ -573,7 +573,7 @@ class DatasetValidator(DatasetBaseWrapper):
         # Update field dependencies in dataset
         field_dep_mgr = self._ds_dep_mgr_factory.get_field_shallow_inter_dependency_manager()
         if new_field is None:
-            field_dep_mgr.clear_field_direct_references(dep_field_id=field_id)
+            field_dep_mgr.clear_field_direct_references(dep_field_id=field_id)  # type: ignore  # 2024-02-01 # TODO: "FieldShallowInterDependencyManagerBase" has no attribute "clear_field_direct_references"; maybe "get_field_direct_references" or "set_field_direct_references"?  [attr-defined]
         else:
             field_dep_mgr.set_field_direct_references(
                 dep_field_id=field_id, ref_field_ids=self.formula_compiler.get_referenced_fields(new_field)
@@ -607,7 +607,7 @@ class DatasetValidator(DatasetBaseWrapper):
         dsrc_coll = self._get_data_source_coll_strict(source_id=avatar.source_id)
         raw_schema = dsrc_coll.get_cached_raw_schema()
         try:
-            return [c for c in raw_schema if c.name == field.source][0]
+            return [c for c in raw_schema if c.name == field.source][0]  # type: ignore  # 2024-02-01 # TODO: Item "None" of "list[SchemaColumn] | None" has no attribute "__iter__" (not iterable)  [union-attr]
         except IndexError:
             LOGGER.warning("No field with source %s found in raw_schema", field.source)
             return None
@@ -1103,7 +1103,7 @@ class DatasetValidator(DatasetBaseWrapper):
             # and update result_schema fields accordingly
             avatar_ids = [avatar.id for avatar in self._ds_accessor.get_avatar_list(source_id=source_id)]
             self._update_direct_fields_for_updated_raw_schema(
-                old_raw_schema=old_raw_schema,
+                old_raw_schema=old_raw_schema,  # type: ignore  # 2024-02-01 # TODO: Argument "old_raw_schema" to "_update_direct_fields_for_updated_raw_schema" of "DatasetValidator" has incompatible type "Sequence[SchemaColumn] | None"; expected "Sequence[SchemaColumn]"  [arg-type]
                 new_raw_schema=new_raw_schema,
                 avatar_ids=avatar_ids,
                 do_delete_fields=False,
@@ -1190,7 +1190,7 @@ class DatasetValidator(DatasetBaseWrapper):
             if not self._capabilities.source_can_be_added(
                 connection_id=source_data.get("connection_id"),
                 created_from=source_data["source_type"],
-                ignore_source_ids=ignore_source_ids or [existing_source_id],
+                ignore_source_ids=ignore_source_ids or [existing_source_id],  # type: ignore  # 2024-02-01 # TODO: List item 0 has incompatible type "Any | str | None"; expected "str"  [list-item]
             ):
                 raise exc.DLValidationFatal("Source cannot be added to dataset")
 
@@ -1200,7 +1200,7 @@ class DatasetValidator(DatasetBaseWrapper):
         self._ds.error_registry.remove_errors(id=source_id)
 
         if action == DatasetAction.add_source:
-            add_source(title=source_data.get("title") or None)
+            add_source(title=source_data.get("title") or None)  # type: ignore  # 2024-02-01 # TODO: Argument "title" to "add_source" has incompatible type "Any | None"; expected "str"  [arg-type]
             self.refresh_data_source(source_id=source_id, old_raw_schema=None)
             new_title = source_data["title"]
             self.add_affected_component(component_ref)
@@ -1289,7 +1289,7 @@ class DatasetValidator(DatasetBaseWrapper):
             self._ds_editor.add_avatar(
                 avatar_id=avatar_id,
                 source_id=source_id,
-                title=new_title,
+                title=new_title,  # type: ignore  # 2024-02-01 # TODO: Argument "title" to "add_avatar" of "DatasetComponentEditor" has incompatible type "str | None"; expected "str"  [arg-type]
             )
             new_dsrc_coll = self._get_data_source_coll_strict(source_id=source_id)
             new_raw_schema = new_dsrc_coll.get_cached_raw_schema(role=DataSourceRole.origin)
@@ -1297,10 +1297,10 @@ class DatasetValidator(DatasetBaseWrapper):
             update_fields = True
 
         if action == DatasetAction.update_source_avatar:
-            new_title = source_avatar_data.get("title") or old_avatar.title
+            new_title = source_avatar_data.get("title") or old_avatar.title  # type: ignore  # 2024-02-01 # TODO: Item "None" of "SourceAvatar | None" has no attribute "title"  [union-attr]
             if new_title != old_title:
                 self._ds_editor.update_avatar(avatar_id=avatar_id, title=new_title)
-            if source_id is not None and source_id != old_avatar.source_id:
+            if source_id is not None and source_id != old_avatar.source_id:  # type: ignore  # 2024-02-01 # TODO: Item "None" of "SourceAvatar | None" has no attribute "source_id"  [union-attr]
                 new_dsrc_coll = self._get_data_source_coll_strict(source_id=source_id)
                 self._ds_editor.update_avatar(avatar_id=avatar_id, source_id=source_id)
                 new_raw_schema = new_dsrc_coll.get_cached_raw_schema(role=DataSourceRole.origin)
@@ -1323,7 +1323,7 @@ class DatasetValidator(DatasetBaseWrapper):
         # update result schema fields
         if update_fields and not disable_fields_update:
             self._update_direct_fields_for_updated_raw_schema(
-                old_raw_schema=old_raw_schema,
+                old_raw_schema=old_raw_schema,  # type: ignore  # 2024-02-01 # TODO: Argument "old_raw_schema" to "_update_direct_fields_for_updated_raw_schema" of "DatasetValidator" has incompatible type "list[SchemaColumn] | None"; expected "Sequence[SchemaColumn]"  [arg-type]
                 new_raw_schema=new_raw_schema,
                 avatar_ids=[avatar_id],
                 do_delete_fields=do_delete_fields,
@@ -1600,7 +1600,7 @@ class DatasetValidator(DatasetBaseWrapper):
                     formula_errors = []
 
             errors = [
-                FormulaErrorInfo(
+                FormulaErrorInfo(  # type: ignore  # 2024-02-01 # TODO: List comprehension has incompatible type List[FormulaErrorInfo]; expected List[FormulaErrorCtx]  [misc]
                     code=err.code,
                     message=err.message,
                     level=comp_err_level_from_formula_err_level(err.level),
@@ -1611,7 +1611,7 @@ class DatasetValidator(DatasetBaseWrapper):
                 for err in formula_errors
             ]
 
-        return errors
+        return errors  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "list[FormulaErrorCtx]", expected "list[ErrorInfo]")  [return-value]
 
     def collect_nonexistent_connection_errors(self) -> None:
         for source_id in self._ds_accessor.get_data_source_id_list():

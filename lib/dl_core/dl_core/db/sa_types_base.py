@@ -34,20 +34,20 @@ def lengthed_instantiator(typecls: Type[TypeEngine], default_length: int = 255) 
             length = nt.length or default_length
         else:
             length = default_length
-        return typecls(length)
+        return typecls(length)  # type: ignore  # 2024-02-01 # TODO: Too many arguments for "TypeEngine"  [call-arg]
 
     return type_gen
 
 
 def timezone_instantiator(typecls: Type[TypeEngine]) -> TypeFactory:
     def type_gen(nt: GenericNativeType) -> TypeEngine:
-        return typecls(timezone=True)
+        return typecls(timezone=True)  # type: ignore  # 2024-02-01 # TODO: Unexpected keyword argument "timezone" for "TypeEngine"  [call-arg]
 
     return type_gen
 
 
 def typed_instantiator(typecls: Type[TypeEngine], inner_type: Type[TypeEngine]) -> TypeFactory:
     def type_gen(nt: GenericNativeType) -> TypeEngine:
-        return typecls(inner_type)
+        return typecls(inner_type)  # type: ignore  # 2024-02-01 # TODO: Too many arguments for "TypeEngine"  [call-arg]
 
     return type_gen

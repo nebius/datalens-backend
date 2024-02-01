@@ -55,7 +55,7 @@ class _BaseClickHouseConnExecutor(DefaultSqlAlchemyConnExecutor[_BASE_CLICKHOUSE
             )
         return dto_pool
 
-    def mutate_for_dashsql(self, db_params: Optional[dict[str, str]] = None):
+    def mutate_for_dashsql(self, db_params: Optional[dict[str, str]] = None):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         if db_params:  # TODO.
             raise Exception("`db_params` are not supported at the moment")
         return self.clone(

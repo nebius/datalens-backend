@@ -63,7 +63,7 @@ class Table:
 class TablesRegistry:
     tbl_list: List[Table] = attr.ib(factory=lambda: [])
 
-    def get_table(self, table_name) -> Optional[Table]:
+    def get_table(self, table_name) -> Optional[Table]:  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
         return next((t for t in self.tbl_list if t.name == table_name), None)
 
 
@@ -84,20 +84,20 @@ class TablePropertiesSchema(Schema):
     meta = fields.Dict(keys=fields.String(), values=fields.String())
 
 
-def create_app(table_registry: TablesRegistry):
+def create_app(table_registry: TablesRegistry):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
     app = web.Application()
     app["TABLE_REGISTRY"] = table_registry
 
     def get_table_registry() -> TablesRegistry:
         return app["TABLE_REGISTRY"]
 
-    def get_table_for_request(request: web.Request):
+    def get_table_for_request(request: web.Request):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         tbl = get_table_registry().get_table(request.match_info["table_name"])
         if tbl is None:
             raise web.HTTPNotFound()
         return tbl
 
-    async def rq_table_data(request: web.Request):
+    async def rq_table_data(request: web.Request):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         table = get_table_for_request(request)
         resp = web.StreamResponse(status=200)
         resp.headers["X-DL-Row-Count"] = str(table.data_length)
@@ -115,12 +115,12 @@ def create_app(table_registry: TablesRegistry):
         await resp.write_eof()
         return resp
 
-    async def rq_list_tables(_):
+    async def rq_list_tables(_):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         tr = get_table_registry()
 
         return web.json_response({"tables": [t.name for t in tr.tbl_list]})
 
-    async def rq_table_properties(request: web.Request):
+    async def rq_table_properties(request: web.Request):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         table = get_table_for_request(request)
         return web.json_response(TablePropertiesSchema().dump(table))
 

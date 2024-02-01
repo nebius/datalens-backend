@@ -21,7 +21,7 @@ class CryptoController:
     _key_config: CryptoKeysConfig = attr.ib()
     _map_key_id_fernet_instance: typing.Dict[str, fernet.Fernet] = attr.ib(init=False)
 
-    def __attrs_post_init__(self):
+    def __attrs_post_init__(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         self._map_key_id_fernet_instance = {
             key_id: fernet.Fernet(key_val) for key_id, key_val in self._key_config.map_id_key.items()
         }

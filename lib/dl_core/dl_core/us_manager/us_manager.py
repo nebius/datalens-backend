@@ -84,7 +84,7 @@ class CryptoKeyInfo:
 
 class USManagerBase:
     _MAP_TYPE_TO_SCHEMA: ClassVar[ChainMapGeneric[Type[BaseAttrsDataModel], Type[marshmallow.Schema]]] = ChainMap(
-        MAP_TYPE_TO_SCHEMA_MAP_TYPE_TO_SCHEMA,
+        MAP_TYPE_TO_SCHEMA_MAP_TYPE_TO_SCHEMA,  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "ChainMap" has incompatible type "dict[type[DataModel], type[Schema]]"; expected "MutableMapping[type[BaseAttrsDataModel], type[Schema]]"  [arg-type]
         {
             Dataset.DataModel: DatasetStorageSchema,
         },
@@ -171,12 +171,12 @@ class USManagerBase:
     @classmethod
     def get_load_storage_schema(cls, data_cls: Type[BaseAttrsDataModel]) -> marshmallow.Schema:
         schema_cls = cls._MAP_TYPE_TO_SCHEMA.get(data_cls)
-        return schema_cls()
+        return schema_cls()  # type: ignore  # 2024-02-01 # TODO: "None" not callable  [misc]
 
     @classmethod
     def get_dump_storage_schema(cls, data_cls: Type[BaseAttrsDataModel]) -> marshmallow.Schema:
         schema_cls = cls._MAP_TYPE_TO_SCHEMA.get(data_cls)
-        return schema_cls()
+        return schema_cls()  # type: ignore  # 2024-02-01 # TODO: "None" not callable  [misc]
 
     @classmethod
     def get_us_entry_serializer(cls, entry_cls: Type[USEntry]) -> USEntrySerializer:
@@ -379,7 +379,7 @@ class USManagerBase:
         if isinstance(entry, ConnectionBase):
             us_type = entry.conn_type.name
         else:
-            us_type = entry.type_
+            us_type = entry.type_  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "str | None", variable has type "str")  [assignment]
 
         if us_type is not None and not isinstance(us_type, str):
             raise ValueError(f"Unexpected US type ({us_type}) for entry {entry}")
@@ -473,11 +473,11 @@ class USManagerBase:
 
         self.get_lifecycle_manager(entry=copied_entry).post_copy_hook()
 
-        return copied_entry
+        return copied_entry  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "Dataset", expected "_ENTRY_TV")  [return-value]
 
     @staticmethod
     @contextmanager
-    def _enrich_us_exception(
+    def _enrich_us_exception(  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         entry_id: Optional[str] = None,
         entry_scope: Optional[str] = None,
     ):

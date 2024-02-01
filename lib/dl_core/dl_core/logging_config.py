@@ -30,7 +30,7 @@ ENV_CONTEXT = statcommons.log_config.ENV_CONTEXT
 
 
 class FastlogsFilter(logging.Filter):
-    def filter(self, record):
+    def filter(self, record):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         event_code = getattr(record, "event_code", None)
         if event_code:
             if isinstance(event_code, str) and event_code.startswith("_"):
@@ -136,12 +136,12 @@ def _make_logging_config(
 
 
 # TODO FIX: Remove after all tests will be refactored to use unscoped log context
-def add_log_context_scoped(record):
+def add_log_context_scoped(record):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
     context = log_context.get_log_context()
     record.log_context = context
 
 
-def update_tags(record):
+def update_tags(record):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
     current = getattr(record, "tags", None)
     if current is None:
         current = {}
@@ -152,7 +152,7 @@ def update_tags(record):
     current["request_id"] = getattr(record, "request_id", "unkn")
 
 
-def logcfg_process_enable_handler(logger_name, handler_name="stream_info"):
+def logcfg_process_enable_handler(logger_name, handler_name="stream_info"):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
     """
     Make a `logcfg_process` mapper
     that enables a specified handler for the specified logger
@@ -161,7 +161,7 @@ def logcfg_process_enable_handler(logger_name, handler_name="stream_info"):
     Useful for enabling INFO or DEBUG logs.
     """
 
-    def logcfg_process(cfg, common_handlers, **kwargs):
+    def logcfg_process(cfg, common_handlers, **kwargs):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         if handler_name in cfg["handlers"]:
             cfg["loggers"][logger_name] = dict(
                 handlers=[handler_name] + common_handlers,
@@ -189,7 +189,7 @@ def logcfg_process_stream_human_readable(cfg, common_handlers, **kwargs):  # typ
     return cfg
 
 
-def setup_jaeger_client(service_name: str):
+def setup_jaeger_client(service_name: str):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
     config = jaeger_client.Config(
         config={  # usually read from some yaml config
             "sampler": {
@@ -205,7 +205,7 @@ def setup_jaeger_client(service_name: str):
     config.initialize_tracer()
 
 
-def configure_logging(
+def configure_logging(  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
     app_name,
     for_development: Optional[bool] = None,
     app_prefix: Optional[str] = None,
@@ -241,7 +241,7 @@ def configure_logging(
         setup_jaeger_client(effective_service_name)
 
 
-def hook_configure_logging(app, *args, **kwargs):
+def hook_configure_logging(app, *args, **kwargs):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
     """
     Try to configure logging in uwsgi `postfork` if possible,
     but ensure it is configured in `before_first_request` (flask app).
@@ -253,9 +253,9 @@ def hook_configure_logging(app, *args, **kwargs):
     else:
 
         @uwsgidecorators.postfork
-        def _init_logging_in_uwsgi_postfork():
+        def _init_logging_in_uwsgi_postfork():  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
             configure_logging(*args, **kwargs)
 
     @app.before_first_request
-    def _init_logging_in_before_first_request():
+    def _init_logging_in_before_first_request():  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         configure_logging(*args, **kwargs)

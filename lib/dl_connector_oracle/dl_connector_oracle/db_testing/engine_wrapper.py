@@ -13,7 +13,7 @@ from dl_db_testing.database.engine_wrapper import EngineWrapperBase
 class OracleEngineWrapper(EngineWrapperBase):
     URL_PREFIX = "oracle"  # Not using the bi_* version because we only need basic functionality here
 
-    def execute(self, query: Any, *multiparams: Any, **params: Any):
+    def execute(self, query: Any, *multiparams: Any, **params: Any):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         # FIXME: Note the following problem:
         #  https://stackoverflow.com/questions/54709396/incorrect-type-conversion-with-cx-oracle-and-sqlalchemy-queries
 
@@ -35,11 +35,11 @@ class OracleEngineWrapper(EngineWrapperBase):
             r"HOST=(?P<host>[^)]+)\).*PORT=(?P<port>\d+)\).*(SERVICE_NAME|SID)=(?P<db_name>[^)]+)\)", oracle_dsn
         )
         return dict(
-            host=match.group("host"),
-            port=int(match.group("port")),
+            host=match.group("host"),  # type: ignore  # 2024-02-01 # TODO: Item "None" of "Match[str] | None" has no attribute "group"  [union-attr]
+            port=int(match.group("port")),  # type: ignore  # 2024-02-01 # TODO: Item "None" of "Match[str] | None" has no attribute "group"  [union-attr]
             username=username,
             password=password,
-            db_name=match.group("db_name"),
+            db_name=match.group("db_name"),  # type: ignore  # 2024-02-01 # TODO: Item "None" of "Match[str] | None" has no attribute "group"  [union-attr]
         )
 
     def insert_into_table(self, table: sa.Table, data: Sequence[dict]) -> None:

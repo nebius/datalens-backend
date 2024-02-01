@@ -69,11 +69,11 @@ _DBA_TV = TypeVar("_DBA_TV", bound=CommonBaseDirectAdapter)
 
 def _dba_pool_revolver_wrapper(func: Callable) -> Callable:
     @functools.wraps(func)
-    async def method_wrapper(self: DefaultSqlAlchemyConnExecutor, *args, **kwargs):
+    async def method_wrapper(self: DefaultSqlAlchemyConnExecutor, *args, **kwargs):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         # Not sure do we have to reset index on every call
         # self._dba_attempt_index = 0
 
-        while self._dba_attempt_index < len(self._async_dba_pool):
+        while self._dba_attempt_index < len(self._async_dba_pool):  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "len" has incompatible type "list[AsyncDBAdapter] | None"; expected "Sized"  [arg-type]
             try:
                 return await func(self, *args, **kwargs)
             except (exc.SourceConnectError, exc.DatabaseOperationalError) as ex:
@@ -83,7 +83,7 @@ def _dba_pool_revolver_wrapper(func: Callable) -> Callable:
                     self._host_fail_callback(self._conn_hosts_pool[self._dba_attempt_index])
 
                 self._dba_attempt_index += 1
-                if self._dba_attempt_index >= len(self._async_dba_pool):
+                if self._dba_attempt_index >= len(self._async_dba_pool):  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "len" has incompatible type "list[AsyncDBAdapter] | None"; expected "Sized"  [arg-type]
                     raise
             except Exception as ex:
                 LOGGER.info("Non-retriable dba exception %s: %s", type(ex), ex, exc_info=True)
@@ -94,7 +94,7 @@ def _dba_pool_revolver_wrapper(func: Callable) -> Callable:
 
 def _postprocess_db_excs_wrapper(func: Callable) -> Callable:
     @functools.wraps(func)
-    async def method_wrapper(self: DefaultSqlAlchemyConnExecutor, *args, **kwargs):
+    async def method_wrapper(self: DefaultSqlAlchemyConnExecutor, *args, **kwargs):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         with self._postprocess_db_excs():
             return await func(self, *args, **kwargs)
 

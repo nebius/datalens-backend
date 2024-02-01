@@ -60,7 +60,7 @@ def parse_metrica_ids(ids_str: str) -> Sequence[str]:
 class MetrikaBaseMixin(ConnectionBase):
     metrica_host: Optional[str] = None
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         super().__init__(*args, **kwargs)
         self._initial_counter_id = self.data.counter_id if self._data is not None else None
 
@@ -69,24 +69,24 @@ class MetrikaBaseMixin(ConnectionBase):
         return False
 
     @property
-    def metrika_oauth(self):
+    def metrika_oauth(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return self.data.token
 
     @property
-    def counter_id(self):
+    def counter_id(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return self.data.counter_id
 
     def get_metrica_api_cli(self) -> metrika_api_client.MetrikaApiClient:
         return metrika_api_client.MetrikaApiClient(oauth_token=self.metrika_oauth, host=self.metrica_host)
 
-    def get_counter_creation_date(self):
+    def get_counter_creation_date(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         assert isinstance(self.counter_id, str)
         ids = list(filter(lambda t: t, parse_metrica_ids(self.counter_id)))
         min_date = min([self.get_metrica_api_cli().get_counter_creation_date(cid) for cid in ids])
         return min_date
 
     @property
-    def counter_creation_date(self):
+    def counter_creation_date(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return self.data.counter_creation_date
 
     def get_available_counters(self) -> list[dict]:
@@ -137,11 +137,11 @@ class MetrikaApiConnection(MetrikaBaseMixin, ExecutorBasedMixin, ConnectionBase)
             }
 
     @property
-    def metrika_oauth(self):
+    def metrika_oauth(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return self.data.token
 
     @property
-    def table_name(self):
+    def table_name(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return self.data.counter_id
 
     def get_conn_dto(self) -> MetricaAPIConnDTO:
@@ -156,7 +156,7 @@ class MetrikaApiConnection(MetrikaBaseMixin, ExecutorBasedMixin, ConnectionBase)
         return None
 
     @classmethod
-    def get_api_fields_info(cls):
+    def get_api_fields_info(cls):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return dl_sqlalchemy_metrica_api.api_info.metrika
 
     @classmethod
@@ -201,7 +201,7 @@ class MetrikaApiConnection(MetrikaBaseMixin, ExecutorBasedMixin, ConnectionBase)
                 title=parameters["db_name"],
                 group=[],
                 source_type=self.source_type,
-                connection_id=self.uuid,
+                connection_id=self.uuid,  # type: ignore  # 2024-02-01 # TODO: Argument "connection_id" to "DataSourceTemplate" has incompatible type "str | None"; expected "str"  [arg-type]
                 parameters=parameters,
             )
             for parameters in self.get_parameter_combinations(conn_executor_factory=conn_executor_factory)
@@ -226,7 +226,7 @@ class AppMetricaApiConnection(MetrikaApiConnection):
         )
 
     @classmethod
-    def get_api_fields_info(cls):
+    def get_api_fields_info(cls):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return dl_sqlalchemy_metrica_api.api_info.appmetrica
 
     def get_parameter_combinations(

@@ -226,7 +226,7 @@ class MarkupProcessingBase(Generic[_NODE_TV]):
 
     def parse(self, data: Optional[str]) -> _NODE_TV:
         if data is None:
-            return None
+            return None  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "None", expected "_NODE_TV")  [return-value]
         if not data.startswith(self.lpar) or not data.endswith(self.rpar):
             raise self.ParseError("Malformed data", data)
         node, pos = self._parse_i(data, 0)
@@ -246,7 +246,7 @@ class MarkupProcessingBase(Generic[_NODE_TV]):
         node_br: dict(name="br"),
     }
 
-    def _argcount_mismatch(self, node, **kwargs):
+    def _argcount_mismatch(self, node, **kwargs):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         # Would be nice to do `self.DumpError("Argcount mismatch", node)` here,
         # but NULL-related behavior makes it unfeasible.
         # Thus, return an empty node (equivalent to an empty string).

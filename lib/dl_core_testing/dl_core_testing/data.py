@@ -107,7 +107,7 @@ class DataFetcher:
         if required_avatar_ids is None:
             required_avatar_ids = bi_query.get_required_avatar_ids()
 
-        dp_factory = self._service_registry.get_data_processor_factory()
+        dp_factory = self._service_registry.get_data_processor_factory()  # type: ignore  # 2024-02-01 # TODO: Item "None" of "ServicesRegistry | None" has no attribute "get_data_processor_factory"  [union-attr]
         data_processor = await dp_factory.get_data_processor(
             dataset=self._dataset,
             processor_type=ProcessorType.SOURCE_DB,

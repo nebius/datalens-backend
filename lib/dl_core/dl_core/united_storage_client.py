@@ -287,7 +287,7 @@ class UStorageClientBase:
         # Initial cookies for HTTP session
         self._cookies = self._auth_ctx_to_cookies(auth_ctx)
         # Headers that might be changed during lifecycle e.g. Folder ID
-        self._extra_headers = {}
+        self._extra_headers = {}  # type: ignore  # 2024-02-01 # TODO: Need type annotation for "_extra_headers" (hint: "_extra_headers: Dict[<type>, <type>] = ...")  [var-annotated]
 
         if context_request_id is not None:
             self._default_headers["X-Request-Id"] = context_request_id
@@ -330,7 +330,7 @@ class UStorageClientBase:
         return "/".join(map(lambda s: s.strip("/"), (self.host, self.prefix, relative_url)))
 
     @staticmethod
-    def _log_request_start(request_data: RequestData):
+    def _log_request_start(request_data: RequestData):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         LOGGER.info(
             "Asking UnitedStorage: method: %s, url: %s, params:(%s)",
             request_data.method,
@@ -339,7 +339,7 @@ class UStorageClientBase:
         )
 
     @classmethod
-    def _get_us_json_from_response(cls, response: ResponseAdapter):
+    def _get_us_json_from_response(cls, response: ResponseAdapter):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         LOGGER.info(
             "Got %s from UnitedStorage (%s %s), content length: %s, request-id: %s, elapsed: %s",
             response.status_code,
@@ -380,12 +380,12 @@ class UStorageClientBase:
             LOGGER.info("Got http status %s with invalid json %s from US", response.status_code, response.content)
             raise exc.USInvalidResponse from ex
 
-    def _raise_for_disabled_interactions(self):
+    def _raise_for_disabled_interactions(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         if self._disabled:
             raise exc.USInteractionDisabled("Interaction with US is forbidden")
 
     @contextmanager
-    def interaction_disabled(self):
+    def interaction_disabled(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         try:
             self._disabled = True
             yield
@@ -396,7 +396,7 @@ class UStorageClientBase:
 
     # Requests definitions
     @classmethod
-    def _req_data_create_entry(
+    def _req_data_create_entry(  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
         cls,
         key: EntryLocation,
         scope: str,
@@ -435,7 +435,7 @@ class UStorageClientBase:
         )
 
     @classmethod
-    def _req_data_get_entry(cls, entry_id, params=None, include_permissions=True, include_links=True):
+    def _req_data_get_entry(cls, entry_id, params=None, include_permissions=True, include_links=True):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         params = params or {}
         if include_permissions:
             params["includePermissionsInfo"] = 1
@@ -450,7 +450,7 @@ class UStorageClientBase:
         )
 
     @classmethod
-    def _req_data_move_entry(cls, entry_id: str, destination: str):
+    def _req_data_move_entry(cls, entry_id: str, destination: str):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return cls.RequestData(
             method="post",
             relative_url="/entries/{}/move".format(entry_id),
@@ -459,7 +459,7 @@ class UStorageClientBase:
         )
 
     @classmethod
-    def _req_data_update_entry(
+    def _req_data_update_entry(  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         cls,
         entry_id: str,
         data=None,
@@ -494,7 +494,7 @@ class UStorageClientBase:
         )
 
     @classmethod
-    def _req_data_delete_entry(cls, entry_id, lock=None):
+    def _req_data_delete_entry(cls, entry_id, lock=None):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         params = None
         if lock is not None:
             params = {"lockToken": lock}
@@ -548,7 +548,7 @@ class UStorageClientBase:
         :param duration: in seconds. Default = 300 (5min)
         :return: lock token
         """
-        params = {}
+        params = {}  # type: ignore  # 2024-02-01 # TODO: Need type annotation for "params" (hint: "params: Dict[<type>, <type>] = ...")  [var-annotated]
         if duration is not None:
             params.update(duration=duration * 1000)  # US accepts duration in milliseconds
         if force is not None:
@@ -557,7 +557,7 @@ class UStorageClientBase:
         return cls.RequestData(method="post", relative_url="/locks/{}".format(entry_id), params=None, json=params)
 
     @classmethod
-    def _req_data_release_lock(cls, entry_id, lock):
+    def _req_data_release_lock(cls, entry_id, lock):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         return cls.RequestData(
             method="delete", relative_url="/locks/{}".format(entry_id), params={"lockToken": lock}, json=None
         )
@@ -596,12 +596,12 @@ class UStorageClient(UStorageClientBase):
 
         @property
         def json(self) -> dict:
-            return self._request_data.json
+            return self._request_data.json  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "dict[Any, Any] | None", expected "dict[Any, Any]")  [return-value]
 
     class ResponseAdapter(UStorageClientBase.ResponseAdapter):
         def __init__(self, response: requests.Response, request_data: "UStorageClient.RequestData"):
             self.resp = response
-            self._req_adapter = UStorageClient.RequestAdapter(response.request, request_data)
+            self._req_adapter = UStorageClient.RequestAdapter(response.request, request_data)  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "RequestAdapter" has incompatible type "PreparedRequest"; expected "Request"  [arg-type]
 
         @property
         def status_code(self) -> int:
@@ -612,7 +612,7 @@ class UStorageClient(UStorageClientBase):
 
         @property
         def elapsed_seconds(self) -> int:
-            return self.resp.elapsed.total_seconds()
+            return self.resp.elapsed.total_seconds()  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "float", expected "int")  [return-value]
 
         @property
         def content(self) -> bytes:
@@ -678,7 +678,7 @@ class UStorageClient(UStorageClientBase):
                 **self._extra_headers,
                 **tracing_headers,
             },
-            **request_kwargs,
+            **request_kwargs,  # type: ignore  # 2024-02-01 # TODO: Argument 7 to "request" of "Session" has incompatible type "**dict[str, dict[Any, Any]]"; expected "tuple[str, str] | AuthBase | Callable[[PreparedRequest], PreparedRequest] | None"  [arg-type]
         )
 
         response_adapter = self.ResponseAdapter(response, request_data)
@@ -722,10 +722,10 @@ class UStorageClient(UStorageClientBase):
             )
         )
 
-    def move_entry(self, entry_id, destination):
+    def move_entry(self, entry_id, destination):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         return self._request(self._req_data_move_entry(entry_id, destination=destination))
 
-    def update_entry(
+    def update_entry(  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         self,
         entry_id: str,
         data: Optional[dict[str, Any]] = None,
@@ -794,10 +794,10 @@ class UStorageClient(UStorageClientBase):
             else:
                 break
 
-    def delete_entry(self, entry_id, lock=None):
+    def delete_entry(self, entry_id, lock=None):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         self._request(self._req_data_delete_entry(entry_id, lock=lock))
 
-    def acquire_lock(self, entry_id, duration=None, wait_timeout=None, force=None):
+    def acquire_lock(self, entry_id, duration=None, wait_timeout=None, force=None):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         """
         :param entry_id:
         :param force:
@@ -819,7 +819,7 @@ class UStorageClient(UStorageClientBase):
                 else:
                     raise
 
-    def release_lock(self, entry_id, lock):
+    def release_lock(self, entry_id, lock):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         try:
             self._request(self._req_data_release_lock(entry_id, lock=lock))
         except exc.USReqException:

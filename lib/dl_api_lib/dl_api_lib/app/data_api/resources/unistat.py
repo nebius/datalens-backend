@@ -15,7 +15,7 @@ from .base import (
 
 
 # TODO FIX: Move to bi-common
-async def read_usocket(path):
+async def read_usocket(path):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
     """
     Simple "connect to a unix socket at `path` and read the stream".
     """
@@ -27,7 +27,7 @@ async def read_usocket(path):
         await writer.wait_closed()
 
 
-async def uwsgi_unistat(path):
+async def uwsgi_unistat(path):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
     data = await read_usocket(path)
     data = json.loads(data)
     return process_uwsgi_data_for_unistat(data)

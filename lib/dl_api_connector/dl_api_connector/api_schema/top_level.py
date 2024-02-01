@@ -314,7 +314,7 @@ class USEntryBaseSchema(BaseTopLevelSchema[_US_ENTRY_TV]):
     def create_object(self, data: dict[str, Any]) -> _US_ENTRY_TV:
         data_attributes = data.get("data", {})
 
-        obj = self.TARGET_CLS.create_from_dict(
+        obj = self.TARGET_CLS.create_from_dict(  # type: ignore  # 2024-02-01 # TODO: "type" has no attribute "create_from_dict"  [attr-defined]
             data_dict=self.create_data_model(data_attributes),
             **self.default_create_from_dict_kwargs(data),
         )

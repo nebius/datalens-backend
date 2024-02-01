@@ -102,7 +102,7 @@ class DefaultSRFactory(SRFactory[SERVICE_REGISTRY_TV]):
     required_services: set[RequiredService] = attr.ib(factory=set)
     inst_specific_sr_factory: Optional[InstallationSpecificServiceRegistryFactory] = attr.ib(default=None)
 
-    service_registry_cls: ClassVar[Type[SERVICE_REGISTRY_TV]] = DefaultServicesRegistry
+    service_registry_cls: ClassVar[Type[SERVICE_REGISTRY_TV]] = DefaultServicesRegistry  # type: ignore  # 2024-02-01 # TODO: ClassVar cannot contain type variables  [misc]
 
     def is_bleeding_edge_user(self, request_context_info: RequestContextInfo) -> bool:
         return request_context_info.user_name in self.bleeding_edge_users
@@ -120,7 +120,7 @@ class DefaultSRFactory(SRFactory[SERVICE_REGISTRY_TV]):
             tpe=ContextVarExecutor(),
             conn_sec_mgr=self.env_manager_factory.make_security_manager(),
             rqe_config=self.rqe_config,
-            services_registry_ref=sr_ref,
+            services_registry_ref=sr_ref,  # type: ignore  # 2024-02-01 # TODO: Argument "services_registry_ref" to "DefaultConnExecutorFactory" has incompatible type "FutureRef[SERVICE_REGISTRY_TV]"; expected "FutureRef[ServicesRegistry]"  [arg-type]
             is_bleeding_edge_user=is_bleeding_edge_user,
             conn_cls_whitelist=self.conn_cls_whitelist,
             connect_options_factory=self.connect_options_factory,
@@ -153,7 +153,7 @@ class DefaultSRFactory(SRFactory[SERVICE_REGISTRY_TV]):
         sr = self.service_registry_cls(
             default_cache_ttl_config=self.default_cache_ttl_config,
             rci=request_context_info,
-            conn_exec_factory=self.make_conn_executor_factory(request_context_info, sr_ref),
+            conn_exec_factory=self.make_conn_executor_factory(request_context_info, sr_ref),  # type: ignore  # 2024-02-01 # TODO: Argument 2 to "make_conn_executor_factory" of "DefaultSRFactory" has incompatible type "FutureRef[ServicesRegistry]"; expected "FutureRef[SERVICE_REGISTRY_TV]"  [arg-type]
             caches_redis_client_factory=caches_redis_client_factory,
             mutations_redis_client_factory=mutations_redis_client_factory,
             mutations_cache_factory=mutations_cache_factory,

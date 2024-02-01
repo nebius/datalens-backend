@@ -21,7 +21,7 @@ import attr
 try:
     from asyncio.exceptions import TimeoutError
 except ImportError:
-    from asyncio.futures import TimeoutError
+    from asyncio.futures import TimeoutError  # type: ignore  # 2024-02-01 # TODO: Module "asyncio.futures" has no attribute "TimeoutError"  [attr-defined]
 
 
 class JobState(enum.Enum):
@@ -85,7 +85,7 @@ _STATE_ITEM_TV = TypeVar("_STATE_ITEM_TV")
 
 
 class _NoSet:
-    instance: "_NoSet" = None
+    instance: "_NoSet" = None  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "None", variable has type "_NoSet")  [assignment]
 
 
 _NoSet.instance = _NoSet()
@@ -98,7 +98,7 @@ class SynchronizedJobState(Generic[_STATE_ITEM_TV]):
     _buffer: Union[_NoSet, _STATE_ITEM_TV] = attr.ib(init=False, default=_NoSet.instance)
     _state: JobState = attr.ib(init=False, default=JobState.worker_not_started)
 
-    def _ensure_monitor(self):
+    def _ensure_monitor(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         if not self._monitor._is_owned():  # type: ignore  # TODO: fix  # noqa
             msg = "Attempt to use synchronized method without monitor acquiring"
             self._log.error(msg)
@@ -111,9 +111,9 @@ class SynchronizedJobState(Generic[_STATE_ITEM_TV]):
             self._log.error(msg)
             raise AWFSGRuntimeError(msg)
         self._buffer, ret = _NoSet.instance, self._buffer
-        return ret
+        return ret  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "_NoSet", expected "_STATE_ITEM_TV")  [return-value]
 
-    def set_buffer(self, val: _STATE_ITEM_TV):
+    def set_buffer(self, val: _STATE_ITEM_TV):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         self._ensure_monitor()
         if self._buffer is not _NoSet.instance:
             msg = "Trying to reset buffer"
@@ -121,7 +121,7 @@ class SynchronizedJobState(Generic[_STATE_ITEM_TV]):
             raise AWFSGRuntimeError(msg)
         self._buffer = val
 
-    def set_state(self, state: JobState):
+    def set_state(self, state: JobState):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         self._ensure_monitor()
         self._state = state
         self._monitor.notify_all()
@@ -146,10 +146,10 @@ class SynchronizedJobState(Generic[_STATE_ITEM_TV]):
         state_after = self._state
         self._log.debug("State monitor event received. Transition: %s -> %s", state_before, state_after)
 
-    def __enter__(self):
+    def __enter__(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         return self._monitor.__enter__()
 
-    def __exit__(self, *args, **kwargs):
+    def __exit__(self, *args, **kwargs):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         return self._monitor.__exit__(*args, **kwargs)
 
 
@@ -172,7 +172,7 @@ class Job(Generic[_JOB_ITEM_TV], metaclass=abc.ABCMeta):
     _worker_thread_started_event = attr.ib(init=False, factory=asyncio.Event)
     _log: logging.LoggerAdapter = attr.ib(init=False, default=None)
 
-    def __attrs_post_init__(self):
+    def __attrs_post_init__(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         self._log = logging.LoggerAdapter(
             logging.getLogger(__name__),
             extra=dict(
@@ -368,7 +368,7 @@ class Job(Generic[_JOB_ITEM_TV], metaclass=abc.ABCMeta):
         except _ErrorInWorkerThread:
             try:
                 self._log.info("Worker state was switched to error. Awaiting worker thread...")
-                await self._worker_done_fut
+                await self._worker_done_fut  # type: ignore  # 2024-02-01 # TODO: Incompatible types in "await" (actual type "Future[Any] | None", expected type "Awaitable[Any]")  [misc]
             except Exception:
                 self._log.info("Exception from worker thread was caught", exc_info=True)
                 raise
@@ -418,5 +418,5 @@ class Job(Generic[_JOB_ITEM_TV], metaclass=abc.ABCMeta):
         try:
             await self._loop.run_in_executor(self._service_tpe, self._sync_close_wait_closed)
         except _ErrorInWorkerThread:
-            await self._worker_done_fut
+            await self._worker_done_fut  # type: ignore  # 2024-02-01 # TODO: Incompatible types in "await" (actual type "Future[Any] | None", expected type "Awaitable[Any]")  [misc]
         self._log.info("Generator was successfully cancelled")

@@ -226,7 +226,7 @@ class DatasetApiLoader:
                 )
             if avatar_data["is_root"]:
                 root_avatar_id = avatar_data["id"]
-        return root_avatar_id, handled_source_avatar_ids
+        return root_avatar_id, handled_source_avatar_ids  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "tuple[Any | None, set[Any]]", expected "tuple[str, set[Any]]")  [return-value]
 
     @classmethod
     def _update_dataset_source_avatar_relations_from_body(cls, dataset: Dataset, body: dict) -> set:
@@ -254,7 +254,7 @@ class DatasetApiLoader:
         return handled_avatar_relation_ids
 
     @staticmethod
-    def _rls_list_to_set(rls_list):
+    def _rls_list_to_set(rls_list):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         return set(
             (
                 rlse.field_guid,
@@ -304,7 +304,7 @@ class DatasetApiLoader:
                 # otherwise no effective config changes (that are worth checking in preview)
 
     @classmethod
-    def _update_dataset_obligatory_filters_from_body(cls, dataset: Dataset, body: dict) -> str:
+    def _update_dataset_obligatory_filters_from_body(cls, dataset: Dataset, body: dict) -> str:  # type: ignore  # 2024-02-01 # TODO: Missing return statement  [return]
         # obligatory_filters
         ds_accessor = DatasetComponentAccessor(dataset=dataset)
         ds_editor = DatasetComponentEditor(dataset=dataset)

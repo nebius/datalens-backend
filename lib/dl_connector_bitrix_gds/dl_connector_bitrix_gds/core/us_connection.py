@@ -84,7 +84,7 @@ class BitrixGDSConnection(ExecutorBasedMixin, ConnectionBase):
                 title=parameters["table_name"],
                 group=[],
                 source_type=SOURCE_TYPE_BITRIX_GDS,
-                connection_id=self.uuid,
+                connection_id=self.uuid,  # type: ignore  # 2024-02-01 # TODO: Argument "connection_id" to "DataSourceTemplate" has incompatible type "str | None"; expected "str"  [arg-type]
                 parameters=parameters,
             )
             for parameters in self.get_parameter_combinations(conn_executor_factory=conn_executor_factory)

@@ -134,7 +134,7 @@ class ProcessorDbExecAdapterBase(abc.ABC):
         user_types: Sequence[UserDataType],
     ) -> QueryAndResultInfo:
         query_res_info = QueryAndResultInfo(
-            query=query,
+            query=query,  # type: ignore  # 2024-02-01 # TODO: Argument "query" to "QueryAndResultInfo" has incompatible type "str | Select"; expected "Select"  [arg-type]
             user_types=list(user_types),
             # This is basically legacy and will be removed.
             # col_names are not really used anywhere, just passed around a lot.

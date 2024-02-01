@@ -49,4 +49,4 @@ class AsyncpgPoolWrapper(BasePgPoolWrapper):
     async def disconnect(self) -> None:
         pool = self._pool
         self._pool = None
-        await asyncio.wait_for(pool.close(), timeout=2.5)
+        await asyncio.wait_for(pool.close(), timeout=2.5)  # type: ignore  # 2024-02-01 # TODO: Item "None" of "Pool[Any] | None" has no attribute "close"  [union-attr]

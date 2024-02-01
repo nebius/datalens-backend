@@ -131,7 +131,7 @@ class CacheProcessingHelper:
             return CacheSituation.cache_error, result
 
         if sync_result_iter is not None:
-            result_data_inmem = list(sync_result_iter)
+            result_data_inmem = list(sync_result_iter)  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "list" has incompatible type "dict[str, dict[Any, Any] | list[Any] | tuple[Any, ...] | date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None] | list[dict[Any, Any] | list[Any] | tuple[Any, ...] | date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None] | tuple[dict[Any, Any] | list[Any] | tuple[Any, ...] | date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None, ...] | date | time | timedelta | Decimal | UUID | bytes | str | float | int"; expected "Iterable[dict[Any, Any] | list[Any] | tuple[Any, ...] | date | time | timedelta | Decimal | UUID | bytes | str | float | int | None]"  [arg-type]
             result_iter = AsyncChunked.from_chunked_iterable([result_data_inmem])
             try:
                 await cem.finalize(result=None)

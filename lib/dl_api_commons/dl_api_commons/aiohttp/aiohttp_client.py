@@ -138,7 +138,7 @@ class BIAioHTTPClient:
 
     @asynccontextmanager
     async def request(self, method: str, *args: Any, **kwargs: Any) -> AsyncGenerator[aiohttp.ClientResponse, None]:
-        response = await self.retrier.retry_request(self._request, method, *args, **kwargs)
+        response = await self.retrier.retry_request(self._request, method, *args, **kwargs)  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "retry_request" of "BaseRetrier" has incompatible type "Callable[[str, str, dict[str, str] | None, Any | None, Any | None, dict[str, str] | None, dict[str, str] | None, float | None, float | None], Coroutine[Any, Any, Any | None]]"; expected "Callable[..., Awaitable[ClientResponse]]"  [arg-type]
         if self.raise_for_status:
             response.raise_for_status()
         yield response

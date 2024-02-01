@@ -59,14 +59,14 @@ class GenericNativeType:
         normalized_name = norm_native_type(name)
         return cls(
             conn_type=conn_type,
-            name=normalized_name,
+            name=normalized_name,  # type: ignore  # 2024-02-01 # TODO: Argument "name" to "GenericNativeType" has incompatible type "str | None"; expected "str"  [arg-type]
         )
 
     @property
     def as_generic(self) -> GenericNativeType:  # for subclasses
         return GenericNativeType(conn_type=self.conn_type, name=self.name)
 
-    def as_common(self, default_nullable=True) -> CommonNativeType:
+    def as_common(self, default_nullable=True) -> CommonNativeType:  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
         """
         Helper method that converts a GenericNativeType object to a
         CommonNativeType object with the specified `nullable` value; for
@@ -96,11 +96,11 @@ class CommonNativeType(GenericNativeType):
         normalized_name = norm_native_type(name)
         return cls(
             conn_type=conn_type,
-            name=normalized_name,
+            name=normalized_name,  # type: ignore  # 2024-02-01 # TODO: Argument "name" to "CommonNativeType" has incompatible type "str | None"; expected "str"  [arg-type]
             nullable=nullable,
         )
 
-    def as_common(self: _COMMON_NATIVE_TYPE_TV, default_nullable=None) -> _COMMON_NATIVE_TYPE_TV:
+    def as_common(self: _COMMON_NATIVE_TYPE_TV, default_nullable=None) -> _COMMON_NATIVE_TYPE_TV:  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
         return self
 
 

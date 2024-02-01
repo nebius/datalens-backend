@@ -19,7 +19,7 @@ class LegacyComponentDependencyManagerFactory(ComponentDependencyManagerFactory)
     def set_relation_expressions(self, _relation_expressions: Dict[RelationId, ExpressionCtx]) -> None:
         self._relation_expressions = _relation_expressions
 
-    def _make_relation_avatar_dependency_manager(self) -> LegacyRelationAvatarDependencyManager:
+    def _make_relation_avatar_dependency_manager(self) -> LegacyRelationAvatarDependencyManager:  # type: ignore  # 2024-02-01 # TODO: Return type "LegacyRelationAvatarDependencyManager" of "_make_relation_avatar_dependency_manager" incompatible with return type "RelationAvatarDependencyManager" in supertype "ComponentDependencyManagerFactory"  [override]
         return LegacyRelationAvatarDependencyManager(
             relation_expressions=self._relation_expressions,
         )

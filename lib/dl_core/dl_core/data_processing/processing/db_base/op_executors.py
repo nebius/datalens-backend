@@ -81,8 +81,8 @@ def log_op(
 class DownloadOpExecutorAsync(OpExecutorAsync):
     """Loads data from a database table"""
 
-    @log_op
-    async def execute(self, op: BaseOp) -> DataStreamAsync:
+    @log_op  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "log_op" has incompatible type "Callable[[DownloadOpExecutorAsync, BaseOp], Coroutine[Any, Any, DataStreamAsync]]"; expected "Callable[[OpExecutorAsync, BaseOp], Awaitable[AbstractStream]]"  [arg-type]
+    async def execute(self, op: BaseOp) -> DataStreamAsync:  # type: ignore  # 2024-02-01 # TODO: Return type "Awaitable[AbstractStream]" of "execute" incompatible with return type "Coroutine[Any, Any, AbstractStream]" in supertype "OpExecutorAsync"  [override]
         assert isinstance(op, DownloadOp)
 
         source_stream = self.ctx.get_stream(op.source_stream_id)
@@ -203,8 +203,8 @@ class CalcOpExecutorAsync(OpExecutorAsync):
 
         return new_data_key
 
-    @log_op
-    async def execute(self, op: BaseOp) -> DataSourceVS:
+    @log_op  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "log_op" has incompatible type "Callable[[CalcOpExecutorAsync, BaseOp], Coroutine[Any, Any, DataSourceVS]]"; expected "Callable[[OpExecutorAsync, BaseOp], Awaitable[AbstractStream]]"  [arg-type]
+    async def execute(self, op: BaseOp) -> DataSourceVS:  # type: ignore  # 2024-02-01 # TODO: Return type "Awaitable[AbstractStream]" of "execute" incompatible with return type "Coroutine[Any, Any, AbstractStream]" in supertype "OpExecutorAsync"  [override]
         assert isinstance(op, CalcOp)
 
         source_stream = self.ctx.get_stream(op.source_stream_id)
@@ -256,8 +256,8 @@ class CalcOpExecutorAsync(OpExecutorAsync):
 
 
 class JoinOpExecutorAsync(OpExecutorAsync):
-    @log_op
-    async def execute(self, op: BaseOp) -> JointDataSourceVS:
+    @log_op  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "log_op" has incompatible type "Callable[[JoinOpExecutorAsync, BaseOp], Coroutine[Any, Any, JointDataSourceVS]]"; expected "Callable[[OpExecutorAsync, BaseOp], Awaitable[AbstractStream]]"  [arg-type]
+    async def execute(self, op: BaseOp) -> JointDataSourceVS:  # type: ignore  # 2024-02-01 # TODO: Return type "Awaitable[AbstractStream]" of "execute" incompatible with return type "Coroutine[Any, Any, AbstractStream]" in supertype "OpExecutorAsync"  [override]
         assert isinstance(op, JoinOp)
 
         prepared_sources: list[PreparedSingleFromInfo] = []
@@ -305,8 +305,8 @@ class UploadOpExecutorAsync(OpExecutorAsync):
         source_stream = self.ctx.get_stream(op.source_stream_id)
         return source_stream.data_key  # type: ignore  # 2024-01-24 # TODO: Item "None" of "AbstractStream | None" has no attribute "data_key"  [union-attr]
 
-    @log_op
-    async def execute(self, op: BaseOp) -> DataSourceVS:
+    @log_op  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "log_op" has incompatible type "Callable[[UploadOpExecutorAsync, BaseOp], Coroutine[Any, Any, DataSourceVS]]"; expected "Callable[[OpExecutorAsync, BaseOp], Awaitable[AbstractStream]]"  [arg-type]
+    async def execute(self, op: BaseOp) -> DataSourceVS:  # type: ignore  # 2024-02-01 # TODO: Return type "Awaitable[AbstractStream]" of "execute" incompatible with return type "Coroutine[Any, Any, AbstractStream]" in supertype "OpExecutorAsync"  [override]
         assert isinstance(op, UploadOp)
 
         source_stream = self.ctx.get_stream(op.source_stream_id)

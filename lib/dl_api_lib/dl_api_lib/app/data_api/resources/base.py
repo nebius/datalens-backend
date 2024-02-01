@@ -43,27 +43,27 @@ class BaseView(DLRequestView[aiohttp_wrappers.DSAPIRequest]):
         return frozenset()
 
     @staticmethod
-    def with_resolved_entities(coro):
+    def with_resolved_entities(coro):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         @functools.wraps(coro)
-        async def wrapper(self, *args, **kwargs):
+        async def wrapper(self, *args, **kwargs):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
             await self.resolve_entities()
             return await coro(self, *args, **kwargs)
 
         return wrapper
 
-    async def resolve_entities(self):
+    async def resolve_entities(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         pass
 
 
 # TODO FIX: add ability to exclude resources for particular handles
-def requires(*resources: RequiredResource, skip_parent_resources: bool = False):
-    def real_deco(func_or_class):
+def requires(*resources: RequiredResource, skip_parent_resources: bool = False):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
+    def real_deco(func_or_class):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         if isinstance(func_or_class, type) and issubclass(func_or_class, BaseView):
             clz = func_or_class
             if skip_parent_resources:
                 all_resources = resources
             else:
-                all_resources = itertools.chain(
+                all_resources = itertools.chain(  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "chain[RequiredResource]", variable has type "tuple[RequiredResource, ...]")  [assignment]
                     clz._COMMON_REQUIRED_RESOURCES,
                     resources,
                 )

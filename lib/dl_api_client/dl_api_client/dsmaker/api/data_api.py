@@ -78,7 +78,7 @@ class DataApiV1SerializationAdapter(BaseApiV1SerializationAdapter):
         limit: int = None,  # type: ignore  # 2024-01-24 # TODO: Incompatible default for argument "limit" (default has type "None", argument has type "int")  [assignment]
     ) -> Dict[str, Any]:
         data = self.dump_dataset(dataset)
-        updates = list(updates or ()) + self.generate_implicit_updates(dataset)
+        updates = list(updates or ()) + self.generate_implicit_updates(dataset)  # type: ignore  # 2024-02-01 # TODO: Unsupported operand types for + ("list[UpdateAction | dict[Any, Any]]" and "list[UpdateAction]")  [operator]
         data["updates"] = self.dump_updates(updates)
 
         if limit is not None:
@@ -103,7 +103,7 @@ class DataApiV1SerializationAdapter(BaseApiV1SerializationAdapter):
     ) -> Dict[str, Any]:
         if dataset is not None:
             data = self.dump_dataset(dataset)
-            updates = list(updates or ()) + self.generate_implicit_updates(dataset)
+            updates = list(updates or ()) + self.generate_implicit_updates(dataset)  # type: ignore  # 2024-02-01 # TODO: Unsupported operand types for + ("list[UpdateAction | dict[Any, Any]]" and "list[UpdateAction]")  [operator]
         else:
             data = {}
 
@@ -147,7 +147,7 @@ class DataApiV1SerializationAdapter(BaseApiV1SerializationAdapter):
     ) -> Dict[str, Any]:
         if dataset is not None:
             data = self.dump_dataset(dataset)
-            updates = list(updates or ()) + self.generate_implicit_updates(dataset)
+            updates = list(updates or ()) + self.generate_implicit_updates(dataset)  # type: ignore  # 2024-02-01 # TODO: Unsupported operand types for + ("list[UpdateAction | dict[Any, Any]]" and "list[UpdateAction]")  [operator]
         else:
             data = {}
 
@@ -174,7 +174,7 @@ class DataApiV1SerializationAdapter(BaseApiV1SerializationAdapter):
     ) -> Dict[str, Any]:
         if dataset is not None:
             data = self.dump_dataset(dataset)
-            updates = list(updates or ()) + self.generate_implicit_updates(dataset)
+            updates = list(updates or ()) + self.generate_implicit_updates(dataset)  # type: ignore  # 2024-02-01 # TODO: Unsupported operand types for + ("list[UpdateAction | dict[Any, Any]]" and "list[UpdateAction]")  [operator]
         else:
             data = {}
 
@@ -431,7 +431,7 @@ class DataApiV2SerializationAdapter(BaseApiV1SerializationAdapter):
     ) -> Dict[str, Any]:
         if dataset is not None:
             data = self.dump_dataset(dataset)
-            updates = list(updates or ()) + self.generate_implicit_updates(dataset)
+            updates = list(updates or ()) + self.generate_implicit_updates(dataset)  # type: ignore  # 2024-02-01 # TODO: Unsupported operand types for + ("list[UpdateAction | dict[Any, Any]]" and "list[UpdateAction]")  [operator]
         else:
             data = {}
 

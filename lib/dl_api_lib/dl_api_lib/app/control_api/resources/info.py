@@ -51,7 +51,7 @@ ns = API.namespace("Info", path="/info")
 @ns.route("/field_types")
 class FieldTypeCollection(BIResource):
     @schematic_request(ns=ns, responses={200: ("Success", GetFieldTypeCollectionResponseSchema())})
-    def get(self):
+    def get(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return {
             "types": [
                 {"name": k.name, "aggregations": [x.name for x in v]}
@@ -75,7 +75,7 @@ class DatasetsPublicityChecker(BIResource):
         body=DatasetsPublicityCheckerRequestSchema(),
         responses={200: ("Success", DatasetsPublicityCheckerResponseSchema())},
     )
-    def post(self, body):
+    def post(self, body):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         ds_ids = body["datasets"]
         responses = []
         us_manager = self.get_us_manager()
@@ -97,7 +97,7 @@ class DatasetsPublicityChecker(BIResource):
                 reason = exc.message
             else:
                 allowed = True
-                reason = None
+                reason = None  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "None", variable has type "str")  [assignment]
 
             responses.append(
                 {

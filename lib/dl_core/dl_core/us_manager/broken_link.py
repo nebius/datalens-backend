@@ -22,7 +22,7 @@ class BrokenUSLink:
     reference: ConnectionRef = attr.ib()
     _referrer_id_set: set[str] = attr.ib(init=False, factory=set)
 
-    def __attrs_post_init__(self):
+    def __attrs_post_init__(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         self._referrer_id_set = set(self._referrer_id_set)
 
     @property

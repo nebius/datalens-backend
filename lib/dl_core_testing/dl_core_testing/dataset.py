@@ -28,11 +28,11 @@ if TYPE_CHECKING:
     )
 
 
-def make_ds_key(*args) -> str:
+def make_ds_key(*args) -> str:  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
     return "/".join(["tests", *args])
 
 
-def make_dataset(
+def make_dataset(  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
     sync_usm: SyncUSManager,
     connection: Optional[ConnectionBase] = None,
     db_table: Optional[DbTable] = None,

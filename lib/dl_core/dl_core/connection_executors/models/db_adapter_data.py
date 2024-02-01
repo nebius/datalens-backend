@@ -27,11 +27,11 @@ class ExecutionStep:
 
 
 @attr.s(frozen=True)
-class ExecutionStepCursorInfo(ExecutionStep):
+class ExecutionStepCursorInfo(ExecutionStep):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
     cursor_info: Dict = attr.ib(factory=lambda: {})
     # Definitely not to be serialized:
-    raw_cursor_description = attr.ib(default=None)
-    raw_engine = attr.ib(default=None)
+    raw_cursor_description = attr.ib(default=None)  # type: ignore  # 2024-02-01 # TODO: Need type annotation for "raw_cursor_description"  [var-annotated]
+    raw_engine = attr.ib(default=None)  # type: ignore  # 2024-02-01 # TODO: Need type annotation for "raw_engine"  [var-annotated]
 
 
 @attr.s(frozen=True)

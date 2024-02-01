@@ -148,11 +148,11 @@ class DefaultConnExecutorFactory(BaseClosableExecutorFactory):
             connect_options=connect_options,
             rqe_data=rqe_data,
             exec_mode=exec_mode,
-            conn_hosts_pool=conn_hosts_pool,
+            conn_hosts_pool=conn_hosts_pool,  # type: ignore  # 2024-02-01 # TODO: Argument "conn_hosts_pool" to "ConnExecutorRecipe" has incompatible type "Sequence[str]"; expected "Iterable[_T_co]"  [arg-type]
         )
 
     def _cook_conn_executor(self, recipe: ConnExecutorRecipe, with_tpe: bool) -> AsyncConnExecutorBase:
-        def _conn_host_fail_callback_func(host: str):
+        def _conn_host_fail_callback_func(host: str):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
             LOGGER.info("DB host %s unavailable", host)
 
         executor_cls = recipe.ce_cls
@@ -230,7 +230,7 @@ class DefaultConnExecutorFactory(BaseClosableExecutorFactory):
     def conn_security_manager(self) -> ConnectionSecurityManager:
         return self.conn_sec_mgr
 
-    def clone(self, **kwargs):
+    def clone(self, **kwargs):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         return attr.evolve(self, **kwargs)
 
 

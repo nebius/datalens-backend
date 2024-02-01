@@ -9,7 +9,7 @@ DUMMY_GEO_VALUE = "__DUMMY_GEO_VALUE__"
 
 
 @lru_cache(maxsize=2**10)
-def postprocess_geopoint(value) -> Optional[str]:
+def postprocess_geopoint(value) -> Optional[str]:  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
     value = str(value)
     if value == DUMMY_GEO_VALUE:
         return None
@@ -46,7 +46,7 @@ def postprocess_geopoint(value) -> Optional[str]:
 
 
 @lru_cache(maxsize=2**10)
-def postprocess_geopolygon(value) -> Optional[str]:
+def postprocess_geopolygon(value) -> Optional[str]:  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
     value = str(value)
     if value == DUMMY_GEO_VALUE:
         return None

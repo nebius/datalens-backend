@@ -39,7 +39,7 @@ class SATypeTransformer(SAColumnTypeNormalizer):
         if isinstance(value, type):
             return value.__name__.lower()
         if isinstance(value, int):
-            return value
+            return value  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "int", expected "str")  [return-value]
         return str(value).lower()
 
     def _cursor_column_to_name(self, cursor_col: Tuple[Any, ...], dialect: Any = None) -> str:
@@ -76,7 +76,7 @@ class SATypeTransformer(SAColumnTypeNormalizer):
 
         return CommonNativeType.normalize_name_and_create(
             conn_type=self.conn_type,
-            name=self.normalize_sa_col_type(sa_type),
+            name=self.normalize_sa_col_type(sa_type),  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "normalize_sa_col_type" of "SAColumnTypeNormalizer" has incompatible type "type[TypeEngine] | TypeEngine | str"; expected "TypeEngine"  [arg-type]
             # no idea whether it can be False here; `create view` version
             # returns `nullable=True` for all known cases (for PG and MySQL).
             nullable=nullable,
@@ -84,12 +84,12 @@ class SATypeTransformer(SAColumnTypeNormalizer):
 
 
 class WithCursorInfo:
-    def _make_cursor_info(self, cursor, db_session=None) -> dict:
+    def _make_cursor_info(self, cursor, db_session=None) -> dict:  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
         return {}
 
 
 class WithMinimalCursorInfo(WithCursorInfo, SATypeTransformer):
-    def _make_cursor_info(self, cursor, db_session=None) -> dict:
+    def _make_cursor_info(self, cursor, db_session=None) -> dict:  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
         """
         Minimal information from the cursor,
         will likely get processed through JSON at some point,

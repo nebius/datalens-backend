@@ -50,11 +50,11 @@ def abort_request(code, message=None, response_data: Optional[dict] = None) -> N
         if message:
             response_data["message"] = str(message)
         if response_data:
-            e.data = response_data
+            e.data = response_data  # type: ignore  # 2024-02-01 # TODO: "HTTPException" has no attribute "data"  [attr-defined]
         raise
 
 
-def schematic_request(
+def schematic_request(  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
     ns: Namespace,
     body: Optional[Schema] = None,
     query: Optional[Schema] = None,
@@ -78,13 +78,13 @@ def schematic_request(
     body_schema = body
     query_schema = query
 
-    def decorator(f):
+    def decorator(f):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         if responses:
             for code, (description, model) in api_model_responses.items():
                 f = ns.response(code, description, model)(f)
 
         @wraps(f)
-        def wrapper(*args, **kwargs):
+        def wrapper(*args, **kwargs):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
             body = request.get_json() if body_schema is not None else None
 
             if LOGGER.isEnabledFor(logging.INFO):
@@ -168,12 +168,12 @@ def schematic_request(
     return decorator
 
 
-def with_profiler_stats(stats_dir: str, condition_check: Callable = None):
+def with_profiler_stats(stats_dir: str, condition_check: Callable = None):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
     """Run function with cProfiler and save stats to file"""
 
-    def decorator(func):
+    def decorator(func):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         @wraps(func)
-        def wrapper(*args, **kwargs):
+        def wrapper(*args, **kwargs):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
             if condition_check is None or condition_check(*args, **kwargs):
                 with utils.profile_stats(stats_dir):
                     return func(*args, **kwargs)

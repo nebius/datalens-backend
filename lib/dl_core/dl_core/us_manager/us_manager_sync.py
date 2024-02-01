@@ -87,7 +87,7 @@ class SyncUSManager(USManagerBase):
             context_workbook_id=self._bi_context.workbook_id,
         )
 
-    def clone(self, **kwargs):
+    def clone(self, **kwargs):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         """This should've been an `attr.evolve` wrapper"""
         base_kwargs = dict(
             us_auth_context=self._us_auth_context,
@@ -143,7 +143,7 @@ class SyncUSManager(USManagerBase):
         else:
             # noinspection PyProtectedMember
             resp = self._us_client.update_entry(
-                entry.uuid, lock=entry._lock, **save_params
+                entry.uuid, lock=entry._lock, **save_params  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "update_entry" of "UStorageClient" has incompatible type "str | None"; expected "str"  [arg-type]
             )
 
         entry._us_resp = resp
@@ -163,11 +163,11 @@ class SyncUSManager(USManagerBase):
             LOGGER.exception("Error during post-delete hook execution for entry %s", entry.uuid)
 
     @overload
-    def get_by_id(self, entry_id: str, expected_type: type(None) = None) -> USEntry:
+    def get_by_id(self, entry_id: str, expected_type: type(None) = None) -> USEntry:  # type: ignore  # 2024-02-01 # TODO: Invalid type comment or annotation  [valid-type]
         pass
 
     @overload  # noqa
-    def get_by_id(self, entry_id: str, expected_type: Type[_ENTRY_TV] = None) -> _ENTRY_TV:
+    def get_by_id(self, entry_id: str, expected_type: Type[_ENTRY_TV] = None) -> _ENTRY_TV:  # type: ignore  # 2024-02-01 # TODO: Overloaded function signature 2 will never be matched: signature 1's parameter type(s) are the same or broader  [misc]
         pass
 
     @generic_profiler("us-fetch-entity")
@@ -182,11 +182,11 @@ class SyncUSManager(USManagerBase):
         return obj
 
     @overload
-    def get_by_key(self, entry_key: str, expected_type: type(None) = None) -> USEntry:
+    def get_by_key(self, entry_key: str, expected_type: type(None) = None) -> USEntry:  # type: ignore  # 2024-02-01 # TODO: Invalid type comment or annotation  [valid-type]
         pass
 
     @overload  # noqa
-    def get_by_key(self, entry_key: str, expected_type: Type[_ENTRY_TV] = None) -> _ENTRY_TV:
+    def get_by_key(self, entry_key: str, expected_type: Type[_ENTRY_TV] = None) -> _ENTRY_TV:  # type: ignore  # 2024-02-01 # TODO: Overloaded function signature 2 will never be matched: signature 1's parameter type(s) are the same or broader  [misc]
         pass
 
     def get_by_key(self, entry_key: str, expected_type=None):  # type: ignore  # TODO: fix  # noqa
@@ -207,13 +207,13 @@ class SyncUSManager(USManagerBase):
         if all_tenants and include_data:
             # Not supported; see _req_data_iter_entries
             raise ValueError("all_tenants and include_data cannot both be True")
-        if entry_scope and entry_cls.scope:
+        if entry_scope and entry_cls.scope:  # type: ignore  # 2024-02-01 # TODO: Item "None" of "type[_ENTRY_TV] | None" has no attribute "scope"  [union-attr]
             raise ValueError("US scope can not be provided in entry class and in parameters simultaneously")
-        if not entry_scope and not entry_cls.scope:
+        if not entry_scope and not entry_cls.scope:  # type: ignore  # 2024-02-01 # TODO: Item "None" of "type[_ENTRY_TV] | None" has no attribute "scope"  [union-attr]
             raise ValueError("US scope not provided neither in entry class nor in parameters")
 
-        effective_scope = entry_scope or entry_cls.scope
-        effective_type = entry_type or entry_cls.type_
+        effective_scope = entry_scope or entry_cls.scope  # type: ignore  # 2024-02-01 # TODO: Item "None" of "type[_ENTRY_TV] | None" has no attribute "scope"  [union-attr]
+        effective_type = entry_type or entry_cls.type_  # type: ignore  # 2024-02-01 # TODO: Item "None" of "type[_ENTRY_TV] | None" has no attribute "type_"  [union-attr]
         assert isinstance(effective_scope, str)
 
         us_entry_iterator = self._us_client.entries_iterator(
@@ -229,7 +229,7 @@ class SyncUSManager(USManagerBase):
         for us_resp in us_entry_iterator:
             # noinspection PyBroadException
             try:
-                yield self._entry_dict_to_obj(us_resp, expected_type=entry_cls)
+                yield self._entry_dict_to_obj(us_resp, expected_type=entry_cls)  # type: ignore  # 2024-02-01 # TODO: Incompatible types in "yield" (actual type "USEntry", expected type "_ENTRY_TV")  [misc]
             except Exception:
                 LOGGER.exception("Failed to load US object: %s", us_resp)
                 if raise_on_broken_entry:
@@ -275,8 +275,8 @@ class SyncUSManager(USManagerBase):
             self._us_client.release_lock(entry.uuid, entry._lock)
             entry._lock = None
 
-    @contextlib.contextmanager
-    def locked_cm(
+    @contextlib.contextmanager  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "contextmanager" has incompatible type "Callable[[SyncUSManager, USEntry, int | None, int | None], AbstractContextManager[Any]]"; expected "Callable[[SyncUSManager, USEntry, int | None, int | None], Iterator[<nothing>]]"  [arg-type]
+    def locked_cm(  # type: ignore  # 2024-02-01 # TODO: The return type of a generator function should be "Generator" or one of its supertypes  [misc]
         self, entry: USEntry, duration: Optional[int] = None, wait_timeout: Optional[int] = None
     ) -> ContextManager:
         self.acquire_lock(entry, duration=duration, wait_timeout=wait_timeout)
@@ -285,8 +285,8 @@ class SyncUSManager(USManagerBase):
         finally:
             self.release_lock(entry)
 
-    @contextlib.contextmanager
-    def get_locked_entry_cm(
+    @contextlib.contextmanager  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "contextmanager" has incompatible type "Callable[[SyncUSManager, type[_ENTRY_TV], str, int | None, int | None], AbstractContextManager[_ENTRY_TV]]"; expected "Callable[[SyncUSManager, type[_ENTRY_TV], str, int | None, int | None], Iterator[<nothing>]]"  [arg-type]
+    def get_locked_entry_cm(  # type: ignore  # 2024-02-01 # TODO: The return type of a generator function should be "Generator" or one of its supertypes  [misc]
         self,
         expected_type: Type[_ENTRY_TV],
         entry_id: str,
@@ -347,7 +347,7 @@ class SyncUSManager(USManagerBase):
 
         if isinstance(conn, BrokenUSLink):
             if referrer is not None:
-                conn.add_referrer_id(referrer.uuid)
+                conn.add_referrer_id(referrer.uuid)  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "add_referrer_id" of "BrokenUSLink" has incompatible type "str | None"; expected "str"  [arg-type]
             return None
         elif isinstance(conn, ConnectionBase):
             return conn
@@ -376,7 +376,7 @@ class SyncUSManager(USManagerBase):
 
             refs_to_load_queue.update(
                 self._get_entry_links(
-                    resolved_ref,
+                    resolved_ref,  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "_get_entry_links" of "USManagerBase" has incompatible type "ConnectionBase | None"; expected "USEntry"  [arg-type]
                 )
                 - processed_refs
             )

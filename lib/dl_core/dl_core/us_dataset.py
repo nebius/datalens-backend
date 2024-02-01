@@ -57,7 +57,7 @@ LOGGER = logging.getLogger(__name__)
 
 
 class Dataset(USEntry):
-    dir_name = ""
+    dir_name = ""  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "str", base class "USEntry" defined the type as "None")  [assignment]
     scope = "dataset"
 
     @attr.s
@@ -87,7 +87,7 @@ class Dataset(USEntry):
     def error_registry(self) -> ComponentErrorRegistry:
         return self.data.component_errors
 
-    def get_single_data_source_id(self, ignore_source_ids: Optional[Collection[str]] = None) -> str:
+    def get_single_data_source_id(self, ignore_source_ids: Optional[Collection[str]] = None) -> str:  # type: ignore  # 2024-02-01 # TODO: Missing return statement  [return]
         # FIXME: remove in the future
         ignore_source_ids = ignore_source_ids or ()
         for dsrc_coll_spec in self.data.source_collections or ():
@@ -110,7 +110,7 @@ class Dataset(USEntry):
                 if dsrc_spec.table_name is not None:
                     yield dsrc_spec.table_name
 
-    def find_data_source_configuration(
+    def find_data_source_configuration(  # type: ignore  # 2024-02-01 # TODO: Missing return statement  [return]
         self,
         connection_id: Optional[str],
         created_from: Optional[DataSourceType] = None,
@@ -198,7 +198,7 @@ class Dataset(USEntry):
     def result_schema(self) -> ResultSchema:
         return self.data.result_schema
 
-    def _dump_rls(self):
+    def _dump_rls(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         """Remove rls entries for non-existing in result_schema fields"""
         # FIXME: this should be in the scope of result_schema management
         field_guids = [f.guid for f in self.result_schema.fields]

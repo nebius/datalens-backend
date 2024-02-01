@@ -242,7 +242,7 @@ class BitrixGDSDefaultAdapter(AiohttpDBAdapter, ETBasedExceptionMaker):
                 details={},
             )
 
-    @generic_profiler_async("db-full")
+    @generic_profiler_async("db-full")  # type: ignore  # 2024-02-01 # TODO: Value of type variable "_GPA_CORO_TV" of function cannot be "Callable[[BitrixGDSDefaultAdapter, DBAdapterQuery], Coroutine[Any, Any, AsyncRawExecutionResult]]"  [type-var]
     async def execute(self, query: DBAdapterQuery) -> AsyncRawExecutionResult:
         with self.wrap_execute_excs(query=query, stage="request"):
             if self._redis_cli_acm is not None:
@@ -252,7 +252,7 @@ class BitrixGDSDefaultAdapter(AiohttpDBAdapter, ETBasedExceptionMaker):
 
         rd = self._parse_response_body(resp_body, query)
 
-        async def chunk_gen(chunk_size=query.chunk_size or self._default_chunk_size):
+        async def chunk_gen(chunk_size=query.chunk_size or self._default_chunk_size):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
             data = rd["rows"]
             while data:
                 chunk = data[:chunk_size]
@@ -293,7 +293,7 @@ class BitrixGDSDefaultAdapter(AiohttpDBAdapter, ETBasedExceptionMaker):
         tables: list[str] = [table[0] for table in await resp.json()]
         return tables
 
-    @generic_profiler_async("db-table-info")
+    @generic_profiler_async("db-table-info")  # type: ignore  # 2024-02-01 # TODO: Value of type variable "_GPA_CORO_TV" of function cannot be "Callable[[BitrixGDSDefaultAdapter, TableDefinition | None, bool], Coroutine[Any, Any, RawSchemaInfo]]"  [type-var]
     async def get_table_info(
         self, table_def: Optional[TableDefinition] = None, fetch_idx_info: bool = False
     ) -> RawSchemaInfo:

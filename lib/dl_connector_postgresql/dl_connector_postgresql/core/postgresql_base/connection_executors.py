@@ -58,7 +58,7 @@ class BasePostgresConnExecutor(DefaultSqlAlchemyConnExecutor[_BASE_POSTGRES_ADAP
             )
         return dto_pool
 
-    def mutate_for_dashsql(self, db_params: Optional[dict[str, str]] = None):
+    def mutate_for_dashsql(self, db_params: Optional[dict[str, str]] = None):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         if db_params:
             # TODO: better exception class for HTTP 4xx response
             raise Exception("No db_params supported here at the moment")

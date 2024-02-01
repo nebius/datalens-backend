@@ -56,9 +56,9 @@ if TYPE_CHECKING:
 LOGGER = logging.getLogger(__name__)
 
 
-def require_table_name(func):
+def require_table_name(func):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
     @wraps(func)
-    def wrapper(self, *args, **kwargs):
+    def wrapper(self, *args, **kwargs):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         if not self.table_name:
             raise exc.TableNameNotConfiguredError
 
@@ -240,7 +240,7 @@ class SQLDataSource(abc.ABC, BaseSQLDataSource):
 
     @property
     def default_title(self) -> str:
-        return self.table_name
+        return self.table_name  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "str | None", expected "str")  [return-value]
 
     def _get_db_version(self, conn_executor_factory: Callable[[], SyncConnExecutorBase]) -> Optional[str]:
         conn_executor = conn_executor_factory()
@@ -373,7 +373,7 @@ class SchemaSQLDataSourceMixin(BaseSQLDataSource):
         assert isinstance(self._spec, SchemaSQLDataSourceSpec)
         # TODO FIX: DO NOT DO THIS IN PROPERTY!!!!!
         #  USE METHOD get_effective schema name or dump from connection on initial data source creation
-        return self._spec.schema_name if self._spec.schema_name else self.get_connection_cls().default_schema_name
+        return self._spec.schema_name if self._spec.schema_name else self.get_connection_cls().default_schema_name  # type: ignore  # 2024-02-01 # TODO: "type[ConnectionBase]" has no attribute "default_schema_name"  [attr-defined]
 
 
 @attr.s

@@ -44,7 +44,7 @@ class QuerySpecFormalizerBase(abc.ABC):
 
     _verbose_logging: bool = attr.ib(kw_only=True, default=False)
 
-    def _log_info(self, *args, **kwargs) -> None:
+    def _log_info(self, *args, **kwargs) -> None:  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
         if self._verbose_logging:
             LOGGER.info(*args, **kwargs)
 

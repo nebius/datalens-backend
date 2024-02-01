@@ -103,8 +103,8 @@ _CB_TV = TypeVar("_CB_TV", bound="ConnectionBase")
 
 
 class ConnectionBase(USEntry, metaclass=abc.ABCMeta):
-    dir_name: ClassVar[str] = ""
-    scope: ClassVar[str] = "connection"
+    dir_name: ClassVar[str] = ""  # type: ignore  # 2024-02-01 # TODO: Cannot override instance variable (previously declared on base class "USEntry") with class variable  [misc]
+    scope: ClassVar[str] = "connection"  # type: ignore  # 2024-02-01 # TODO: Cannot override instance variable (previously declared on base class "USEntry") with class variable  [misc]
 
     conn_type: ConnectionType
     source_type: ClassVar[Optional[DataSourceType]] = None
@@ -204,7 +204,7 @@ class ConnectionBase(USEntry, metaclass=abc.ABCMeta):
     def is_dataset_allowed(self) -> bool:
         return True
 
-    def as_dict(self, short=False):
+    def as_dict(self, short=False):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         resp = super().as_dict(short=short)
         if short:
             resp.update(
@@ -252,11 +252,11 @@ class ConnectionBase(USEntry, metaclass=abc.ABCMeta):
         raise NotImplementedError
 
     @property
-    def table_name(self):
+    def table_name(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return self.data.table_name
 
     @property
-    def sample_table_name(self):
+    def sample_table_name(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return self.data.sample_table_name
 
     _dsrc_error = "Only materializable connections can have a data source"  # TODO remove?
@@ -405,13 +405,13 @@ class SubselectMixin:
 
     @property
     def is_subselect_allowed(self) -> bool:
-        return self.data.raw_sql_level in (RawSQLLevel.subselect, RawSQLLevel.dashsql)
+        return self.data.raw_sql_level in (RawSQLLevel.subselect, RawSQLLevel.dashsql)  # type: ignore  # 2024-02-01 # TODO: "SubselectMixin" has no attribute "data"  [attr-defined]
 
     @property
     def is_dashsql_allowed(self) -> bool:
-        if not self.allow_dashsql:
+        if not self.allow_dashsql:  # type: ignore  # 2024-02-01 # TODO: "SubselectMixin" has no attribute "allow_dashsql"  [attr-defined]
             return False
-        if self.data.raw_sql_level == RawSQLLevel.dashsql:
+        if self.data.raw_sql_level == RawSQLLevel.dashsql:  # type: ignore  # 2024-02-01 # TODO: "SubselectMixin" has no attribute "data"  [attr-defined]
             return True
         return False
 
@@ -440,7 +440,7 @@ class SubselectMixin:
                 ],
                 disabled=not allowed,
                 group=[],
-                connection_id=self.uuid,
+                connection_id=self.uuid,  # type: ignore  # 2024-02-01 # TODO: "SubselectMixin" has no attribute "uuid"  [attr-defined]
                 parameters={},
             ),
         ]
@@ -506,8 +506,8 @@ class ConnectionSQL(SubselectMixin, ExecutorBasedMixin, ConnectionBase):
             DataSourceTemplate(
                 title=self.get_data_source_template_title(parameters),
                 group=self.get_data_source_template_group(parameters),
-                source_type=self.source_type,
-                connection_id=self.uuid,
+                source_type=self.source_type,  # type: ignore  # 2024-02-01 # TODO: Argument "source_type" to "DataSourceTemplate" has incompatible type "DataSourceType | None"; expected "DataSourceType"  [arg-type]
+                connection_id=self.uuid,  # type: ignore  # 2024-02-01 # TODO: Argument "connection_id" to "DataSourceTemplate" has incompatible type "str | None"; expected "str"  [arg-type]
                 parameters=parameters,
             )
             for parameters in self.get_parameter_combinations(conn_executor_factory=conn_executor_factory)

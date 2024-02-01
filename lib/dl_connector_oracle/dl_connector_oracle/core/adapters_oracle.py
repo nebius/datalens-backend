@@ -126,14 +126,14 @@ class OracleDefaultAdapter(BaseClassicAdapter[OracleConnTargetDTO]):
         getattr(oracledb, "DB_TYPE_VARCHAR", None): sa_ora.VARCHAR,
     }
 
-    def _cursor_column_to_name(self, cursor_col, dialect=None) -> str:
+    def _cursor_column_to_name(self, cursor_col, dialect=None) -> str:  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
         assert dialect, "required in this case"
         # To match the `get_columns` result.
         # Generally just lowercases the name.
         # Notably, column names seem to be case-insensitive in oracle.
         return dialect.normalize_name(cursor_col[0])
 
-    def _cursor_column_to_sa(self, cursor_col, require: bool = True) -> Optional[SATypeSpec]:
+    def _cursor_column_to_sa(self, cursor_col, require: bool = True) -> Optional[SATypeSpec]:  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
         """
         cursor_col:
 
@@ -172,10 +172,10 @@ class OracleDefaultAdapter(BaseClassicAdapter[OracleConnTargetDTO]):
 
         return sa_type
 
-    def _cursor_column_to_nullable(self, cursor_col) -> Optional[bool]:
+    def _cursor_column_to_nullable(self, cursor_col) -> Optional[bool]:  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
         return bool(cursor_col[6])
 
-    def _make_cursor_info(self, cursor, db_session=None) -> dict:
+    def _make_cursor_info(self, cursor, db_session=None) -> dict:  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
         return dict(
             super()._make_cursor_info(cursor, db_session=db_session),
             cxoracle_types=[self._cursor_type_to_str(column[1]) for column in cursor.description],

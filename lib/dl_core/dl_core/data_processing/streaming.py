@@ -134,9 +134,9 @@ class LazyAsyncChunked(AsyncChunkedBase[_ENTRY_TV]):
     def items(self) -> AsyncIterable[_ENTRY_TV]:
         async def item_gen() -> AsyncGenerator[_ENTRY_TV, None]:
             if self._chunked is None:
-                self._chunked = await self._initializer()
+                self._chunked = await self._initializer()  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "AsyncChunkedBase[_ENTRY_TV]", variable has type "Awaitable[AsyncChunkedBase[_ENTRY_TV]] | None")  [assignment]
             try:
-                async for item in self._chunked.items:
+                async for item in self._chunked.items:  # type: ignore  # 2024-02-01 # TODO: Item "Awaitable[AsyncChunkedBase[_ENTRY_TV]]" of "Awaitable[AsyncChunkedBase[_ENTRY_TV]] | None" has no attribute "items"  [union-attr]
                     yield item
             finally:
                 await self._finalizer()
@@ -147,9 +147,9 @@ class LazyAsyncChunked(AsyncChunkedBase[_ENTRY_TV]):
     def chunks(self) -> AsyncIterable[TChunk[_ENTRY_TV]]:
         async def chunk_gen() -> AsyncGenerator[TChunk[_ENTRY_TV], None]:
             if self._chunked is None:
-                self._chunked = await self._initializer()
+                self._chunked = await self._initializer()  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "AsyncChunkedBase[_ENTRY_TV]", variable has type "Awaitable[AsyncChunkedBase[_ENTRY_TV]] | None")  [assignment]
             try:
-                async for chunk in self._chunked.chunks:
+                async for chunk in self._chunked.chunks:  # type: ignore  # 2024-02-01 # TODO: Item "Awaitable[AsyncChunkedBase[_ENTRY_TV]]" of "Awaitable[AsyncChunkedBase[_ENTRY_TV]] | None" has no attribute "chunks"  [union-attr]
                     yield chunk
             finally:
                 await self._finalizer()

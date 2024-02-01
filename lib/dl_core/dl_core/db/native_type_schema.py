@@ -48,7 +48,7 @@ class NativeTypeSchemaBase(Schema, Generic[_TARGET_TV]):
     TARGET_CLS: ClassVar[Type[_TARGET_TV]]  # type: ignore  # 2024-01-24 # TODO: ClassVar cannot contain type variables  [misc]
 
     @post_load(pass_many=False)
-    def to_object(self, data: dict, **_):
+    def to_object(self, data: dict, **_):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return self.TARGET_CLS(**data)
 
 
@@ -85,12 +85,12 @@ class ClickHouseDateTimeWithTZNativeTypeSchema(ClickHouseNativeTypeSchema):
 
 
 class ClickHouseDateTime64NativeTypeSchema(ClickHouseNativeTypeSchema):
-    TARGET_CLS = ClickHouseDateTime64NativeType
+    TARGET_CLS = ClickHouseDateTime64NativeType  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "type[ClickHouseDateTime64NativeType]", base class "ClickHouseNativeTypeSchema" defined the type as "type[ClickHouseNativeType]")  [assignment]
     precision = fields.Integer(required=True)
 
 
 class ClickHouseDateTime64WithTZNativeTypeSchema(ClickHouseDateTime64NativeTypeSchema):
-    TARGET_CLS = ClickHouseDateTime64WithTZNativeType
+    TARGET_CLS = ClickHouseDateTime64WithTZNativeType  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "type[ClickHouseDateTime64WithTZNativeType]", base class "ClickHouseNativeTypeSchema" defined the type as "type[ClickHouseNativeType]")  [assignment]
     timezone_name = fields.String(required=False, load_default="UTC")
     explicit_timezone = fields.Boolean(required=False, load_default=True)
 
@@ -112,10 +112,10 @@ class OneOfNativeTypeSchemaBase(OneOfSchema):
         )
     }
 
-    def get_obj_type(self, obj):
+    def get_obj_type(self, obj):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         return getattr(obj, self.type_field)
 
-    def _load(self, data, *, partial=None, unknown=None):
+    def _load(self, data, *, partial=None, unknown=None):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         data.setdefault(self.type_field, "common_native_type")
         return super()._load(data, partial=partial, unknown=unknown)
 
@@ -123,7 +123,7 @@ class OneOfNativeTypeSchemaBase(OneOfSchema):
 class OneOfNativeTypeSchema(OneOfNativeTypeSchemaBase):
     """Transition/compatibility layer. Should eventually become empty."""
 
-    def dump(self, value, *args, **kwargs):
+    def dump(self, value, *args, **kwargs):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         if value is None:
             return None
 
@@ -135,7 +135,7 @@ class OneOfNativeTypeSchema(OneOfNativeTypeSchemaBase):
 
         return super().dump(value, *args, **kwargs)
 
-    def load(self, value, *args, **kwargs):
+    def load(self, value, *args, **kwargs):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         if value is None:
             return None
 

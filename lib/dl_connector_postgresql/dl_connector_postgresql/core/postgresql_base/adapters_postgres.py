@@ -100,7 +100,7 @@ class PostgresAdapter(BasePostgresAdapter, BaseClassicAdapter[PostgresConnTarget
             for schema_name, name in result
         ]
 
-    def _make_cursor_info(self, cursor, db_session=None) -> dict:
+    def _make_cursor_info(self, cursor, db_session=None) -> dict:  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
         return dict(
             super()._make_cursor_info(cursor, db_session=db_session),
             # Deprecating:

@@ -28,7 +28,7 @@ class DLRequestDataCore(DLRequestBase):
     @property
     def us_manager(self) -> AsyncUSManager:
         """US manager associated with request's user"""
-        return self.request.get(self.KEY_US_MANAGER)
+        return self.request.get(self.KEY_US_MANAGER)  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "Any | None", expected "AsyncUSManager")  [return-value]
 
     @us_manager.setter
     def us_manager(self, value: AsyncUSManager) -> None:
@@ -37,7 +37,7 @@ class DLRequestDataCore(DLRequestBase):
     @property
     def service_us_manager(self) -> AsyncUSManager:
         """US manager with master token"""
-        return self.request.get(self.KEY_SERVICE_US_MANAGER)
+        return self.request.get(self.KEY_SERVICE_US_MANAGER)  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "Any | None", expected "AsyncUSManager")  [return-value]
 
     @service_us_manager.setter
     def service_us_manager(self, value: AsyncUSManager) -> None:
@@ -45,7 +45,7 @@ class DLRequestDataCore(DLRequestBase):
 
     @property
     def services_registry(self) -> "ServicesRegistry":
-        return self.request.get(self.KEY_SERVICES_REGISTRY)
+        return self.request.get(self.KEY_SERVICES_REGISTRY)  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "Any | None", expected "ServicesRegistry")  [return-value]
 
     @services_registry.setter
     def services_registry(self, value: "ServicesRegistry") -> None:

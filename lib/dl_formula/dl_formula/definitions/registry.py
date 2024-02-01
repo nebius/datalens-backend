@@ -148,7 +148,7 @@ class OperationRegistry:
         Result is a list of (<func_name>, <arg_cnt>) tuples
         (keys from ``OPERATION_REGISTRY``).
         """
-        support_by_key = defaultdict(lambda: D.EMPTY)
+        support_by_key = defaultdict(lambda: D.EMPTY)  # type: ignore  # 2024-02-01 # TODO: Need type annotation for "support_by_key"  [var-annotated]
         for func_key, func_tr in self.items():
             if func_tr.scopes & function_scopes != function_scopes:
                 continue

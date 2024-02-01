@@ -62,11 +62,11 @@ class DataSourceSpecStorageSchema(BaseStorageSchema):  # noqa
         data["parameters"] = parameters
         return data
 
-    def push_ctx(self, data: dict):
+    def push_ctx(self, data: dict):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         dsrc_cls = get_data_source_class(DataSourceType[data["created_from"]])
         self.context[CtxKey.ds_conn_type] = dsrc_cls.conn_type
 
-    def pop_ctx(self, data: dict):
+    def pop_ctx(self, data: dict):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         self.context.pop(CtxKey.ds_conn_type, None)
 
     def constructor_kwargs(self, data: dict[str, Any]) -> dict[str, Any]:

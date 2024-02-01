@@ -75,13 +75,13 @@ DEFINITIONS_MATH = [
             V(
                 D.CLICKHOUSE,
                 lambda x, y: n.if_(
-                    n.if_(sa.and_(x == 0, y == 0)).then(0),
-                    n.if_(sa.and_(y == 0, x < 0)).then(-sa.func.pi() / 2),
-                    n.if_(sa.and_(y == 0, x > 0)).then(sa.func.pi() / 2),
-                    n.if_(sa.and_(x == 0, y < 0)).then(sa.func.pi()),
-                    n.if_(sa.and_(x == 0, y > 0)).then(0),
-                    n.if_(y > 0).then(sa.func.atan(x / y)),
-                    n.if_(x > 0).then(sa.func.atan(x / y) + sa.func.pi()),
+                    n.if_(sa.and_(x == 0, y == 0)).then(0),  # type: ignore  # 2024-02-01 # TODO: Item "IfBlockProxy" of "IfBlockProxy | IfPartProxy" has no attribute "then"  [union-attr]
+                    n.if_(sa.and_(y == 0, x < 0)).then(-sa.func.pi() / 2),  # type: ignore  # 2024-02-01 # TODO: Item "IfBlockProxy" of "IfBlockProxy | IfPartProxy" has no attribute "then"  [union-attr]
+                    n.if_(sa.and_(y == 0, x > 0)).then(sa.func.pi() / 2),  # type: ignore  # 2024-02-01 # TODO: Item "IfBlockProxy" of "IfBlockProxy | IfPartProxy" has no attribute "then"  [union-attr]
+                    n.if_(sa.and_(x == 0, y < 0)).then(sa.func.pi()),  # type: ignore  # 2024-02-01 # TODO: Item "IfBlockProxy" of "IfBlockProxy | IfPartProxy" has no attribute "then"  [union-attr]
+                    n.if_(sa.and_(x == 0, y > 0)).then(0),  # type: ignore  # 2024-02-01 # TODO: Item "IfBlockProxy" of "IfBlockProxy | IfPartProxy" has no attribute "then"  [union-attr]
+                    n.if_(y > 0).then(sa.func.atan(x / y)),  # type: ignore  # 2024-02-01 # TODO: Item "IfBlockProxy" of "IfBlockProxy | IfPartProxy" has no attribute "then"  [union-attr]
+                    n.if_(x > 0).then(sa.func.atan(x / y) + sa.func.pi()),  # type: ignore  # 2024-02-01 # TODO: Item "IfBlockProxy" of "IfBlockProxy | IfPartProxy" has no attribute "then"  [union-attr]
                 ).else_(
                     sa.func.atan(x / y) - sa.func.pi()  # for x < 0
                 ),
@@ -190,8 +190,8 @@ DEFINITIONS_MATH = [
             V(
                 D.CLICKHOUSE,
                 lambda x: n.if_(
-                    n.if_(x < 0).then(-1),
-                    n.if_(x > 0).then(1),
+                    n.if_(x < 0).then(-1),  # type: ignore  # 2024-02-01 # TODO: Item "IfBlockProxy" of "IfBlockProxy | IfPartProxy" has no attribute "then"  [union-attr]
+                    n.if_(x > 0).then(1),  # type: ignore  # 2024-02-01 # TODO: Item "IfBlockProxy" of "IfBlockProxy | IfPartProxy" has no attribute "then"  [union-attr]
                 ).else_(0),
             ),
         ]

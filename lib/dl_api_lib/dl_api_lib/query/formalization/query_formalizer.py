@@ -400,7 +400,7 @@ class DataQuerySpecFormalizer(SimpleQuerySpecFormalizer):  # noqa
                 FilterFieldSpec(
                     field_id=field_guid,
                     operation=WhereClauseOperation.IN,
-                    values=values,
+                    values=values,  # type: ignore  # 2024-02-01 # TODO: Argument "values" to "FilterFieldSpec" has incompatible type "list[str]"; expected "list[str | int | float | None]"  [arg-type]
                     anonymous=True,
                 )
             )
@@ -504,7 +504,7 @@ class DataQuerySpecFormalizer(SimpleQuerySpecFormalizer):  # noqa
         }
 
         # Normalize avatars (fix them if there are no user-managed ones)
-        explicitly_required_avatar_ids = normalize_explicit_avatar_ids(
+        explicitly_required_avatar_ids = normalize_explicit_avatar_ids(  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "AbstractSet[str]", variable has type "set[str]")  [assignment]
             dataset=self._dataset, required_avatar_ids=explicitly_required_avatar_ids
         )
         if not explicitly_required_avatar_ids:

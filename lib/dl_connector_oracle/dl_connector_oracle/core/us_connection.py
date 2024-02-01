@@ -42,7 +42,7 @@ class ConnectionSQLOracle(ClassicConnectionSQL):
         return OracleConnDTO(
             conn_id=self.uuid,
             host=self.data.host,
-            multihosts=self.parse_multihosts(),
+            multihosts=self.parse_multihosts(),  # type: ignore  # 2024-02-01 # TODO: Argument "multihosts" to "OracleConnDTO" has incompatible type "tuple[str, ...]"; expected "Iterable[_T_co]"  [arg-type]
             port=self.data.port,
             db_name=self.data.db_name,
             db_name_type=self.data.db_name_type,

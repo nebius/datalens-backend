@@ -43,7 +43,7 @@ DEFAULT_RECORD_ATTRS = frozenset(
 )
 
 
-def get_record_extra(record):
+def get_record_extra(record):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
     return {key: value for key, value in vars(record).items() if key not in DEFAULT_RECORD_ATTRS}
 
 
@@ -74,7 +74,7 @@ class JsonFormatter(logging.Formatter):
 
     LOG_RECORD_USEFUL_FIELDS = ("funcName", "lineno", "name")
 
-    def format(self, record):
+    def format(self, record):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         record.message = record.getMessage()
 
         log_data = {
@@ -108,5 +108,5 @@ class JsonFormatter(logging.Formatter):
 
         return json.dumps(log_data, default=repr)
 
-    def _get_standard_fields(self, record):
+    def _get_standard_fields(self, record):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         return {field: getattr(record, field) for field in self.LOG_RECORD_USEFUL_FIELDS if hasattr(record, field)}

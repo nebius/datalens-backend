@@ -27,11 +27,11 @@ _RUNNER_TV = TypeVar("_RUNNER_TV")
 class ForkPopenHack(subprocess.Popen):
     """Execute `func` in a forked process"""
 
-    def __init__(self, target, **kwargs):
+    def __init__(self, target, **kwargs):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         self._target = target
         super().__init__(args=(), **kwargs)
 
-    def _execute_child(self, *args, **kwargs):
+    def _execute_child(self, *args, **kwargs):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         # Most of the arguments are ignored,
         # unix-only version
         # skipping: errpipe.
@@ -41,10 +41,10 @@ class ForkPopenHack(subprocess.Popen):
         # parent
         return self._manage_child(pid)
 
-    def _manage_child(self, pid):
+    def _manage_child(self, pid):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         self.pid = pid
 
-    def _execute_child_code(self):
+    def _execute_child_code(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         try:
             self._target()
         finally:
@@ -57,16 +57,16 @@ class ProcessPopenDuck(multiprocessing.Process):
 
     _retcode = 0
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         super().__init__(*args, **kwargs)
         self.start()
 
-    def wait(self, timeout):
+    def wait(self, timeout):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         self.join(timeout)
         return self._retcode
 
     @property
-    def returncode(self):
+    def returncode(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         if self.is_alive():
             return None
         return self._retcode
@@ -87,7 +87,7 @@ class WSGIRunner:
 
     _proc: subprocess.Popen = attr.ib(init=False, default=None)
 
-    def _debug(self, message, *args):
+    def _debug(self, message, *args):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         sys.stderr.write("{} @ {}: ".format(self.__class__.__name__, os.getpid()))
         sys.stderr.write(message % args)
         sys.stderr.write("\n")
@@ -153,7 +153,7 @@ class WSGIRunner:
         self._run_subproc()
         self.wait_for_up()
 
-    def _make_uwsgi_params(self):
+    def _make_uwsgi_params(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return (
             "--die-on-term",
             "--master",
@@ -178,7 +178,7 @@ class WSGIRunner:
             "3",
         )
 
-    def _run_subproc(self):
+    def _run_subproc(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         cmd = ["uwsgi"] + list(self._make_uwsgi_params())
         env = {
             **(self._env or {}),
@@ -186,9 +186,9 @@ class WSGIRunner:
         }
         self._proc = subprocess.Popen(cmd, env=env)
 
-    def _run_fork_child_code(self):
+    def _run_fork_child_code(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         self._debug("child: running uwsgi")
-        os.environ.update(self._env)
+        os.environ.update(self._env)  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "update" of "MutableMapping" has incompatible type "dict[str, str] | None"; expected "SupportsKeysAndGetItem[str, str]"  [arg-type]
         import pyuwsgi  # noqa
 
         cmd = [sys.argv[0]] + list(self._make_uwsgi_params())
@@ -200,7 +200,7 @@ class WSGIRunner:
         finally:
             self._debug("child: uwsgi done.")
 
-    def shutdown(self):
+    def shutdown(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         try:
             self._proc.terminate()
             exit_code = self._proc.wait(self._wait_term_time)
@@ -210,7 +210,7 @@ class WSGIRunner:
             self._proc.kill()
 
     def __enter__(self: _RUNNER_TV) -> _RUNNER_TV:
-        self.run()
+        self.run()  # type: ignore  # 2024-02-01 # TODO: "_RUNNER_TV" has no attribute "run"  [attr-defined]
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):  # type: ignore  # 2024-01-30 # TODO: Function is missing a type annotation  [no-untyped-def]

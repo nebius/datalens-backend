@@ -59,7 +59,7 @@ def get_compatible_source_types(source_type: DataSourceType) -> FrozenSet[DataSo
 _SOURCE_CONNECTION_COMPATIBILITY: Dict[DataSourceType, FrozenSet[ConnectionType]] = {}
 
 
-def _populate_compatibility_map():
+def _populate_compatibility_map():  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
     for conn_type, conn_cls in CONNECTION_TYPES.items():
         for dsrc_type in conn_cls.get_provided_source_types():
             _SOURCE_CONNECTION_COMPATIBILITY[dsrc_type] = _SOURCE_CONNECTION_COMPATIBILITY.get(
@@ -105,7 +105,7 @@ class DatasetCapabilities:
 
         return None
 
-    def get_effective_connection_id(
+    def get_effective_connection_id(  # type: ignore  # 2024-02-01 # TODO: Missing return statement  [return]
         self,
         ignore_source_ids: Optional[Collection[str]] = None,
     ) -> Optional[str]:

@@ -16,7 +16,7 @@ _ITER_TV = TypeVar("_ITER_TV")
 class DataStreamBase(Iterator[_ITER_TV], metaclass=ABCMeta):
     max_percent = 99
 
-    def __iter__(self):
+    def __iter__(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         return self
 
     def get_progress_percent(self) -> int:

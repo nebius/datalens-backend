@@ -37,7 +37,7 @@ _SchemaColumn = namedtuple(
 
 
 class SchemaColumn(_SchemaColumn):
-    def __new__(
+    def __new__(  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         cls,
         name: str,
         title: Optional[str] = None,
@@ -66,7 +66,7 @@ class SchemaColumn(_SchemaColumn):
             description=description or "",
         )
 
-    def clone(self, **kwargs) -> "SchemaColumn":
+    def clone(self, **kwargs) -> "SchemaColumn":  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
         return SchemaColumn(**dict(self._asdict(), **kwargs))
 
 
@@ -93,7 +93,7 @@ class SchemaInfo:
         else:
             raise TypeError(f"Indexes must be a frozen set or non, not {get_type_full_name(type(value))!r}")
 
-    def clone(self, **kwargs) -> SchemaInfo:
+    def clone(self, **kwargs) -> SchemaInfo:  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
         return attr.evolve(self, **kwargs)
 
     @classmethod

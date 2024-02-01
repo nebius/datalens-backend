@@ -176,7 +176,7 @@ class SyncHttpDatasetApiV1(SyncHttpApiV1Base):
             # `fail_ok` should not mean `allow 5xx`
             assert response.status_code < 500, response.json
 
-    def cleanup_created_resources(self):
+    def cleanup_created_resources(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         for dataset_id in self._created_dataset_id_list:
             try:
                 self.delete_dataset(dataset_id, fail_ok=True)

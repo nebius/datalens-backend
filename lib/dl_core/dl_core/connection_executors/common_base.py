@@ -189,7 +189,7 @@ class ConnExecutorBase(metaclass=abc.ABCMeta):
                         exc.details[key] = value
             raise
 
-    def mutate_for_dashsql(self, db_params: Optional[Dict[str, str]] = None):
+    def mutate_for_dashsql(self, db_params: Optional[Dict[str, str]] = None):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         """
         A place to do CE-specific alterations for DashSQL support.
         """

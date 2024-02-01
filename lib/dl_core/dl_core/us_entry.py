@@ -92,7 +92,7 @@ class USEntry:
             raise AssertionError(f"Unexpected type of entry key: {type(ds_key)}")
 
         obj = cls(
-            data=data_dict,
+            data=data_dict,  # type: ignore  # 2024-02-01 # TODO: Argument "data" to "USEntry" has incompatible type "dict[Any, Any] | BaseAttrsDataModel"; expected "dict[Any, Any] | None"  [arg-type]
             entry_key=effective_entry_key,
             type_=type_,
             meta=meta,
@@ -143,9 +143,9 @@ class USEntry:
 
     @property
     def _context(self) -> RequestContextInfo:
-        return self._us_manager.bi_context
+        return self._us_manager.bi_context  # type: ignore  # 2024-02-01 # TODO: Item "None" of "USManagerBase | None" has no attribute "bi_context"  [union-attr]
 
-    def on_updated(self):
+    def on_updated(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         """Post-update actions go here"""
 
     def _load_data(self, data: dict, strict: bool = True) -> Union[BaseAttrsDataModel, DotDict]:
@@ -162,7 +162,7 @@ class USEntry:
                 return DotDict(data)
 
             data = schema.load(data)
-            return data
+            return data  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "dict[Any, Any]", expected "BaseAttrsDataModel | DotDict")  [return-value]
         else:
             raise TypeError(f"Unexpected data type ({type(self.DataModel)}) for entry class {type(self)}")
 
@@ -170,12 +170,12 @@ class USEntry:
         return self._data is not None
 
     @property
-    def data(self):
+    def data(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         assert self._data is not None
         return self._data
 
     @data.setter
-    def data(self, value):
+    def data(self, value):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         self._data = value
 
     @property
@@ -225,19 +225,19 @@ class USEntry:
         return ret
 
     @property
-    def created_by(self):
+    def created_by(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return self._us_resp.get("createdBy") if isinstance(self._us_resp, dict) else None
 
     @property
-    def created_at(self):
+    def created_at(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return self._us_resp.get("createdAt") if isinstance(self._us_resp, dict) else None
 
     @property
-    def updated_at(self):
+    def updated_at(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return self._us_resp.get("updatedAt") if isinstance(self._us_resp, dict) else None
 
     @property
-    def revision_id(self):
+    def revision_id(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return self._us_resp.get("revId") if isinstance(self._us_resp, dict) else None
 
     @property
@@ -306,4 +306,4 @@ class USMigrationEntry(USEntry):
 
     @property
     def unversioned_data(self) -> DotDict:
-        return self._unversioned_data
+        return self._unversioned_data  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "DotDict | None", expected "DotDict")  [return-value]

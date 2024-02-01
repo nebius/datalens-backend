@@ -364,7 +364,7 @@ class TranslationVariantWrapped(TranslationVariant):
 
     @classmethod
     def make(cls: Type[_TRANS_VAR_WR_TV], *args: Any, **kwargs: Any) -> _TRANS_VAR_WR_TV:
-        return super().make(*args, unwrap_args=False, **kwargs)
+        return super().make(*args, unwrap_args=False, **kwargs)  # type: ignore  # 2024-02-01 # TODO: "make" of "TranslationVariant" gets multiple values for keyword argument "unwrap_args"  [misc]
 
 
 class TranslationResult(NamedTuple):

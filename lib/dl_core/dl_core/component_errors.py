@@ -45,7 +45,7 @@ class ComponentErrorPack:
             cond = lambda err: err.code == code
         elif code_prefix is not None:
             code_prefix = list(code_prefix)
-            cond = lambda err: err.code[: len(code_prefix)] == code_prefix
+            cond = lambda err: err.code[: len(code_prefix)] == code_prefix  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "len" has incompatible type "Sequence[str] | None"; expected "Sized"  [arg-type]
         else:
             cond = lambda err: True
         return [err for err in self.errors if cond(err)]
@@ -74,7 +74,7 @@ ERROR_CLS_BY_COMP_TYPE: Dict[ComponentType, Type[ComponentError]] = {
 class ComponentErrorRegistry:
     items: List[ComponentErrorPack] = attr.ib(factory=list)
 
-    def get_pack(self, id: str) -> Optional[ComponentErrorPack]:
+    def get_pack(self, id: str) -> Optional[ComponentErrorPack]:  # type: ignore  # 2024-02-01 # TODO: Missing return statement  [return]
         for item in self.items:
             if item.id == id:
                 return item
@@ -97,7 +97,7 @@ class ComponentErrorRegistry:
         if not item.errors:
             self.items.remove(item)
 
-    def add_error(
+    def add_error(  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         self,
         id: str,
         type: ComponentType,

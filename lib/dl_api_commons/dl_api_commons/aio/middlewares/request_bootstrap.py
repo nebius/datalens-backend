@@ -74,7 +74,7 @@ class SentryRequestLoggingContextController(RequestLoggingContextController):
             self._scope.set_extra(key, val_to_write)
 
 
-@contextlib.contextmanager
+@contextlib.contextmanager  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "contextmanager" has incompatible type "Callable[[], Iterable[None]]"; expected "Callable[[], Iterator[<nothing>]]"  [arg-type]
 def last_chance_log() -> Iterable[None]:
     try:
         yield

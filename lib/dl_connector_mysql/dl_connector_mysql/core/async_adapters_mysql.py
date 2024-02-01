@@ -192,7 +192,7 @@ class AsyncMySQLAdapter(
                         )
                     )
 
-    @generic_profiler_async("db-full")
+    @generic_profiler_async("db-full")  # type: ignore  # 2024-02-01 # TODO: Value of type variable "_GPA_CORO_TV" of function cannot be "Callable[[AsyncMySQLAdapter, DBAdapterQuery], Coroutine[Any, Any, AsyncRawExecutionResult]]"  [type-var]
     async def execute(self, query: DBAdapterQuery) -> AsyncRawExecutionResult:
         steps = self._execute_by_steps(query)
         cursor_info_step = await steps.__anext__()

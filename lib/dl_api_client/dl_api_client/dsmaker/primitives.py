@@ -136,7 +136,7 @@ class Container(Generic[_ITEM_TV]):
         for id in self._item_ids:
             yield self._items[id]
 
-    def __setitem__(self, alias: str, item: _ITEM_TV):
+    def __setitem__(self, alias: str, item: _ITEM_TV):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         """
         Add item to container under given alias.
         Item order is preserved.
@@ -270,7 +270,7 @@ class SourceAvatar(ApiProxyObject):
             join_type=join_type,
         )
 
-    def field(self, **kwargs) -> "ResultField":
+    def field(self, **kwargs) -> "ResultField":  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
         return ResultField(avatar_id=self.id, **kwargs)
 
 
@@ -304,22 +304,22 @@ class ConditionMakerMixin:
             left_part=self.get_cpart_from_self(), right_part=other.get_cpart_from_self(), operator=operator
         )
 
-    def __eq__(self, other: "ConditionMakerMixin"):
+    def __eq__(self, other: "ConditionMakerMixin"):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return self._simple_condition(other, BinaryJoinOperator.eq)
 
-    def __ne__(self, other: "ConditionMakerMixin"):
+    def __ne__(self, other: "ConditionMakerMixin"):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return self._simple_condition(other, BinaryJoinOperator.ne)
 
-    def __lt__(self, other: "ConditionMakerMixin"):
+    def __lt__(self, other: "ConditionMakerMixin"):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return self._simple_condition(other, BinaryJoinOperator.lt)
 
-    def __le__(self, other: "ConditionMakerMixin"):
+    def __le__(self, other: "ConditionMakerMixin"):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return self._simple_condition(other, BinaryJoinOperator.lte)
 
-    def __gt__(self, other: "ConditionMakerMixin"):
+    def __gt__(self, other: "ConditionMakerMixin"):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return self._simple_condition(other, BinaryJoinOperator.gt)
 
-    def __ge__(self, other: "ConditionMakerMixin"):
+    def __ge__(self, other: "ConditionMakerMixin"):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return self._simple_condition(other, BinaryJoinOperator.gte)
 
     def get_cpart_from_self(self) -> JoinPart:
@@ -339,7 +339,7 @@ class _Column:
     lock_aggregation: bool = attr.ib(default=False)
 
 
-class Column(ConditionMakerMixin, _Column):
+class Column(ConditionMakerMixin, _Column):  # type: ignore  # 2024-02-01 # TODO: Definition of "__gt__" in base class "ConditionMakerMixin" is incompatible with definition in base class "_Column"  [misc]
     def get_cpart_from_self(self) -> JoinPart:
         return DirectJoinPart(source=self.name)
 
@@ -359,8 +359,8 @@ class AvatarRelation(ApiProxyObject):
     join_type: JoinType = attr.ib(default=JoinType.inner)
     managed_by: ManagedBy = attr.ib(default=ManagedBy.user)
 
-    def on(self, *conditions: List[JoinCondition]):
-        self.conditions += conditions
+    def on(self, *conditions: List[JoinCondition]):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
+        self.conditions += conditions  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "__iadd__" of "list" has incompatible type "tuple[list[JoinCondition], ...]"; expected "Iterable[JoinCondition]"  [arg-type]
         return self
 
 
@@ -645,7 +645,7 @@ class ObligatoryFilter(ApiProxyObject):
     valid: bool = attr.ib(default=True)
 
 
-class ResultField(ConditionMakerMixin, _ResultField):
+class ResultField(ConditionMakerMixin, _ResultField):  # type: ignore  # 2024-02-01 # TODO: Definition of "__gt__" in base class "ConditionMakerMixin" is incompatible with definition in base class "_ResultField"  [misc]
     def get_cpart_from_self(self) -> JoinPart:
         return ResultFieldJoinPart(field_id=self.id)
 
@@ -887,7 +887,7 @@ class ComponentErrorPack:
 class ComponentErrorRegistry:
     items: List[ComponentErrorPack] = attr.ib(factory=list)
 
-    def get_pack(self, id: str) -> Optional[ComponentErrorPack]:
+    def get_pack(self, id: str) -> Optional[ComponentErrorPack]:  # type: ignore  # 2024-02-01 # TODO: Missing return statement  [return]
         for item in self.items:
             if item.id == id:
                 return item
@@ -926,7 +926,7 @@ class Dataset(ApiProxyObject):
             kwargs["title"] = name
         return Column(name=name, **kwargs)
 
-    def field(self, avatar: SourceAvatar = None, **kwargs) -> "ResultField":
+    def field(self, avatar: SourceAvatar = None, **kwargs) -> "ResultField":  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
         avatar_id = avatar.id if avatar is not None else kwargs.pop("avatar_id", None)
         return ResultField(avatar_id=avatar_id, **kwargs)
 

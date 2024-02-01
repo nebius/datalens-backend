@@ -298,7 +298,7 @@ class AsyncPostgresAdapter(
                             chunk = tuple(make_record(record, prepared_query.get_attributes()) for record in result)
                             yield ExecutionStepDataChunk(chunk=chunk)
 
-    @generic_profiler_async("db-full")
+    @generic_profiler_async("db-full")  # type: ignore  # 2024-02-01 # TODO: Value of type variable "_GPA_CORO_TV" of function cannot be "Callable[[AsyncPostgresAdapter, DBAdapterQuery], Coroutine[Any, Any, AsyncRawExecutionResult]]"  [type-var]
     async def execute(self, query: DBAdapterQuery) -> AsyncRawExecutionResult:
         LOGGER.info("Run by async postgres adapter")
 

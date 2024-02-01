@@ -52,7 +52,7 @@ def ch_instantiator(typecls: Type[TypeEngine]) -> Callable:
     return type_gen
 
 
-def ch_fallback_type_gen(*args, **kwargs):
+def ch_fallback_type_gen(*args, **kwargs):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
     return ch_types.Nullable(ch_types.String())
 
 

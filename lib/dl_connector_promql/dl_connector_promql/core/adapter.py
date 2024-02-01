@@ -195,7 +195,7 @@ class AsyncPromQLAdapter(AiohttpDBAdapter):
             details={},
         )
 
-    @generic_profiler_async("db-full")
+    @generic_profiler_async("db-full")  # type: ignore  # 2024-02-01 # TODO: Value of type variable "_GPA_CORO_TV" of function cannot be "Callable[[AsyncPromQLAdapter, DBAdapterQuery], Coroutine[Any, Any, AsyncRawExecutionResult]]"  [type-var]
     async def execute(self, dba_query: DBAdapterQuery) -> AsyncRawExecutionResult:
         with self.wrap_execute_excs(query=dba_query, stage="request"):
             resp = await self._run_query(dba_query)

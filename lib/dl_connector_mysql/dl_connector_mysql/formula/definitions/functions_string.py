@@ -54,7 +54,7 @@ DEFINITIONS_STRING = [
         variants=[
             V(
                 D.MYSQL,
-                lambda x, y, z: n.if_(sa.func.LOCATE(y, sa.func.SUBSTRING(x, z)) > 0)
+                lambda x, y, z: n.if_(sa.func.LOCATE(y, sa.func.SUBSTRING(x, z)) > 0)  # type: ignore  # 2024-02-01 # TODO: Item "IfBlockProxy" of "IfBlockProxy | IfPartProxy" has no attribute "then"  [union-attr]
                 .then(sa.func.LOCATE(y, sa.func.SUBSTRING(x, z)) + z - 1)
                 .else_(0),
             ),

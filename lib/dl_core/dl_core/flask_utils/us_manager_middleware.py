@@ -83,7 +83,7 @@ class USManagerFlaskMiddleware:
         app.before_request(self.bind_us_managers_to_request)
         return self
 
-    def run(self):
+    def run(self):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return self.bind_us_managers_to_request()
 
     @classmethod

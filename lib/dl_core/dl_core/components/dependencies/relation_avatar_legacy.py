@@ -25,4 +25,4 @@ class LegacyRelationAvatarDependencyManager(RelationAvatarDependencyManagerBase)
         """
         Return a set of all avatars referenced directly or indirectly by the given relation.
         """
-        return frozenset(self._relation_expressions[relation_id].avatar_ids)
+        return frozenset(self._relation_expressions[relation_id].avatar_ids)  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "frozenset" has incompatible type "Sequence[str] | None"; expected "Iterable[str]"  [arg-type]

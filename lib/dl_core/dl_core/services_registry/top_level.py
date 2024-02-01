@@ -213,7 +213,7 @@ class DefaultServicesRegistry(ServicesRegistry):
     def get_compute_executor(self) -> ComputeExecutor:
         return self._compute_executor
 
-    def get_cache_engine_factory(self) -> Optional[CacheEngineFactory]:
+    def get_cache_engine_factory(self) -> Optional[CacheEngineFactory]:  # type: ignore  # 2024-02-01 # TODO: Signature of "get_cache_engine_factory" incompatible with supertype "ServicesRegistry"  [override]
         return self._cache_engine_factory
 
     def get_mutation_cache_factory(self) -> Optional[USEntryMutationCacheFactory]:
@@ -277,7 +277,7 @@ class DefaultServicesRegistry(ServicesRegistry):
         if self._task_processor_factory is not None:
             await self._task_processor_factory.cleanup_async()
 
-    def clone(self, **kwargs):
+    def clone(self, **kwargs):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         return attr.evolve(self, **kwargs)
 
 
@@ -306,10 +306,10 @@ class DummyServiceRegistry(ServicesRegistry):
     def get_conn_executor_factory(self) -> ConnExecutorFactory:
         raise NotImplementedError(self.NOT_IMPLEMENTED_MSG)
 
-    def get_caches_redis_client(self) -> Optional[redis.asyncio.Redis]:
+    def get_caches_redis_client(self) -> Optional[redis.asyncio.Redis]:  # type: ignore  # 2024-02-01 # TODO: Signature of "get_caches_redis_client" incompatible with supertype "ServicesRegistry"  [override]
         raise NotImplementedError(self.NOT_IMPLEMENTED_MSG)
 
-    def get_mutations_redis_client(self) -> Optional[redis.asyncio.Redis]:
+    def get_mutations_redis_client(self) -> Optional[redis.asyncio.Redis]:  # type: ignore  # 2024-02-01 # TODO: Signature of "get_mutations_redis_client" incompatible with supertype "ServicesRegistry"  [override]
         raise NotImplementedError(self.NOT_IMPLEMENTED_MSG)
 
     def get_reporting_registry(self) -> ReportingRegistry:
@@ -318,7 +318,7 @@ class DummyServiceRegistry(ServicesRegistry):
     def get_compute_executor(self) -> ComputeExecutor:
         raise NotImplementedError(self.NOT_IMPLEMENTED_MSG)
 
-    def get_cache_engine_factory(self) -> Optional[CacheEngineFactory]:
+    def get_cache_engine_factory(self) -> Optional[CacheEngineFactory]:  # type: ignore  # 2024-02-01 # TODO: Signature of "get_cache_engine_factory" incompatible with supertype "ServicesRegistry"  [override]
         raise NotImplementedError(self.NOT_IMPLEMENTED_MSG)
 
     def get_mutation_cache_factory(self) -> Optional[USEntryMutationCacheFactory]:

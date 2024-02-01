@@ -41,7 +41,7 @@ class ComponentErrorPackSchema(OneOfSchema):
         }.items()
     }
 
-    def get_obj_type(self, obj):
+    def get_obj_type(self, obj):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         return getattr(obj, self.type_field).name
 
 

@@ -19,7 +19,7 @@ class FieldDeepInterDependencyManager(FieldDeepInterDependencyManagerBase):
     def get_field_deep_references(self, dep_field_id: FieldId) -> AbstractSet[FieldId]:
         refs: Set[FieldId] = set()
 
-        def _populate_refs_recursively(field_id: FieldId) -> AbstractSet[FieldId]:
+        def _populate_refs_recursively(field_id: FieldId) -> AbstractSet[FieldId]:  # type: ignore  # 2024-02-01 # TODO: Missing return statement  [return]
             if field_id in refs:
                 return set()
             refs.add(field_id)

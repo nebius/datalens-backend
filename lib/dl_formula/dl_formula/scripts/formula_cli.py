@@ -159,7 +159,7 @@ class FormulaCliTool:
                 raise
 
         if pos is not None:
-            tree = tree.get_by_pos(pos)
+            tree = tree.get_by_pos(pos)  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "FormulaItem | None", variable has type "Formula")  [assignment]
 
         if pretty:
             text = tree.pretty(with_meta=with_meta)
@@ -171,7 +171,7 @@ class FormulaCliTool:
     def split(cls, text: str, diff: bool):  # type: ignore  # 2024-01-24 # TODO: Function is missing a return type annotation  [no-untyped-def]
         formula = formula_parser.parse(text)
 
-        chars = []
+        chars = []  # type: ignore  # 2024-02-01 # TODO: Need type annotation for "chars" (hint: "chars: List[<type>] = ...")  [var-annotated]
 
         def _mark_positions(node, level=0):  # type: ignore  # 2024-01-24 # TODO: Function is missing a type annotation  [no-untyped-def]
             if len(chars) == level:
@@ -219,14 +219,14 @@ class FormulaCliTool:
             if tablename:
                 field_names = {f: (tablename, f) for f in field_list}
             else:
-                field_names = {f: (f,) for f in field_list}
+                field_names = {f: (f,) for f in field_list}  # type: ignore  # 2024-02-01 # TODO: Value expression in dictionary comprehension has incompatible type "tuple[str]"; expected type "tuple[str, str]"  [misc]
 
             raw_sql = dl_formula.translation.translator.translate_and_compile(
                 formula,
                 dialect=dialect,
                 restrict_funcs=not unknown_funcs,
                 field_types=field_types,
-                field_names=field_names,
+                field_names=field_names,  # type: ignore  # 2024-02-01 # TODO: Argument "field_names" to "translate_and_compile" has incompatible type "dict[str, tuple[str, str]]"; expected "dict[str, tuple[str, ...]] | None"  [arg-type]
             )
             print(raw_sql)
 
@@ -249,11 +249,11 @@ class FormulaCliTool:
         )
 
     @staticmethod
-    def _get_func_base_class(name: str) -> Optional[type]:
+    def _get_func_base_class(name: str) -> Optional[type]:  # type: ignore  # 2024-02-01 # TODO: Missing return statement  [return]
         """Find the first (base) class for the given function"""
         name = name.lower()
         for _i, definition in OPERATION_REGISTRY.items():
-            if definition.name.lower() == name:
+            if definition.name.lower() == name:  # type: ignore  # 2024-02-01 # TODO: Item "None" of "str | None" has no attribute "lower"  [union-attr]
                 item = definition
                 break
         else:
@@ -271,9 +271,9 @@ class FormulaCliTool:
     def _get_func_source_info(cls, name: str) -> Tuple[str, int]:
         """Get file name and line number for given function"""
         func_cls = cls._get_func_base_class(name)
-        filename = inspect.getsourcefile(func_cls)
-        lineno = inspect.getsourcelines(func_cls)[1]
-        return filename, lineno
+        filename = inspect.getsourcefile(func_cls)  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "getsourcefile" has incompatible type "type | None"; expected Module | type[Any] | MethodType | FunctionType | TracebackType | FrameType | CodeType | Callable[..., Any]  [arg-type]
+        lineno = inspect.getsourcelines(func_cls)[1]  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "getsourcelines" has incompatible type "type | None"; expected Module | type[Any] | MethodType | FunctionType | TracebackType | FrameType | CodeType | Callable[..., Any]  [arg-type]
+        return filename, lineno  # type: ignore  # 2024-02-01 # TODO: Incompatible return value type (got "tuple[str | None, int]", expected "tuple[str, int]")  [return-value]
 
     @classmethod
     def goto_func(cls, name: str, show: bool):  # type: ignore  # 2024-01-24 # TODO: Function is missing a return type annotation  [no-untyped-def]
@@ -298,13 +298,13 @@ class FormulaCliTool:
         sliced_formula = slicer.slice_formula(formula=formula)
 
         if diff:
-            char_table = []
+            char_table = []  # type: ignore  # 2024-02-01 # TODO: Need type annotation for "char_table" (hint: "char_table: List[<type>] = ...")  [var-annotated]
             for i in reversed(range(len(levels))):
                 char_line = [" " for _ in range(len(text))]
                 for alias, node in sorted(sliced_formula.slices[i].aliased_nodes.items()):
                     char_line[node.start_pos : node.end_pos] = list(text[node.start_pos : node.end_pos])
                     if char_table:
-                        for j in range(node.start_pos, node.end_pos):
+                        for j in range(node.start_pos, node.end_pos):  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "range" has incompatible type "int | None"; expected "SupportsIndex"  [arg-type]
                             char_table[0][j] = "▫"
                 char_table.insert(0, char_line)
 

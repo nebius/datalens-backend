@@ -160,15 +160,15 @@ class C:
         return make_sa_type(native_type, nullable=self.nullable)
 
     @classmethod
-    def array_data_getter(cls, data_container) -> "C.ArrayDataGetter":
+    def array_data_getter(cls, data_container) -> "C.ArrayDataGetter":  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
         return cls.ArrayDataGetter(data_container)
 
     @classmethod
-    def int_value(cls, name: str = "int_value"):
+    def int_value(cls, name: str = "int_value"):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return cls(name, UserDataType.integer)
 
     @classmethod
-    def datetime_value(cls, name: str = "datetime_value"):
+    def datetime_value(cls, name: str = "datetime_value"):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return cls(name, UserDataType.datetime)
 
     @classmethod
@@ -188,7 +188,7 @@ class C:
         ]
 
     @classmethod
-    def array_columns(cls):
+    def array_columns(cls):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         return [
             cls("array_int_value", UserDataType.array_int),
             cls("array_str_value", UserDataType.array_str),
@@ -210,7 +210,7 @@ def make_sample_data(
     if columns is None:
         columns = C.full_house()
     result = [
-        {col.name: col.vg(rn=idx, ts=ts, rnd=rnd) for col in columns}
+        {col.name: col.vg(rn=idx, ts=ts, rnd=rnd) for col in columns}  # type: ignore  # 2024-02-01 # TODO: Unexpected keyword argument "rn"  [call-arg]
         for idx in range(start_value, start_value + rows)
     ]
     return result
@@ -302,7 +302,7 @@ class DbView(NamedTuple):
     db: Db
     name: str
     query: str
-    schema: str = None
+    schema: str = None  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "None", variable has type "str")  [assignment]
 
     @property
     def as_table(self) -> DbTable:
@@ -330,7 +330,7 @@ class MultiTables(NamedTuple):
     comments: DbTable
 
 
-def make_multiple_db_tables(db, string_kwargs):
+def make_multiple_db_tables(db, string_kwargs):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
     """Basic table for all db types"""
     sa_tables = [
         db.table_from_columns(
@@ -357,7 +357,7 @@ def make_multiple_db_tables(db, string_kwargs):
         ),
     ]
 
-    def create(table):
+    def create(table):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         db.create_table(table)
         return DbTable(db=db, table=table)
 

@@ -67,7 +67,7 @@ class FlatQueryTranslator:
             dialect=self._dialect,
             required_scopes=self._function_scopes,
             field_types=self._columns.get_column_formula_types(),
-            field_names=self._columns.get_multipart_column_names(
+            field_names=self._columns.get_multipart_column_names(  # type: ignore  # 2024-02-01 # TODO: Argument "field_names" to "TranslationEnvironment" has incompatible type "dict[str, tuple[str, str]]"; expected "dict[str, tuple[str, ...]]"  [arg-type]
                 avatar_alias_mapper=self._avatar_alias_mapper
             ),
         )
@@ -93,11 +93,11 @@ class FlatQueryTranslator:
         except formula_exc.TranslationError as err:
             raise dl_query_processing.exc.FormulaHandlingError(*err.errors) from err
 
-        user_type = FORMULA_TO_BI_TYPES.get(translation_ctx.data_type, FORMULA_TO_BI_TYPES[DEFAULT_DATA_TYPE])
+        user_type = FORMULA_TO_BI_TYPES.get(translation_ctx.data_type, FORMULA_TO_BI_TYPES[DEFAULT_DATA_TYPE])  # type: ignore  # 2024-02-01 # TODO: Argument 1 to "get" of "dict" has incompatible type "DataType | None"; expected "DataType"  [arg-type]
 
         # Use ExpressionCtxExt because the formula might be used in SELECT
         return ExpressionCtxExt(
-            expression=translation_ctx.expression,
+            expression=translation_ctx.expression,  # type: ignore  # 2024-02-01 # TODO: Argument "expression" to "ExpressionCtxExt" has incompatible type "ClauseElement | None"; expected "ClauseElement"  [arg-type]
             formula_data_type=translation_ctx.data_type,
             formula_data_type_params=translation_ctx.data_type_params,
             user_type=user_type,
@@ -177,7 +177,7 @@ class FlatQueryTranslator:
         column_list: list[SchemaColumn] = []
         for translated_formula in translated_select:
             column = SchemaColumn(
-                name=translated_formula.alias,
+                name=translated_formula.alias,  # type: ignore  # 2024-02-01 # TODO: Argument "name" to "SchemaColumn" has incompatible type "str | None"; expected "str"  [arg-type]
                 title=translated_formula.alias,
                 source_id=query_id,
                 native_type=None,
@@ -197,7 +197,7 @@ class FlatQueryTranslator:
         where: list[CompiledFormulaInfo] = []
         having: list[CompiledFormulaInfo] = []
         for formula in compiled_flat_query.filters:
-            if is_aggregate_expression(node=formula.formula_obj, env=self._inspect_env):
+            if is_aggregate_expression(node=formula.formula_obj, env=self._inspect_env):  # type: ignore  # 2024-02-01 # TODO: Argument "env" to "is_aggregate_expression" has incompatible type "InspectionEnvironment | None"; expected "InspectionEnvironment"  [arg-type]
                 having.append(formula)
             else:
                 where.append(formula)

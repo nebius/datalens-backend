@@ -77,7 +77,7 @@ class BaseClosableDataProcessorFactory(DataProcessorFactory):
         await processor.start()
         return processor
 
-    def _create_data_processor(
+    def _create_data_processor(  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
         self,
         dataset: Dataset,
         processor_type: ProcessorType,

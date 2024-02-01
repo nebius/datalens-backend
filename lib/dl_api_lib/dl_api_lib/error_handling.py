@@ -210,10 +210,10 @@ class PublicAPIErrorSchema(RegularAPIErrorSchema):
         PUBLIC_DEFAULT_MESSAGE = "Something went wrong"
         PUBLIC_DEFAULT_ERR_CODE = "ERR.UNKNOWN"
 
-    message = fields.Method(serialize="serialize_message")
+    message = fields.Method(serialize="serialize_message")  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "Method", base class "RegularAPIErrorSchema" defined the type as "String")  [assignment]
 
-    debug = fields.Constant({})
-    details = fields.Constant({})
+    debug = fields.Constant({})  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "Constant", base class "RegularAPIErrorSchema" defined the type as "marshmallow.fields.Dict")  [assignment]
+    details = fields.Constant({})  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "Constant", base class "RegularAPIErrorSchema" defined the type as "marshmallow.fields.Dict")  [assignment]
 
     def serialize_error_code(self, data: BIError) -> str:
         if tuple(data.application_code_stack) in self.Meta.PUBLIC_FORWARDED_ERROR_CODES:

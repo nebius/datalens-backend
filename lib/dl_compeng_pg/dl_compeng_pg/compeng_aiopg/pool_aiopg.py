@@ -45,5 +45,5 @@ class AiopgPoolWrapper(BasePgPoolWrapper):
     async def disconnect(self) -> None:
         pool = self._pool
         self._pool = None
-        pool.terminate()
-        await pool.wait_closed()
+        pool.terminate()  # type: ignore  # 2024-02-01 # TODO: Item "None" of "Engine | None" has no attribute "terminate"  [union-attr]
+        await pool.wait_closed()  # type: ignore  # 2024-02-01 # TODO: Item "None" of "Engine | None" has no attribute "wait_closed"  [union-attr]

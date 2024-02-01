@@ -323,7 +323,7 @@ class FuncGreatestMain(FuncGreatestBase):
 
 
 class GreatestMulti(FuncGreatestBase):
-    arg_cnt = None
+    arg_cnt = None  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "None", base class "FuncGreatestBase" defined the type as "int")  [assignment]
     variants = [
         VW(
             D.DUMMY | D.SQLITE,
@@ -376,7 +376,7 @@ class FuncLeastMain(FuncLeastBase):
 
 
 class LeastMulti(FuncLeastBase):
-    arg_cnt = None
+    arg_cnt = None  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "None", base class "FuncLeastBase" defined the type as "int")  [assignment]
     variants = [
         VW(
             D.DUMMY | D.SQLITE,

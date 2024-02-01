@@ -76,7 +76,7 @@ class CacheExecAdapter(ProcessorDbExecAdapterBase):  # noqa
 
         ds_id = self._dataset.uuid
         cache_helper = CacheProcessingHelper(
-            entity_id=ds_id,
+            entity_id=ds_id,  # type: ignore  # 2024-02-01 # TODO: Argument "entity_id" to "CacheProcessingHelper" has incompatible type "str | None"; expected "str"  [arg-type]
             service_registry=self._service_registry,
         )
 
@@ -99,7 +99,7 @@ class CacheExecAdapter(ProcessorDbExecAdapterBase):  # noqa
         try:
             sit, result_iter = await cache_helper.run_with_cache(
                 allow_cache_read=self._use_cache,
-                generate_func=_get_from_source,
+                generate_func=_get_from_source,  # type: ignore  # 2024-02-01 # TODO: Argument "generate_func" to "run_with_cache" of "CacheProcessingHelper" has incompatible type "Callable[[], Coroutine[Any, Any, AsyncChunkedBase[Sequence[date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None]] | None]]"; expected "Callable[[], Awaitable[AsyncChunkedBase[dict[str, dict[Any, Any] | list[Any] | tuple[Any, ...] | date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None] | list[dict[Any, Any] | list[Any] | tuple[Any, ...] | date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None] | tuple[dict[Any, Any] | list[Any] | tuple[Any, ...] | date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None, ...] | date | datetime | time | timedelta | Decimal | UUID | bytes | str | float | int | bool | None] | None]]"  [arg-type]
                 cache_options=cache_options,
                 use_locked_cache=self._use_locked_cache,
             )

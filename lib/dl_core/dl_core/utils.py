@@ -96,7 +96,7 @@ def make_user_auth_cookies(
 
 
 # TODO FIX: Remove after migration to Connection Executors
-def compile_query_for_debug(query, dialect):
+def compile_query_for_debug(query, dialect):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
     """
     Compile query to string.
     This function is only suitable for logging and not execution of the result.
@@ -118,7 +118,7 @@ def parse_comma_separated_hosts(host: Optional[str]) -> tuple[str, ...]:
     return tuple(h.strip() for h in host.split(","))
 
 
-def validate_hostname_or_ip_address(hostname: str):
+def validate_hostname_or_ip_address(hostname: str):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
     # IP address case
     try:
         ipaddress.ip_address(hostname)
@@ -149,7 +149,7 @@ def validate_hostname_or_ip_address(hostname: str):
         raise ValueError("Not a valid netloc")
 
 
-def shorten_uuid(some_uuid: str):
+def shorten_uuid(some_uuid: str):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
     return shortuuid.encode(uuid.UUID(some_uuid))
 
 
@@ -185,7 +185,7 @@ def make_id() -> str:
 _MODEL_TYPE_TV = TypeVar("_MODEL_TYPE_TV", bound=attr.AttrsInstance)
 
 
-def attrs_evolve_to_subclass(cls: Type[_MODEL_TYPE_TV], inst: Any, **kwargs) -> _MODEL_TYPE_TV:
+def attrs_evolve_to_subclass(cls: Type[_MODEL_TYPE_TV], inst: Any, **kwargs) -> _MODEL_TYPE_TV:  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
     """
     Evolve an attr.s instance to a subclass instance with additional attributes.
     Note that this works correctly only for attributes with ``init=True``.
@@ -203,7 +203,7 @@ def attrs_evolve_to_subclass(cls: Type[_MODEL_TYPE_TV], inst: Any, **kwargs) -> 
     return cls(**all_attrs)
 
 
-def attrs_evolve_to_superclass(cls: Type[_MODEL_TYPE_TV], inst: Any, **kwargs) -> _MODEL_TYPE_TV:
+def attrs_evolve_to_superclass(cls: Type[_MODEL_TYPE_TV], inst: Any, **kwargs) -> _MODEL_TYPE_TV:  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation for one or more arguments  [no-untyped-def]
     """
     Evolve an attr.s instance to a superclass instance with additional attributes.
     Note that this works correctly only for attributes with ``init=True``.

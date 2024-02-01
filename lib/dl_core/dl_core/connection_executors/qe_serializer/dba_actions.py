@@ -60,10 +60,10 @@ class NonStreamAction(Generic[_RES_SCHEMA_TV], RemoteDBAdapterAction, metaclass=
     ResultSchema = ClassVar[Type[BaseQEAPISchema]]
 
     def serialize_response(self, val: _RES_SCHEMA_TV) -> Dict:
-        return self.ResultSchema().dump(val)
+        return self.ResultSchema().dump(val)  # type: ignore  # 2024-02-01 # TODO: "object" not callable  [operator]
 
     def deserialize_response(self, data: Dict) -> _RES_SCHEMA_TV:
-        return self.ResultSchema().load(data)
+        return self.ResultSchema().load(data)  # type: ignore  # 2024-02-01 # TODO: "object" not callable  [operator]
 
 
 @attr.s(frozen=True)
@@ -78,7 +78,7 @@ class ActionGetDBVersion(NonStreamAction[Optional[str]]):
     db_ident: DBIdent = attr.ib()
 
     class ResultSchema(PrimitivesResponseSchema):
-        value = fields.String(allow_none=True)
+        value = fields.String(allow_none=True)  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "String", base class "PrimitivesResponseSchema" defined the type as "Raw")  [assignment]
 
 
 @attr.s(frozen=True)
@@ -86,7 +86,7 @@ class ActionGetSchemaNames(NonStreamAction[List[str]]):
     db_ident: DBIdent = attr.ib()
 
     class ResultSchema(PrimitivesResponseSchema):
-        value = fields.List(fields.String())
+        value = fields.List(fields.String())  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "marshmallow.fields.List", base class "PrimitivesResponseSchema" defined the type as "Raw")  [assignment]
 
 
 @attr.s(frozen=True)
@@ -94,7 +94,7 @@ class ActionGetTables(NonStreamAction[List[TableIdent]]):
     schema_ident: SchemaIdent = attr.ib()
 
     class ResultSchema(PrimitivesResponseSchema):
-        value = fields.Nested(TableIdentSchema, many=True)
+        value = fields.Nested(TableIdentSchema, many=True)  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "Nested", base class "PrimitivesResponseSchema" defined the type as "Raw")  [assignment]
 
 
 @attr.s(frozen=True)
@@ -110,7 +110,7 @@ class ActionIsTableExists(NonStreamAction[bool]):
     table_ident: TableIdent = attr.ib()
 
     class ResultSchema(PrimitivesResponseSchema):
-        value = fields.Boolean()
+        value = fields.Boolean()  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "Boolean", base class "PrimitivesResponseSchema" defined the type as "Raw")  [assignment]
 
 
 @attr.s(frozen=True)
@@ -119,4 +119,4 @@ class ActionExecuteTypedQuery(NonStreamAction[str]):
     typed_query_str: str = attr.ib(kw_only=True)
 
     class ResultSchema(PrimitivesResponseSchema):
-        value = fields.String()
+        value = fields.String()  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "String", base class "PrimitivesResponseSchema" defined the type as "Raw")  [assignment]

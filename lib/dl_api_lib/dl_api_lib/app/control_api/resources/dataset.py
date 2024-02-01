@@ -84,7 +84,7 @@ class DatasetCollection(DatasetResource):
             200: ("Success", dl_api_lib.schemas.main.CreateDatasetResponseSchema()),
         },
     )
-    def post(self, body):
+    def post(self, body):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         """Create dataset"""
         us_manager = self.get_us_manager()
         dataset = Dataset.create_from_dict(
@@ -116,11 +116,11 @@ class DatasetItem(BIResource):
     @schematic_request(
         ns=ns,
         responses={
-            200: ("Success", None),
-            404: ("Not found", None),
+            200: ("Success", None),  # type: ignore  # 2024-02-01 # TODO: Dict entry 0 has incompatible type "int": "tuple[str, None]"; expected "int": "tuple[str, Schema]"  [dict-item]
+            404: ("Not found", None),  # type: ignore  # 2024-02-01 # TODO: Dict entry 1 has incompatible type "int": "tuple[str, None]"; expected "int": "tuple[str, Schema]"  [dict-item]
         },
     )
-    def delete(self, dataset_id):
+    def delete(self, dataset_id):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         """Delete dataset"""
         us_manager = self.get_us_manager()
         ds, _ = DatasetResource.get_dataset(dataset_id=dataset_id, body={})
@@ -139,7 +139,7 @@ class DatasetItemFields(BIResource):
             200: ("Success", dl_api_lib.schemas.data.DatasetFieldsResponseSchema()),
         },
     )
-    def get(self, dataset_id):
+    def get(self, dataset_id):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         ds, _ = DatasetResource.get_dataset(dataset_id=dataset_id, body={})
         fields = [
             {
@@ -167,7 +167,7 @@ class DatasetCopy(DatasetResource):
             400: ("Failed", dl_api_lib.schemas.main.BadRequestResponseSchema()),
         },
     )
-    def post(self, dataset_id, body):
+    def post(self, dataset_id, body):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         copy_us_key = body["new_key"]
         us_manager = self.get_us_manager()
         ds, _ = self.get_dataset(dataset_id=dataset_id, body={})
@@ -200,7 +200,7 @@ class DatasetVersionItem(DatasetResource):
             400: ("Failed", dl_api_lib.schemas.main.BadRequestResponseSchema()),
         },
     )
-    def get(self, dataset_id, version):
+    def get(self, dataset_id, version):  # type: ignore  # 2024-02-01 # TODO: Function is missing a type annotation  [no-untyped-def]
         """Get dataset version"""
         us_manager = self.get_us_manager()
         ds, _ = self.get_dataset(dataset_id=dataset_id, body={})
@@ -281,7 +281,7 @@ class DatasetVersionValidator(DatasetResource):
             400: ("Failed", dl_api_lib.schemas.validation.DatasetValidationResponseSchema()),
         },
     )
-    def post(self, dataset_id: str = None, version: str = None, body: dict = None):
+    def post(self, dataset_id: str = None, version: str = None, body: dict = None):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         """Validate dataset version schema"""
         us_manager = self.get_us_manager()
         dataset, _ = self.get_dataset(dataset_id=dataset_id, body=body)
@@ -333,7 +333,7 @@ class DatasetVersionFieldValidator(DatasetResource):
             400: ("Failed", dl_api_lib.schemas.validation.FieldValidationResponseSchema()),
         },
     )
-    def post(self, *, dataset_id: str = None, version: str = None, body):
+    def post(self, *, dataset_id: str = None, version: str = None, body):  # type: ignore  # 2024-02-01 # TODO: Function is missing a return type annotation  [no-untyped-def]
         """Validate formula field of dataset version"""
         us_manager = self.get_us_manager()
         dataset, _ = self.get_dataset(dataset_id=dataset_id, body=body)

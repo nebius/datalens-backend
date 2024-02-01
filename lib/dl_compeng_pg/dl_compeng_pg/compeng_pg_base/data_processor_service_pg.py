@@ -61,7 +61,7 @@ class CompEngPgService(DataProcessorService, Generic[_POOL_TV], metaclass=abc.AB
         raise NotImplementedError
 
     async def _init_pool(self) -> None:
-        self._pool = await self._get_pool_wrapper_cls().connect(
+        self._pool = await self._get_pool_wrapper_cls().connect(  # type: ignore  # 2024-02-01 # TODO: Incompatible types in assignment (expression has type "BasePgPoolWrapper", variable has type "_POOL_TV | None")  [assignment]
             self._pg_url,
             pool_min_size=self._pool_min_size,
             pool_max_size=self._pool_max_size,
@@ -75,7 +75,7 @@ class CompEngPgService(DataProcessorService, Generic[_POOL_TV], metaclass=abc.AB
     async def _deinit_pool(self) -> None:
         """..."""
         LOGGER.info("Tear down compeng pg pool %r...", self)
-        await self._pool.disconnect()
+        await self._pool.disconnect()  # type: ignore  # 2024-02-01 # TODO: Item "None" of "_POOL_TV | None" has no attribute "disconnect"  [union-attr]
         self._pool = None
         LOGGER.info("Tear down compeng pg pool %r: done.", self)
 
