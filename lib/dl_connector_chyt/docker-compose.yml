@@ -1,7 +1,7 @@
 version: '3.7'
 
-x-constants:
-  US_MASTER_TOKEN: &c-us-master-token "AC1ofiek8coB"
+#x-constants:
+#  US_MASTER_TOKEN: &c-us-master-token "AC1ofiek8coB"
 
 services:
   db-yt-backend:
@@ -27,35 +27,35 @@ services:
     ports:
       - "53603:80"
 
-  db-yt-strawberry:
-    image: ytsaurus/strawberry:0.0.6
-    environment:
-      PROXY: "localhost:53601"
-      PROXY_INTERNAL: "db-yt-backend:80"
-    ports:
-      - "53604:80"
-
-  # INFRA
-  pg-us:
-    build:
-      context: ../testenv-common/images
-      dockerfile: Dockerfile.pg-us
-    environment:
-      POSTGRES_DB: us-db-ci_purgeable
-      POSTGRES_USER: us
-      POSTGRES_PASSWORD: us
-    ports:
-     - "53609:5432"
-
-  us:
-    build:
-      context: ../testenv-common/images
-      dockerfile: Dockerfile.us
-    depends_on:
-      - pg-us
-    environment:
-      POSTGRES_DSN_LIST: "postgres://us:us@pg-us:5432/us-db-ci_purgeable"
-      AUTH_POLICY: "required"
-      MASTER_TOKEN: *c-us-master-token
-    ports:
-     - "53611:80"
+#  db-yt-strawberry:
+#    image: ytsaurus/strawberry:0.0.6
+#    environment:
+#      PROXY: "localhost:53601"
+#      PROXY_INTERNAL: "db-yt-backend:80"
+#    ports:
+#      - "53604:80"
+#
+#  # INFRA
+#  pg-us:
+#    build:
+#      context: ../testenv-common/images
+#      dockerfile: Dockerfile.pg-us
+#    environment:
+#      POSTGRES_DB: us-db-ci_purgeable
+#      POSTGRES_USER: us
+#      POSTGRES_PASSWORD: us
+#    ports:
+#     - "53609:5432"
+#
+#  us:
+#    build:
+#      context: ../testenv-common/images
+#      dockerfile: Dockerfile.us
+#    depends_on:
+#      - pg-us
+#    environment:
+#      POSTGRES_DSN_LIST: "postgres://us:us@pg-us:5432/us-db-ci_purgeable"
+#      AUTH_POLICY: "required"
+#      MASTER_TOKEN: *c-us-master-token
+#    ports:
+#     - "53611:80"
