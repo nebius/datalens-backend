@@ -42,6 +42,7 @@ class TypedQueryParameterSchema(DefaultSchema[RawTypedQueryParameter], WithNeste
 
 class PlainTypedQueryContentSchema(BaseSchema):
     query = ma_fields.String(required=True)
+    filter_string = ma_fields.String(allow_none=True, load_default=None, dump_default=None)
 
 
 class TypedQuerySchema(DefaultSchema[RawTypedQuery]):

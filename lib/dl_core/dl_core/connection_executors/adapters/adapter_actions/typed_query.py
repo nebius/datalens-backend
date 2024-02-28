@@ -4,6 +4,7 @@ from typing import (
     TYPE_CHECKING,
     Any,
     Optional,
+    Sequence,
 )
 
 import attr
@@ -41,6 +42,7 @@ from dl_dashsql.typed_query.primitives import (
     TypedQueryResult,
     TypedQueryResultColumnHeader,
 )
+from dl_constants.types import TBIDataRow
 
 
 if TYPE_CHECKING:
@@ -67,9 +69,7 @@ class TypedQueryToDBAQueryConverter:
     _query_formatter_factory: QueryFormatterFactory = attr.ib(kw_only=True)
     _literalizer: DashSQLParamLiteralizer = attr.ib(kw_only=True)
 
-    def _make_sa_query(self, typed_query: TypedQuery) -> ClauseElement:
-        assert isinstance(typed_query, PlainTypedQuery)  # the only type of query we know how to deal with here
-
+    def _make_sa_query(self, typed_query: PlainTypedQuery) -> ClauseElement:
         # Perform parameter formatting
         query_formatter = self._query_formatter_factory.get_query_formatter()
         formatter_incoming_parameters = [
@@ -113,6 +113,30 @@ class TypedQueryToDBAQueryConverter:
         return dba_query
 
 
+@attr.s
+class StringResultDataFilterer:
+    filter_string: str = attr.ib(kw_only=True)
+
+    def stringify_value(self, value: Any) -> str:
+        return str(value)
+
+    def match_row(self, row: TBIDataRow) -> bool:
+        if len(row) != 1:
+            return True
+
+        value_str = self.stringify_value(row[0])
+        return self.filter_string in value_str
+
+    def filter_data_rows(self, data_rows: list[TBIDataRow]) -> list[TBIDataRow]:
+        if not self.filter_string:
+            return data_rows
+
+        return [
+            row for row in data_rows
+            if self.match_row(row)
+        ]
+
+
 @attr.s(frozen=True)
 class AsyncTypedQueryAdapterActionViaStandardExecute(AsyncTypedQueryAdapterAction):
     """Executes the typed query via the regular execute adapter method (async)."""
@@ -124,7 +148,7 @@ class AsyncTypedQueryAdapterActionViaStandardExecute(AsyncTypedQueryAdapterActio
     def _resolve_result_column_headers(
         self,
         raw_cursor_info: dict,
-        data: list[list],
+        data: list[TBIDataRow],
     ) -> list[TypedQueryResultColumnHeader]:
         # Try to resolve the column count
         column_count: int
@@ -165,16 +189,18 @@ class AsyncTypedQueryAdapterActionViaStandardExecute(AsyncTypedQueryAdapterActio
         return headers
 
     async def _make_result(
-        self, typed_query: TypedQuery, dba_async_result: AsyncRawExecutionResult
+        self, typed_query: PlainTypedQuery, dba_async_result: AsyncRawExecutionResult
     ) -> TypedQueryResult:
-        data: list[Any] = []
+        data_rows: list[TBIDataRow] = []
         async for chunk in dba_async_result.raw_chunk_generator:
-            data.extend(chunk)
+            data_rows.extend(chunk)
 
         column_headers = self._resolve_result_column_headers(
             raw_cursor_info=dba_async_result.raw_cursor_info,
-            data=data,
+            data=data_rows,
         )
+        filterer = StringResultDataFilterer(filter_string=typed_query.filter_string)
+        data = filterer.filter_data_rows(data_rows=data_rows)
         result = DataRowsTypedQueryResult(
             query_type=typed_query.query_type,
             data_rows=data,
@@ -184,6 +210,7 @@ class AsyncTypedQueryAdapterActionViaStandardExecute(AsyncTypedQueryAdapterActio
 
     async def run_typed_query_action(self, typed_query: TypedQuery) -> TypedQueryResult:
         assert typed_query.query_type is DashSQLQueryType.generic_query
+        assert isinstance(typed_query, PlainTypedQuery)
         dba_query = self._query_converter.make_dba_query(typed_query=typed_query)
         dba_async_result = await self._async_adapter.execute(dba_query)
         result = await self._make_result(typed_query=typed_query, dba_async_result=dba_async_result)
@@ -214,20 +241,23 @@ class SyncTypedQueryAdapterActionViaLegacyExecute(SyncTypedQueryAdapterAction):
 
         return headers
 
-    def _make_result(self, typed_query: TypedQuery, dba_sync_result: DBAdapterQueryResult) -> TypedQueryResult:
-        data: list[Any] = dba_sync_result.get_all()
+    def _make_result(self, typed_query: PlainTypedQuery, dba_sync_result: DBAdapterQueryResult) -> TypedQueryResult:
+        data_rows: list[TBIDataRow] = dba_sync_result.get_all()
         raw_cursor_info = dba_sync_result.raw_cursor_info
         assert raw_cursor_info is not None
         column_headers = self._resolve_result_column_headers(raw_cursor_info=raw_cursor_info)
+        filterer = StringResultDataFilterer(filter_string=typed_query.filter_string)
+        data_rows = filterer.filter_data_rows(data_rows=data_rows)
         result = DataRowsTypedQueryResult(
             query_type=typed_query.query_type,
-            data_rows=data,
+            data_rows=data_rows,
             column_headers=column_headers,
         )
         return result
 
     def run_typed_query_action(self, typed_query: TypedQuery) -> TypedQueryResult:
         assert typed_query.query_type is DashSQLQueryType.generic_query
+        assert isinstance(typed_query, PlainTypedQuery)
         dba_query = self._query_converter.make_dba_query(typed_query=typed_query)
         dba_sync_result = self._sync_adapter.execute(dba_query)
         result = self._make_result(typed_query=typed_query, dba_sync_result=dba_sync_result)

@@ -27,6 +27,7 @@ from dl_configs.settings_loaders.meta_definition import (
     s_attrib,
 )
 from dl_configs.settings_loaders.settings_obj_base import SettingsBase
+from dynamic_enum.dynamic_enum import DynamicEnum, AutoEnumValue
 
 
 def load_settings(
@@ -833,5 +834,59 @@ def test_default_cfg_key_name(temp_file_factory):
         {},
         expected_settings=Settings(
             TEST_KEY="default_value",
+        ),
+    )
+
+
+def test_dynamic_enum_value():
+    class MyDynEnum(DynamicEnum):
+        first_value = AutoEnumValue()
+        second_value = AutoEnumValue()
+        default_value = AutoEnumValue()
+
+    @attr.s
+    class SettingsWithDynEnum(SettingsBase):
+        optional_setting: Optional[MyDynEnum] = s_attrib(
+            "OPTIONAL_SETTING",
+            env_var_converter=lambda s: MyDynEnum[s.lower()],
+            fallback_factory=lambda s: (MyDynEnum[s.lower()] if s is not None else MyDynEnum.default_value),
+            missing=MyDynEnum.default_value,
+        )
+        strict_setting: MyDynEnum = s_attrib(
+            "STRICT_SETTING",
+            env_var_converter=lambda s: MyDynEnum[s.lower()],
+            fallback_factory=lambda s: (MyDynEnum[s.lower()] if s is not None else MyDynEnum.default_value),
+            missing=MyDynEnum.default_value,
+        )
+
+    perform_loader_env_check(
+        env=dict(
+            OPTIONAL_SETTING="second_value",
+            STRICT_SETTING="first_value",
+        ),
+        expected_settings=SettingsWithDynEnum(
+            optional_setting=MyDynEnum.second_value,
+            strict_setting=MyDynEnum.first_value,
+        ),
+    )
+
+    perform_loader_env_check(
+        env=dict(),
+        expected_settings=SettingsWithDynEnum(
+            optional_setting=MyDynEnum.default_value,
+            strict_setting=MyDynEnum.default_value,
+        ),
+    )
+
+    third_value = MyDynEnum.declare("third_value")
+
+    perform_loader_env_check(
+        env=dict(
+            OPTIONAL_SETTING="third_value",
+            STRICT_SETTING="first_value",
+        ),
+        expected_settings=SettingsWithDynEnum(
+            optional_setting=third_value,
+            strict_setting=MyDynEnum.first_value,
         ),
     )

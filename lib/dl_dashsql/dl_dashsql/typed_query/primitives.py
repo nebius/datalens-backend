@@ -1,6 +1,7 @@
 from typing import (
     Mapping,
     Sequence,
+    Optional,
     Type,
     TypeVar,
 )
@@ -66,6 +67,7 @@ class TypedQuery:
 @attr.s(frozen=True, kw_only=True)
 class PlainTypedQuery(TypedQuery):
     query: str = attr.ib()
+    filter_string: Optional[str] = attr.ib()
 
 
 @attr.s(frozen=True, kw_only=True)

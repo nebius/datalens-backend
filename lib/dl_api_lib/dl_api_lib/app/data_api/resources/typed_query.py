@@ -60,6 +60,7 @@ class PlainTypedQueryLoader(TypedQueryLoader):
         typed_query = PlainTypedQuery(
             query_type=query_type,
             query=query_content["query"],
+            filter_string=query_content["filter_string"],
             parameters=tuple(
                 TypedQueryParameter(
                     name=param.name,
