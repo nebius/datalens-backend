@@ -141,6 +141,7 @@ class AppSettings:
 
     QUERY_PROCESSING_MODE: QueryProcessingMode = s_attrib(  # type: ignore  # 2024-01-30 # TODO: Incompatible types in assignment (expression has type "Attribute[Any]", variable has type "QueryProcessingMode")  [assignment]
         "QUERY_PROCESSING_MODE",
+        fallback_factory=lambda s: QueryProcessingMode[s.lower()],
         env_var_converter=lambda s: QueryProcessingMode[s.lower()],
         missing=QueryProcessingMode.basic,
     )
@@ -148,7 +149,8 @@ class AppSettings:
 
     PIVOT_ENGINE_TYPE: Optional[DataPivotEngineType] = s_attrib(  # type: ignore  # 2024-01-30 # TODO: Incompatible types in assignment (expression has type "Attribute[Any]", variable has type "DataPivotEngineType | None")  [assignment]
         "PIVOT_ENGINE_TYPE",
-        env_var_converter=lambda s: DataPivotEngineType[s.lower()],
+        fallback_factory=lambda s: (DataPivotEngineType[s.lower()] if s is not None else None),
+        env_var_converter=lambda s: (DataPivotEngineType[s.lower()] if s is not None else None),
         missing=PIVOT_ENGINE_TYPE_PANDAS,  # TODO: Switch to another default
     )
 
