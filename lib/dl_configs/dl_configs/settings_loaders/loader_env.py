@@ -150,10 +150,13 @@ class DictExtractor(SDictExtractor):
 
     def _extract(self, s_dict: SDict) -> Any:
         value_converter = self.value_converter
-        return {
+        res = {
             key: value_converter(value) if value_converter is not None else value
             for key, value in self._get_scoped_s_dict(s_dict).items()
         }
+        if not res:
+            return self.default
+        return res
 
 
 @attr.s
